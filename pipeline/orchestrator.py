@@ -68,6 +68,14 @@ QUALITY_RATIO_THRESHOLD: float = 0.80   # 80 % of cards must carry a valid EPIC 
 _EPIC_RE = re.compile(r"[A-Z]{3}\d{7}", re.ASCII)
 
 
+def _is_ghost_card(epic_id: object, name: object) -> bool:
+    """Return True when both EPIC and name are blank after whitespace removal."""
+    # Remove all whitespace/newline characters before emptiness checks.
+    epic_clean = "".join(str(epic_id or "").split())
+    name_clean = "".join(str(name or "").split())
+    return not epic_clean and not name_clean
+
+
 # ── Result types ───────────────────────────────────────────────────────────────
 
 @dataclass
@@ -284,6 +292,10 @@ class PageProcessor:
 
                 # ── Gate 2: Quality ratio — run OCR then measure ───────────────
                 cards = self._ocr.extract_cards(page_image, regions, page_no)
+                cards = [
+                    c for c in cards
+                    if not _is_ghost_card(c.epic_id, c.name)
+                ]
                 self._validator.validate_quality(cards, page_no)
                 ratio = self._calculate_validity_ratio(cards)
 

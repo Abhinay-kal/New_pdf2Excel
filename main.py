@@ -80,6 +80,8 @@ def _results_to_dataframe(results: List[PageResult]) -> pd.DataFrame:
     rows = []
     for result in results:
         for card in result.cards:
+            if _is_ghost_card(card.epic_id, card.name):
+                continue
             rows.append(
                 {
                     "Page": result.page_no,
@@ -259,6 +261,7 @@ def _write_review_json(
                 "parse_status":  c.parse_status,
             }
             for c in item.best_cards
+            if not _is_ghost_card(c.epic_id, c.name)
         ]
 
         records.append({
@@ -316,6 +319,14 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
+def _is_ghost_card(epic_id: object, name: object) -> bool:
+    """Return True when a card is blank after whitespace normalization."""
+    # Remove all whitespace/newline characters before emptiness checks.
+    epic_clean = "".join(str(epic_id or "").split())
+    name_clean = "".join(str(name or "").split())
+    return not epic_clean and not name_clean
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _parse_args(argv)
     setup_logging(args.log_level)
@@ -345,9 +356,21 @@ def main(argv: list[str] | None = None) -> int:
 
     log.info("Rendered %d page(s) at %d DPI", len(images), args.dpi)
 
+    # Configurable page-range filter to skip non-grid summary pages.
+    skip_first_n_pages = 1
+    skip_last_n_pages = 1
+    pages_to_process = images[skip_first_n_pages : -skip_last_n_pages or None]
+    start_page = skip_first_n_pages + 1
+    log.info(
+        "Processing page range: start=%d end=%d count=%d",
+        start_page,
+        start_page + len(pages_to_process) - 1 if pages_to_process else start_page,
+        len(pages_to_process),
+    )
+
     # ── Process ────────────────────────────────────────────────────────────────
     processor = _build_processor()
-    results = processor.process_pdf(images)
+    results = processor.process_pdf(pages_to_process, start_page=start_page)
 
     # ── Summary ────────────────────────────────────────────────────────────────
     review_count = len(processor.human_review_queue)
@@ -357,7 +380,7 @@ def main(argv: list[str] | None = None) -> int:
         len(results),
         skipped_count,
         review_count,
-        len(images),
+        len(pages_to_process),
     )
     if skipped_count:
         from collections import Counter

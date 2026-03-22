@@ -125,158 +125,101 @@ def _image_or_none(path: str) -> Optional[Image.Image]:
 
 
 def _build_excel_bytes() -> bytes:
-    """Generate deterministic Excel export from finalized voter data.
-    
-    Uses flatten_voter_data_to_df to eliminate Cartesian explosion and
-    namespace collision bugs, ensuring every voter appears exactly once
-    with correct EPIC ID.
-    """
+    """Generate deterministic Excel export from finalized voter data."""
     records = _load_finalized()
-    df = flatten_voter_data_to_df(records)
-    
+    df = export_to_excel(records)
+
     buf = BytesIO()
     with pd.ExcelWriter(buf, engine="openpyxl") as writer:
         df.to_excel(writer, index=False, sheet_name="FinalizedVoters")
     return buf.getvalue()
 
 
-def flatten_voter_data_to_df(json_payload: list[dict]) -> pd.DataFrame:
-    r"""Deterministically flatten nested JSON voter records into a pandas DataFrame.
+def _is_blank_card(epic_id: Any, name: Any) -> bool:
+    """Return True when both EPIC ID and Name are blank after strip()."""
+    # Remove all whitespace/newline characters before emptiness checks.
+    epic_clean = "".join(str(epic_id or "").split())
+    name_clean = "".join(str(name or "").split())
+    return not epic_clean and not name_clean
 
-    This function safely extracts voter card data from both OCR extraction
-    formats (orchestrator-generated with nested `extracted_data.cards` or
-    human-review format with `finalized_cards` / `finalized_data`) into a
-    single, deduplicated, properly-ordered DataFrame. It fixes two critical
-    bugs in the prior implementation:
 
-    1. **Cartesian Explosion**: Eliminated improper nested iteration that
-       created duplicate rows when cards lists were empty or malformed.
-    2. **Namespace Collision**: Explicit mapping ensures voter `epic_id`
-       (from card level) is not confused with page `id` (from page level).
+def export_to_excel(json_data: list[dict]) -> pd.DataFrame:
+    """Flatten voter JSON payload into a strict 1-to-1 Excel DataFrame.
 
     Args:
-        json_payload: List of page/record dictionaries. Each dict may contain:
-            - `"id"`: Page identifier (e.g., `"page_1"`)
-            - `"page_no"`: Numeric page number
-            - `"extracted_data"`: Nested dict with `"cards"` list (orchestrator)
-            - `"finalized_cards"`: Flat list of card dicts (finalized format)
-            - `"finalized_data"`: Single voter record dict (human review format)
-            - `"best_strategy"`, `"best_ratio"`: Page-level quality metadata
-            - `"review_action"`, `"finalized_at"`: Human review metadata
+        json_data: List of page dictionaries containing card lists under keys
+            such as ``cards``, ``records``, ``finalized_cards``, or
+            ``extracted_data.cards``.
 
     Returns:
-        pd.DataFrame with columns:
-            `[Page Number, Voter ID, Serial No, Name, Relation Type,
-             Relation Name, House No, Age, Gender]`
-
-        Rows represent individual voter cards (one row per unique voter).
-        All duplicate rows are removed. NaN values are replaced with empty strings.
-
-    Example:
-        >>> payload = [
-        ...     {
-        ...         "id": "page_1",
-        ...         "page_no": 1,
-        ...         "extracted_data": {
-        ...             "cards": [
-        ...                 {"epic_id": "ABC1234567", "name": "John"},
-        ...                 {"epic_id": "XYZ7654321", "name": "Jane"},
-        ...             ]
-        ...         }
-        ...     }
-        ... ]
-        >>> df = flatten_voter_data_to_df(payload)
-        >>> df
-          Page Number Voter ID         Name
-        0           1 ABC1234567        John
-        1           1 XYZ7654321        Jane
+        A deduplicated DataFrame with schema:
+        ``Page, Voter ID, Name, Relation, House No, Age, Gender``.
     """
-    flat_records: list[dict] = []
+    flat_rows: list[dict[str, Any]] = []
 
-    # ── Single-pass O(N) flattening ────────────────────────────────────────────
-    for page_record in json_payload:
-        page_id = page_record.get("id", "")
-        page_no = page_record.get("page_no", "")
+    for page in json_data:
+        page_num = page.get("page_no", page.get("id", ""))
 
-        # Extract cards from potential nested structures.
-        cards_to_process: list[dict] = []
+        cards: list[dict[str, Any]] = []
 
-        # Format 1: Nested under "extracted_data.cards" (orchestrator output)
-        extracted_data = page_record.get("extracted_data")
-        if isinstance(extracted_data, dict):
-            nested_cards = extracted_data.get("cards")
-            if isinstance(nested_cards, list):
-                cards_to_process.extend(nested_cards)
+        page_cards = page.get("cards")
+        if isinstance(page_cards, list):
+            cards.extend(c for c in page_cards if isinstance(c, dict))
 
-        # Format 2: Flat "finalized_cards" list (finalized / orchestrator output)
-        finalized_cards = page_record.get("finalized_cards")
+        page_records = page.get("records")
+        if isinstance(page_records, list):
+            cards.extend(c for c in page_records if isinstance(c, dict))
+
+        finalized_cards = page.get("finalized_cards")
         if isinstance(finalized_cards, list):
-            cards_to_process.extend(finalized_cards)
+            cards.extend(c for c in finalized_cards if isinstance(c, dict))
 
-        # Format 3: Single "finalized_data" dict (human review single record)
-        finalized_data = page_record.get("finalized_data")
+        extracted_data = page.get("extracted_data")
+        if isinstance(extracted_data, dict):
+            extracted_cards = extracted_data.get("cards")
+            if isinstance(extracted_cards, list):
+                cards.extend(c for c in extracted_cards if isinstance(c, dict))
+
+        finalized_data = page.get("finalized_data")
         if isinstance(finalized_data, dict) and finalized_data:
-            # Only treat as a voter card if it has at least one non-empty field.
-            if any(finalized_data.values()):
-                cards_to_process.append(finalized_data)
+            cards.append(finalized_data)
 
-        # ── Flatten each card into a complete row ───────────────────────────────
-        if cards_to_process:
-            for card in cards_to_process:
-                if not isinstance(card, dict):
-                    continue
+        for card in cards:
+            epic_id = "".join(str(card.get("epic_id", "") or "").split())
+            name = "".join(str(card.get("name", "") or "").split())
+            if _is_blank_card(epic_id, name):
+                continue  # Drop ghost cards (blank grid slots)
 
-                flat_row = {
-                    "Page Number": page_no,
-                    "Voter ID": card.get("epic_id", ""),
-                    "Serial No": card.get("serial_no", ""),
-                    "Name": card.get("name", ""),
-                    "Relation Type": card.get("relation_type", ""),
-                    "Relation Name": card.get("relation_name", ""),
-                    "House No": card.get("house_no", ""),
+            relation = (
+                str(card.get("relation_name", "") or "").strip()
+                or str(card.get("relation_type", "") or "").strip()
+            )
+
+            flat_rows.append(
+                {
+                    "Page": page_num,
+                    "Voter ID": epic_id,
+                    "Name": name,
+                    "Relation": relation,
+                    "House No": str(card.get("house_no", "") or "").strip(),
                     "Age": card.get("age", ""),
-                    "Gender": card.get("gender", ""),
+                    "Gender": str(card.get("gender", "") or "").strip(),
                 }
-                flat_records.append(flat_row)
+            )
 
-    # ── DataFrame conversion & sanitization ────────────────────────────────────
-    if not flat_records:
-        # Return empty DataFrame with correct column order.
-        return pd.DataFrame(
-            columns=[
-                "Page Number",
-                "Voter ID",
-                "Serial No",
-                "Name",
-                "Relation Type",
-                "Relation Name",
-                "House No",
-                "Age",
-                "Gender",
-            ]
-        )
+    df = pd.DataFrame(
+        flat_rows,
+        columns=["Page", "Voter ID", "Name", "Relation", "House No", "Age", "Gender"],
+    )
 
-    df = pd.DataFrame(flat_records)
+    # Safety net: remove rows where both identity fields are blank.
+    df.dropna(subset=["Voter ID", "Name"], how="all", inplace=True)
 
-    # Enforce column order.
-    col_order = [
-        "Page Number",
-        "Voter ID",
-        "Serial No",
-        "Name",
-        "Relation Type",
-        "Relation Name",
-        "House No",
-        "Age",
-        "Gender",
-    ]
-    df = df[col_order]
+    # Deterministic de-duplication across key voter identity fields.
+    df.drop_duplicates(subset=["Voter ID", "Name"], keep="first", inplace=True)
 
-    # Remove duplicate rows (guarantees absolute uniqueness).
-    df = df.drop_duplicates()
-
-    # Replace NaN with empty string (Excel compatibility).
-    df = df.fillna("")
+    # Excel-friendly cleanup.
+    df.fillna("", inplace=True)
 
     return df
 
@@ -531,10 +474,15 @@ def main() -> None:
 
     # ── Handle Submit ─────────────────────────────────────────────────────────
     if submit:
+        persisted_cards = [
+            c
+            for c in final_cards
+            if not _is_blank_card(c.get("epic_id"), c.get("name"))
+        ]
         _append_finalized({
             **item,
             "review_action":   "validated",
-            "finalized_cards": final_cards,
+            "finalized_cards": persisted_cards,
             "finalized_at":    pd.Timestamp.now().isoformat(),
         })
         _advance()
