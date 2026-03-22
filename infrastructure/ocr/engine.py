@@ -19,14 +19,24 @@ from typing import List
 import numpy as np
 import pytesseract
 from PIL.Image import Image as PILImage
+from rapidfuzz import fuzz
 
 from config.settings import (
+    OCR_CLAHE_BINARIZE,
+    OCR_CLAHE_CLIP_LIMIT,
+    OCR_CLAHE_TILE_GRID_X,
+    OCR_CLAHE_TILE_GRID_Y,
+    OCR_ENABLE_CLAHE_PREPROCESS,
     OCR_MIN_VALID_CONFIDENCE,
     OCR_RETRY_CONFIDENCE_THRESHOLD,
     TESSERACT_EXE,
 )
 from domain.models import CardRegion, VoterCard
-from infrastructure.ocr.preprocessor import deskew_image, preprocess_card_roi
+from infrastructure.ocr.preprocessor import (
+    deskew_image,
+    enhance_contrast_clahe,
+    preprocess_card_roi,
+)
 
 log = logging.getLogger(__name__)
 
@@ -64,6 +74,122 @@ _EPIC_TOLERANT_RE = re.compile(
 _DIGIT_FIX = str.maketrans({
     "O": "0", "I": "1", "L": "1", "S": "5", "B": "8", "Z": "2"
 })
+
+
+def extract_value_fuzzy(
+    ocr_text: str,
+    target_keyword: str,
+    value_pattern: str | re.Pattern,
+    threshold: float = 85.0,
+) -> str | None:
+    """Extract a value from OCR lines using fuzzy keyword anchoring.
+
+    This function mitigates OCR typos on static anchors such as "Name" and
+    "Age" by combining fuzzy keyword matching and regex extraction on a
+    per-line basis.
+
+    Args:
+        ocr_text: Raw OCR text from one card/region.
+        target_keyword: Anchor keyword to locate (for example, "Name").
+        value_pattern: Regex string or precompiled regex used to extract the
+            target value from a matched line.
+        threshold: Minimum fuzzy score required to treat a line as anchored.
+
+    Returns:
+        Extracted and cleaned value on first successful match, otherwise None.
+    """
+    if not isinstance(ocr_text, str) or not ocr_text.strip():
+        return None
+    if not isinstance(target_keyword, str) or not target_keyword.strip():
+        return None
+
+    pattern: re.Pattern
+    if isinstance(value_pattern, str):
+        pattern = re.compile(value_pattern, re.IGNORECASE)
+    elif isinstance(value_pattern, re.Pattern):
+        pattern = value_pattern
+    else:
+        raise ValueError(
+            "extract_value_fuzzy: 'value_pattern' must be str or re.Pattern"
+        )
+
+    # Keep only letters/digits/spaces for stable fuzzy scoring.
+    def _norm(s: str) -> str:
+        s = s.lower()
+        s = re.sub(r"[^a-z0-9\s]", " ", s)
+        s = re.sub(r"\s+", " ", s).strip()
+        return s
+
+    def _anchor_score(target: str, line: str) -> float:
+        """
+        Compute a conservative fuzzy anchor score with false-positive checks.
+
+        Mitigations:
+        1) Penalize huge length disparities (single-token target vs long line).
+        2) Penalize matches whose best signal is far from line start, to avoid
+           cases like target='name' matching "father's name".
+        """
+        target_n = _norm(target)
+        line_n = _norm(line)
+        if not target_n or not line_n:
+            return 0.0
+
+        base = float(fuzz.partial_ratio(target_n, line_n))
+
+        len_ratio = len(line_n) / max(1, len(target_n))
+        if len_ratio > 4.0:
+            base -= min(20.0, (len_ratio - 4.0) * 3.0)
+
+        # Prefix alignment: anchors usually appear near line start.
+        line_tokens = line_n.split()
+        target_tokens = target_n.split()
+        if not line_tokens or not target_tokens:
+            return 0.0
+
+        # Score first-token alignment (robust against 1-2 OCR character flips).
+        start_tok_score = float(fuzz.ratio(target_tokens[0], line_tokens[0]))
+        if start_tok_score < 70.0:
+            base -= (70.0 - start_tok_score) * 0.6
+
+        # If exact target phrase exists but starts late, penalize.
+        phrase_pos = line_n.find(target_n)
+        if phrase_pos > max(2, len(target_n) // 2):
+            base -= 12.0
+
+        return max(0.0, min(100.0, base))
+
+    for raw_line in ocr_text.splitlines():
+        line = raw_line.strip()
+        if not line:
+            continue
+
+        score = _anchor_score(target_keyword, line)
+        if score < threshold:
+            continue
+
+        match = pattern.search(line)
+        if match is None:
+            # Anchor found, but extraction missing on this line. Keep scanning.
+            continue
+
+        try:
+            if match.lastindex and match.lastindex >= 1:
+                value = match.group(1)
+            else:
+                value = match.group(0)
+        except (IndexError, AttributeError):
+            continue
+
+        if value is None:
+            continue
+
+        cleaned = value.strip()
+        cleaned = re.sub(r"^[\s|_:\-\.]+", "", cleaned)
+        cleaned = re.sub(r"[\s|_:\-\.]+$", "", cleaned)
+        if cleaned:
+            return cleaned
+
+    return None
 
 def _normalize_epic_candidate(prefix: str, suffix: str) -> str | None:
     p = re.sub(r"[^A-Za-z]", "", prefix).upper()
@@ -244,14 +370,14 @@ class OcrEngine:
                 )
                 continue
 
-            preprocessed = preprocess_card_roi(roi)
+            preprocessed = self._prepare_roi_for_ocr(roi)
 
             raw_text, avg_conf = self._ocr_text_with_confidence(preprocessed)
 
             # Retry once on a deskewed ROI when confidence is low.
             if avg_conf < OCR_RETRY_CONFIDENCE_THRESHOLD:
                 deskewed_roi = deskew_image(roi)
-                preprocessed_retry = preprocess_card_roi(deskewed_roi)
+                preprocessed_retry = self._prepare_roi_for_ocr(deskewed_roi)
                 retry_text, retry_conf = self._ocr_text_with_confidence(preprocessed_retry)
                 old_conf = avg_conf
                 delta = retry_conf - old_conf
@@ -287,6 +413,21 @@ class OcrEngine:
             )
 
         return cards
+
+    @staticmethod
+    def _prepare_roi_for_ocr(roi: np.ndarray) -> np.ndarray:
+        """Apply selected OCR preprocessing pipeline to a card ROI."""
+        if OCR_ENABLE_CLAHE_PREPROCESS:
+            try:
+                return enhance_contrast_clahe(
+                    roi,
+                    clip_limit=OCR_CLAHE_CLIP_LIMIT,
+                    tile_grid=(OCR_CLAHE_TILE_GRID_X, OCR_CLAHE_TILE_GRID_Y),
+                    apply_binarization=OCR_CLAHE_BINARIZE,
+                )
+            except (ValueError, RuntimeError) as exc:
+                log.warning("CLAHE preprocessing failed; falling back to baseline: %s", exc)
+        return preprocess_card_roi(roi)
 
     @staticmethod
     def _ocr_text_with_confidence(image: np.ndarray) -> tuple[str, float]:
