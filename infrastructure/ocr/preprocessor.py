@@ -109,6 +109,83 @@ def enhance_contrast_clahe(
         raise RuntimeError(f"enhance_contrast_clahe: OpenCV failure: {exc}") from exc
 
 
+def is_valid_voter_card_crop(
+    crop: np.ndarray,
+    expected_ratio: float = 3.0,
+    ratio_tolerance: float = 1.0,
+) -> bool:
+    """Fast circuit-breaker to reject non-text/garbage OCR crops.
+
+    The function applies fail-fast gates in a fixed order to avoid expensive
+    OCR on crops that are implausible voter-card regions.
+
+    Args:
+        crop: Candidate crop image as a NumPy array (grayscale or color).
+        expected_ratio: Expected width/height aspect ratio for voter cards.
+        ratio_tolerance: Allowed deviation from ``expected_ratio``.
+
+    Returns:
+        True if the crop passes all gates; otherwise False.
+    """
+    # Guard against null/empty/non-array inputs.
+    if crop is None or not isinstance(crop, np.ndarray) or crop.size == 0:
+        return False
+
+    if crop.ndim < 2:
+        return False
+
+    height, width = crop.shape[:2]
+
+    # Gate 1: absolute minimum dimensions.
+    if width < 150 or height < 50:
+        return False
+
+    # Gate 2: aspect-ratio plausibility.
+    if height == 0:
+        return False
+    aspect_ratio = float(width) / float(height)
+    ratio_min = expected_ratio - ratio_tolerance
+    ratio_max = expected_ratio + ratio_tolerance
+    if aspect_ratio < ratio_min or aspect_ratio > ratio_max:
+        return False
+
+    try:
+        # Convert to grayscale only when needed.
+        if crop.ndim == 2:
+            gray = crop
+        elif crop.ndim == 3:
+            channels = crop.shape[2]
+            if channels == 3:
+                gray = cv2.cvtColor(crop, cv2.COLOR_BGR2GRAY)
+            elif channels == 4:
+                gray = cv2.cvtColor(crop, cv2.COLOR_BGRA2GRAY)
+            else:
+                return False
+        else:
+            return False
+
+        # Gate 3: low-variance rejection (blank/solid crops).
+        _, stddev = cv2.meanStdDev(gray)
+        std_value = float(stddev[0, 0]) if stddev.size else 0.0
+        if std_value < 10.0:
+            return False
+
+        # Gate 4: edge-density range check (blank/logo/noise rejection).
+        edges = cv2.Canny(gray, 70, 180)
+        active = float(np.count_nonzero(edges))
+        total = float(edges.size)
+        if total <= 0.0:
+            return False
+        edge_density = active / total
+        if edge_density < 0.01 or edge_density > 0.40:
+            return False
+
+    except cv2.error:
+        return False
+
+    return True
+
+
 def _extract_text_block_angles(gray: np.ndarray) -> list[float]:
     """Extract normalized text-block angles suitable for robust median skew."""
     # Invert so text/ink becomes white (foreground) and paper black.

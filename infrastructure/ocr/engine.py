@@ -35,6 +35,7 @@ from domain.models import CardRegion, VoterCard
 from infrastructure.ocr.preprocessor import (
     deskew_image,
     enhance_contrast_clahe,
+    is_valid_voter_card_crop,
     preprocess_card_roi,
 )
 
@@ -321,6 +322,56 @@ def extract_with_telemetry(
         "status": status,
     }
 
+
+def validate_demographics(extracted_data: dict) -> dict:
+    """Validate cross-field demographic logic and append routing metadata.
+
+    The function is deterministic and side-effect free: it never mutates the
+    incoming dictionary and only appends validation fields in the returned
+    payload.
+
+    Args:
+        extracted_data: Parsed OCR payload. Expected keys may include
+            ``voter_id``, ``name``, ``age``, ``gender``, and ``relation_type``.
+            Keys may be absent or contain ``None``.
+
+    Returns:
+        A new dictionary containing all original keys plus:
+        - ``status``: ``AUTO_APPROVED`` or ``FLAGGED_FOR_HUMAN``
+        - ``flag_reason``: ``None`` when approved, otherwise a specific reason.
+    """
+    payload = dict(extracted_data or {})
+
+    def _flag(reason: str) -> dict:
+        out = dict(payload)
+        out["status"] = "FLAGGED_FOR_HUMAN"
+        out["flag_reason"] = reason
+        return out
+
+    raw_age = payload.get("age")
+    try:
+        parsed_age = int(raw_age)
+    except (TypeError, ValueError):
+        return _flag(f"age_parse_failed(value={raw_age!r})")
+
+    # Rule 1: statutory voter-age bounds.
+    if parsed_age < 18 or parsed_age > 120:
+        return _flag(f"age_out_of_bounds(age={parsed_age})")
+
+    relation_type = str(payload.get("relation_type") or "").strip().lower()
+    gender = str(payload.get("gender") or "").strip().lower()
+
+    # Rule 2: dataset-specific logical consistency guard.
+    if relation_type == "husband" and gender == "male":
+        return _flag(
+            "relation_gender_inconsistent(relation_type=Husband, gender=Male)"
+        )
+
+    approved = dict(payload)
+    approved["status"] = "AUTO_APPROVED"
+    approved["flag_reason"] = None
+    return approved
+
 def _normalize_epic_candidate(prefix: str, suffix: str) -> str | None:
     p = re.sub(r"[^A-Za-z]", "", prefix).upper()
     s = re.sub(r"[^0-9A-Za-z]", "", suffix).upper().translate(_DIGIT_FIX)
@@ -474,6 +525,18 @@ def _parse_card_text(text: str, card_index: int) -> VoterCard:
     if not gender:
         parse_status.append("missing_gender")
 
+    card_payload = {
+        "voter_id": epic_m.group(1) if epic_m else None,
+        "name": name,
+        "age": age_val,
+        "gender": gender,
+        "relation_type": relation_type,
+    }
+    demo_validation = validate_demographics(card_payload)
+    if demo_validation.get("status") == "FLAGGED_FOR_HUMAN":
+        reason = demo_validation.get("flag_reason") or "demographics_rule_failed"
+        parse_status.append(f"demographics_flagged:{reason}")
+
     return VoterCard(
         card_index=card_index,
         serial_no=serial_m.group(1) if serial_m else None,
@@ -525,6 +588,22 @@ class OcrEngine:
                     VoterCard(
                         card_index=idx,
                         parse_status=["empty_roi"],
+                        region=region,
+                    )
+                )
+                continue
+
+            # Circuit breaker: reject non-text/garbage crops before OCR.
+            if not is_valid_voter_card_crop(roi):
+                log.debug(
+                    "page=%d card=%d crop rejected by circuit breaker",
+                    page_no,
+                    idx,
+                )
+                cards.append(
+                    VoterCard(
+                        card_index=idx,
+                        parse_status=["invalid_crop_circuit_breaker"],
                         region=region,
                     )
                 )
