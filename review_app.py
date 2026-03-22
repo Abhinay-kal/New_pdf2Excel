@@ -135,12 +135,25 @@ def _build_excel_bytes() -> bytes:
     return buf.getvalue()
 
 
-def _is_blank_card(epic_id: Any, name: Any) -> bool:
-    """Return True when both EPIC ID and Name are blank after strip()."""
-    # Remove all whitespace/newline characters before emptiness checks.
-    epic_clean = "".join(str(epic_id or "").split())
-    name_clean = "".join(str(name or "").split())
-    return not epic_clean and not name_clean
+def _is_blank_card_payload(card: dict[str, Any]) -> bool:
+    """Return True only when all useful identity signals are blank."""
+    epic_clean = "".join(str(card.get("epic_id", "") or "").split())
+    name_clean = "".join(str(card.get("name", "") or "").split())
+    serial_clean = "".join(str(card.get("serial_no", "") or "").split())
+    relation_clean = "".join(str(card.get("relation_name", "") or "").split())
+    house_clean = "".join(str(card.get("house_no", "") or "").split())
+    gender_clean = "".join(str(card.get("gender", "") or "").split())
+    age_value = card.get("age", None)
+
+    return not (
+        epic_clean
+        or name_clean
+        or serial_clean
+        or relation_clean
+        or house_clean
+        or gender_clean
+        or age_value is not None
+    )
 
 
 def export_to_excel(json_data: list[dict]) -> pd.DataFrame:
@@ -187,7 +200,7 @@ def export_to_excel(json_data: list[dict]) -> pd.DataFrame:
         for card in cards:
             epic_id = "".join(str(card.get("epic_id", "") or "").split())
             name = "".join(str(card.get("name", "") or "").split())
-            if _is_blank_card(epic_id, name):
+            if _is_blank_card_payload(card):
                 continue  # Drop ghost cards (blank grid slots)
 
             relation = (
@@ -215,8 +228,12 @@ def export_to_excel(json_data: list[dict]) -> pd.DataFrame:
     # Safety net: remove rows where both identity fields are blank.
     df.dropna(subset=["Voter ID", "Name"], how="all", inplace=True)
 
-    # Deterministic de-duplication across key voter identity fields.
-    df.drop_duplicates(subset=["Voter ID", "Name"], keep="first", inplace=True)
+    # Safe deduplication: never collapse rows missing Voter ID.
+    id_mask = df["Voter ID"].astype(str).str.strip() != ""
+    df_with_id = df[id_mask]
+    df_missing_id = df[~id_mask]
+    df_with_id = df_with_id.drop_duplicates(subset=["Voter ID", "Name"], keep="first")
+    df = pd.concat([df_with_id, df_missing_id], ignore_index=True)
 
     # Excel-friendly cleanup.
     df.fillna("", inplace=True)
@@ -477,7 +494,7 @@ def main() -> None:
         persisted_cards = [
             c
             for c in final_cards
-            if not _is_blank_card(c.get("epic_id"), c.get("name"))
+            if isinstance(c, dict) and not _is_blank_card_payload(c)
         ]
         _append_finalized({
             **item,

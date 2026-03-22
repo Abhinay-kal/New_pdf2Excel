@@ -80,7 +80,7 @@ def _results_to_dataframe(results: List[PageResult]) -> pd.DataFrame:
     rows = []
     for result in results:
         for card in result.cards:
-            if _is_ghost_card(card.epic_id, card.name):
+            if _is_ghost_card(card):
                 continue
             rows.append(
                 {
@@ -261,7 +261,7 @@ def _write_review_json(
                 "parse_status":  c.parse_status,
             }
             for c in item.best_cards
-            if not _is_ghost_card(c.epic_id, c.name)
+            if not _is_ghost_card(c)
         ]
 
         records.append({
@@ -319,12 +319,37 @@ def _parse_args(argv: list[str] | None) -> argparse.Namespace:
     return parser.parse_args(argv)
 
 
-def _is_ghost_card(epic_id: object, name: object) -> bool:
-    """Return True when a card is blank after whitespace normalization."""
+def _is_ghost_card(card: object) -> bool:
+    """Return True only for truly blank slots to avoid silent voter attrition."""
     # Remove all whitespace/newline characters before emptiness checks.
-    epic_clean = "".join(str(epic_id or "").split())
-    name_clean = "".join(str(name or "").split())
-    return not epic_clean and not name_clean
+    epic_clean = "".join(str(getattr(card, "epic_id", "") or "").split())
+    name_clean = "".join(str(getattr(card, "name", "") or "").split())
+
+    # Any meaningful fallback signal means "keep the record" even if ID/Name failed OCR.
+    serial_clean = "".join(str(getattr(card, "serial_no", "") or "").split())
+    relation_clean = "".join(str(getattr(card, "relation_name", "") or "").split())
+    house_clean = "".join(str(getattr(card, "house_no", "") or "").split())
+    gender_clean = "".join(str(getattr(card, "gender", "") or "").split())
+    age_value = getattr(card, "age", None)
+    has_fallback_signal = bool(
+        serial_clean or relation_clean or house_clean or gender_clean or age_value is not None
+    )
+
+    # Keep uncertain records for HITL when any signal exists.
+    if epic_clean or name_clean or has_fallback_signal:
+        return False
+
+    parse_status = getattr(card, "parse_status", []) or []
+    markers = {
+        "empty_roi",
+        "invalid_crop_circuit_breaker",
+        "skipped_header",
+        "missing_epic",
+        "missing_name",
+        "missing_age",
+        "missing_gender",
+    }
+    return bool(set(parse_status) & markers)
 
 
 def main(argv: list[str] | None = None) -> int:

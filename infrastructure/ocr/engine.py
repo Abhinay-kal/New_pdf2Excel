@@ -682,21 +682,15 @@ class OcrEngine:
                 )
                 continue
 
-            # Circuit breaker: reject non-text/garbage crops before OCR.
-            if not is_valid_voter_card_crop(roi):
+            # Fail-open crop gate: tag weak crops, but still attempt OCR to avoid
+            # silent attrition when the validity heuristic is overly strict.
+            crop_rejected = not is_valid_voter_card_crop(roi)
+            if crop_rejected:
                 log.debug(
-                    "page=%d card=%d crop rejected by circuit breaker",
+                    "page=%d card=%d crop flagged by circuit breaker (fail-open OCR)",
                     page_no,
                     idx,
                 )
-                cards.append(
-                    VoterCard(
-                        card_index=idx,
-                        parse_status=["invalid_crop_circuit_breaker"],
-                        region=region,
-                    )
-                )
-                continue
 
             preprocessed = self._prepare_roi_for_ocr(roi)
 
@@ -730,12 +724,24 @@ class OcrEngine:
                     avg_conf = retry_conf
 
             card = _parse_card_text(raw_text, card_index=idx)
+            extra_status: list[str] = []
+            if crop_rejected:
+                extra_status.append("invalid_crop_circuit_breaker")
+            if not "".join(str(raw_text or "").split()):
+                extra_status.append("empty_ocr_text")
+
+            merged_status = [*card.parse_status]
+            for status in extra_status:
+                if status not in merged_status:
+                    merged_status.append(status)
+
             # Attach the source region for audit purposes
             cards.append(
                 card.model_copy(
                     update={
                         "region": region,
                         "ocr_confidence": avg_conf,
+                        "parse_status": merged_status,
                     }
                 )
             )
