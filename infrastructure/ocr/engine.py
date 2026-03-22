@@ -194,6 +194,133 @@ def extract_value_fuzzy(
 
     return None
 
+
+def extract_with_telemetry(
+    image: np.ndarray,
+    target_regex: re.Pattern,
+    min_confidence: float = 75.0,
+) -> dict | None:
+    """Extract a regex-matched value and route by token-level OCR confidence.
+
+    The function reads Tesseract word-level telemetry from ``image_to_data`` and
+    computes confidence only on tokens that contributed to the matched value.
+
+    Args:
+        image: OCR input image as a NumPy array.
+        target_regex: Compiled regex used to locate the target value in
+            reconstructed OCR text.
+        min_confidence: Minimum token-level confidence required for automatic
+            approval.
+
+    Returns:
+        A routing payload with extracted value, confidence, and status:
+        ``AUTO_APPROVED`` or ``FLAGGED_FOR_HUMAN``. Returns None when no regex
+        match is found or no valid OCR tokens are available.
+    """
+    if image is None or not isinstance(image, np.ndarray) or image.size == 0:
+        return None
+    if not isinstance(target_regex, re.Pattern):
+        raise ValueError("extract_with_telemetry: 'target_regex' must be re.Pattern")
+
+    try:
+        data = pytesseract.image_to_data(image, output_type=pytesseract.Output.DICT)
+    except Exception:
+        return None
+
+    if not data or not isinstance(data, dict) or not data.get("text"):
+        return None
+
+    texts = data.get("text", [])
+    confs = data.get("conf", [])
+    n = min(len(texts), len(confs))
+    if n == 0:
+        return None
+
+    valid_tokens: list[tuple[str, float]] = []
+    for i in range(n):
+        token = str(texts[i] if texts[i] is not None else "").strip()
+        if not token:
+            continue
+
+        raw_conf = confs[i]
+        try:
+            conf_val = float(raw_conf)
+        except (TypeError, ValueError):
+            continue
+
+        # Tesseract uses -1 for non-word/empty blocks; ignore those entries.
+        if conf_val == -1.0:
+            continue
+
+        valid_tokens.append((token, conf_val))
+
+    if not valid_tokens:
+        return None
+
+    # Build space-preserving text + token char spans to map regex match back to tokens.
+    full_text_parts: list[str] = []
+    token_spans: list[tuple[int, int, float]] = []
+    cursor = 0
+    for idx, (token, conf_val) in enumerate(valid_tokens):
+        if idx > 0:
+            full_text_parts.append(" ")
+            cursor += 1
+        start = cursor
+        full_text_parts.append(token)
+        cursor += len(token)
+        token_spans.append((start, cursor, conf_val))
+
+    full_text = "".join(full_text_parts)
+    match = target_regex.search(full_text)
+    if match is None:
+        return None
+
+    extracted = match.group(0).strip()
+    if not extracted:
+        return None
+
+    m_start, m_end = match.span()
+    matched_token_confs = [
+        conf
+        for t_start, t_end, conf in token_spans
+        if t_end > m_start and t_start < m_end
+    ]
+
+    # Fallback for patterns that may ignore spaces/hyphens and span boundaries.
+    if not matched_token_confs:
+        compact_tokens = [re.sub(r"\W+", "", tok) for tok, _ in valid_tokens]
+        compact_text = "".join(compact_tokens)
+        compact_match = target_regex.search(compact_text)
+        if compact_match is None:
+            return None
+
+        c_start, c_end = compact_match.span()
+        compact_cursor = 0
+        for idx, token in enumerate(compact_tokens):
+            tok_start = compact_cursor
+            tok_end = compact_cursor + len(token)
+            compact_cursor = tok_end
+            if tok_end > c_start and tok_start < c_end:
+                matched_token_confs.append(valid_tokens[idx][1])
+
+        extracted = compact_match.group(0).strip() or extracted
+
+    if not matched_token_confs:
+        return None
+
+    min_token_conf = float(min(matched_token_confs))
+    status = (
+        "AUTO_APPROVED"
+        if min_token_conf >= float(min_confidence)
+        else "FLAGGED_FOR_HUMAN"
+    )
+
+    return {
+        "value": extracted,
+        "confidence": min_token_conf,
+        "status": status,
+    }
+
 def _normalize_epic_candidate(prefix: str, suffix: str) -> str | None:
     p = re.sub(r"[^A-Za-z]", "", prefix).upper()
     s = re.sub(r"[^0-9A-Za-z]", "", suffix).upper().translate(_DIGIT_FIX)
