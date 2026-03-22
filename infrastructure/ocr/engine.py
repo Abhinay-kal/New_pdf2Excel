@@ -50,6 +50,9 @@ _HOUSE_RE = re.compile(
 _AGE_RE = re.compile(r"Age\s*[:\-\.]\s*(\d+)", re.IGNORECASE)
 _GENDER_RE = re.compile(r"Gender\s*[:\-\.]\s*([A-Za-z]+)", re.IGNORECASE)
 _SERIAL_RE = re.compile(r"^\s*(\d{1,3})\s*$")
+_AGE_VALUE_RE = re.compile(r"[:\-\.]\s*(\d{1,3})\b", re.IGNORECASE)
+_GENDER_VALUE_RE = re.compile(r"[:\-\.]\s*([A-Za-z]+)\b", re.IGNORECASE)
+_NAME_VALUE_RE = re.compile(r"[:\-\.]\s*([A-Za-z][A-Za-z .']{1,80})", re.IGNORECASE)
 
 # Words that indicate we are inside a header row, not a voter card
 _HEADER_KEYWORDS = frozenset(
@@ -262,6 +265,29 @@ def _parse_card_text(text: str, card_index: int) -> VoterCard:
     relation_type: str | None = None
     relation_name: str | None = None
 
+    # Fuzzy anchor extraction for OCR-typo resilience.
+    fuzzy_name = extract_value_fuzzy(
+        text,
+        target_keyword="Name",
+        value_pattern=_NAME_VALUE_RE,
+        threshold=86.0,
+    )
+    fuzzy_age = extract_value_fuzzy(
+        text,
+        target_keyword="Age",
+        value_pattern=_AGE_VALUE_RE,
+        threshold=84.0,
+    )
+    fuzzy_gender = extract_value_fuzzy(
+        text,
+        target_keyword="Gender",
+        value_pattern=_GENDER_VALUE_RE,
+        threshold=84.0,
+    )
+
+    if fuzzy_name and not re.search(r"\d", fuzzy_name):
+        name = fuzzy_name
+
     skip_prefixes = ("House Number", "Age:", "Gender:", "Photo", "Available")
     relation_keywords = ("Father", "Husband", "Mother", "Other")
 
@@ -297,11 +323,18 @@ def _parse_card_text(text: str, card_index: int) -> VoterCard:
             age_val = int(age_m.group(1))
         except ValueError:
             pass
+    elif fuzzy_age:
+        try:
+            age_val = int(fuzzy_age)
+        except ValueError:
+            pass
 
     # ── Normalise gender ──────────────────────────────────────────────────────
     gender: str | None = None
     if gender_m:
         gender = _normalise_gender(gender_m.group(1))
+    elif fuzzy_gender:
+        gender = _normalise_gender(fuzzy_gender)
 
     # ── Build parse_status flags ──────────────────────────────────────────────
     parse_status: list[str] = []
