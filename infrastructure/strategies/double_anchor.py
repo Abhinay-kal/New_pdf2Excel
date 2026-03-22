@@ -9,6 +9,8 @@ Anchor 2: nearby semantic keywords (Name / Age / Husband / Father / Mother)
 """
 from __future__ import annotations
 
+from datetime import datetime
+from pathlib import Path
 import re
 from typing import Dict, List, Sequence, Tuple, Union
 
@@ -18,6 +20,7 @@ import pytesseract
 from PIL.Image import Image as PILImage
 from pytesseract import Output
 
+from config.settings import DOUBLE_ANCHOR_DEBUG, DOUBLE_ANCHOR_DEBUG_DIR
 from domain.exceptions import StrategyError
 from domain.models import CardRegion
 from infrastructure.strategies.base import BaseStrategy
@@ -143,16 +146,33 @@ def _compute_double_anchor_boxes(
 
     Returns list of clipped boxes as (x1, y1, x2, y2).
     """
+    _, _, _, boxes = _collect_double_anchor_artifacts(page_image)
+    return boxes
+
+
+def _collect_double_anchor_artifacts(
+    page_image: Union[PILImage, np.ndarray],
+) -> tuple[
+    np.ndarray,
+    List[Dict[str, int | str]],
+    List[Dict[str, int | str]],
+    List[Tuple[int, int, int, int]],
+]:
+    """
+    Build all intermediate artifacts needed by both crop generation and debug.
+
+    Returns:
+        (page_bgr, epic_anchors, keyword_anchors, clipped_candidate_boxes)
+    """
     img_bgr = _to_bgr_array(page_image)
     img_h, img_w = img_bgr.shape[:2]
 
-    # OCR on a lightly denoised grayscale image for stable word boxes.
     gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
     gray = cv2.bilateralFilter(gray, 5, 35, 35)
 
     data = pytesseract.image_to_data(gray, output_type=Output.DICT, config="--psm 6")
     if not data or not data.get("text"):
-        return []
+        return img_bgr, [], [], []
 
     epic_anchors: List[Dict[str, int | str]] = []
     keyword_anchors: List[Dict[str, int | str]] = []
@@ -169,9 +189,8 @@ def _compute_double_anchor_boxes(
             keyword_anchors.append(word)
 
     if not epic_anchors:
-        return []
+        return img_bgr, [], keyword_anchors, []
 
-    # Base envelope around EPIC anchor. Tuned to capture one voter card.
     left_pad = 50
     top_pad = 50
     right_pad = 400
@@ -189,8 +208,6 @@ def _compute_double_anchor_boxes(
         x2 = ex + ew + right_pad
         y2 = ey + eh + bottom_pad
 
-        # If a semantic keyword is spatially close, expand top/left slightly
-        # so we include card labels and serial details more reliably.
         if keyword_anchors:
             nearest = min(
                 keyword_anchors,
@@ -206,7 +223,69 @@ def _compute_double_anchor_boxes(
         if clipped is not None:
             candidate_boxes.append(clipped)
 
-    return _dedupe_regions(candidate_boxes)
+    return img_bgr, epic_anchors, keyword_anchors, _dedupe_regions(candidate_boxes)
+
+
+def _save_debug_overlay(
+    page_bgr: np.ndarray,
+    epic_anchors: List[Dict[str, int | str]],
+    keyword_anchors: List[Dict[str, int | str]],
+    boxes: List[Tuple[int, int, int, int]],
+    out_dir: Path,
+) -> None:
+    """Render and persist an overlay for quick visual tuning."""
+    out_dir.mkdir(parents=True, exist_ok=True)
+    canvas = page_bgr.copy()
+
+    # EPIC anchors: red rectangles with label.
+    for anchor in epic_anchors:
+        x, y, w, h = int(anchor["x"]), int(anchor["y"]), int(anchor["w"]), int(anchor["h"])
+        txt = str(anchor["text"])
+        cv2.rectangle(canvas, (x, y), (x + w, y + h), (0, 0, 255), 2)
+        cv2.putText(
+            canvas,
+            f"EPIC:{txt}",
+            (x, max(0, y - 8)),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.45,
+            (0, 0, 255),
+            1,
+            cv2.LINE_AA,
+        )
+
+    # Keyword anchors: blue rectangles with label.
+    for anchor in keyword_anchors:
+        x, y, w, h = int(anchor["x"]), int(anchor["y"]), int(anchor["w"]), int(anchor["h"])
+        txt = str(anchor["text"])
+        cv2.rectangle(canvas, (x, y), (x + w, y + h), (255, 0, 0), 2)
+        cv2.putText(
+            canvas,
+            f"KW:{txt}",
+            (x, max(0, y - 8)),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.45,
+            (255, 0, 0),
+            1,
+            cv2.LINE_AA,
+        )
+
+    # Final crop boxes: green rectangles with index.
+    for idx, (x1, y1, x2, y2) in enumerate(boxes, start=1):
+        cv2.rectangle(canvas, (x1, y1), (x2, y2), (0, 180, 0), 2)
+        cv2.putText(
+            canvas,
+            f"BOX:{idx}",
+            (x1, max(0, y1 - 8)),
+            cv2.FONT_HERSHEY_SIMPLEX,
+            0.5,
+            (0, 180, 0),
+            1,
+            cv2.LINE_AA,
+        )
+
+    ts = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    out_path = out_dir / f"double_anchor_overlay_{ts}.png"
+    cv2.imwrite(str(out_path), canvas)
 
 
 def crop_via_double_anchor(page_image: Union[PILImage, np.ndarray]) -> List[np.ndarray]:
@@ -238,7 +317,17 @@ class DoubleAnchorStrategy(BaseStrategy):
     name = "double_anchor"
 
     def detect_cards(self, page_image: PILImage) -> List[CardRegion]:
-        boxes = _compute_double_anchor_boxes(page_image)
+        page_bgr, epic_anchors, keyword_anchors, boxes = _collect_double_anchor_artifacts(page_image)
+
+        if DOUBLE_ANCHOR_DEBUG:
+            _save_debug_overlay(
+                page_bgr=page_bgr,
+                epic_anchors=epic_anchors,
+                keyword_anchors=keyword_anchors,
+                boxes=boxes,
+                out_dir=DOUBLE_ANCHOR_DEBUG_DIR,
+            )
+
         if not boxes:
             raise StrategyError(
                 self.name,

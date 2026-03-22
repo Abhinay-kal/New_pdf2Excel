@@ -40,6 +40,7 @@ from typing import Dict, List, Optional, Union
 import numpy as np
 import pytesseract
 from pdf2image import convert_from_path
+from PIL import Image
 from PIL.Image import Image as PILImage
 
 from config.settings import DEFAULT_DPI, POPPLER_PATH, TESSERACT_EXE
@@ -47,7 +48,7 @@ from domain.exceptions import ForensicValidationError, StrategyError
 from domain.interfaces import LayoutStrategy
 from domain.models import CardRegion, PageType, VoterCard
 from infrastructure.ocr.engine import OcrEngine
-from infrastructure.ocr.preprocessor import preprocess_card_roi
+from infrastructure.ocr.preprocessor import deskew_image_with_angle, preprocess_card_roi
 from infrastructure.strategies import (
     BlobClusteringStrategy,
     CvGridChopStrategy,
@@ -237,6 +238,15 @@ class PageProcessor:
                           failed; see ``skipped_pages`` and
                           ``human_review_queue`` for details.
         """
+        # ── Step 0: Deskew full page once (shared by all downstream stages) ──
+        page_arr = np.array(page_image)
+        deskewed_arr, skew_angle = deskew_image_with_angle(page_arr)
+        if skew_angle != 0.0:
+            log.info("page=%d deskew_applied angle_deg=%.2f", page_no, skew_angle)
+        else:
+            log.debug("page=%d deskew_skipped angle_deg=0.00", page_no)
+        page_image = Image.fromarray(deskewed_arr)
+
         # ── Step 1: Classify ──────────────────────────────────────────────────
         page_type = self._classify_page(page_image)
         log.debug("page=%d classified as %s", page_no, page_type.name)

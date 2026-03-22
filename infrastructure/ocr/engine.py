@@ -20,9 +20,13 @@ import numpy as np
 import pytesseract
 from PIL.Image import Image as PILImage
 
-from config.settings import TESSERACT_EXE
+from config.settings import (
+    OCR_MIN_VALID_CONFIDENCE,
+    OCR_RETRY_CONFIDENCE_THRESHOLD,
+    TESSERACT_EXE,
+)
 from domain.models import CardRegion, VoterCard
-from infrastructure.ocr.preprocessor import preprocess_card_roi
+from infrastructure.ocr.preprocessor import deskew_image, preprocess_card_roi
 
 log = logging.getLogger(__name__)
 
@@ -242,18 +246,70 @@ class OcrEngine:
 
             preprocessed = preprocess_card_roi(roi)
 
-            try:
-                raw_text: str = pytesseract.image_to_string(
-                    preprocessed, config="--psm 6"
+            raw_text, avg_conf = self._ocr_text_with_confidence(preprocessed)
+
+            # Retry once on a deskewed ROI when confidence is low.
+            if avg_conf < OCR_RETRY_CONFIDENCE_THRESHOLD:
+                deskewed_roi = deskew_image(roi)
+                preprocessed_retry = preprocess_card_roi(deskewed_roi)
+                retry_text, retry_conf = self._ocr_text_with_confidence(preprocessed_retry)
+                old_conf = avg_conf
+                delta = retry_conf - old_conf
+                accepted = retry_conf > old_conf
+
+                log.debug(
+                    (
+                        "page=%d card=%d ocr_retry_attempt "
+                        "threshold=%.1f pre=%.1f post=%.1f delta=%.1f accepted=%s"
+                    ),
+                    page_no,
+                    idx,
+                    OCR_RETRY_CONFIDENCE_THRESHOLD,
+                    old_conf,
+                    retry_conf,
+                    delta,
+                    accepted,
                 )
-            except Exception as exc:
-                log.warning(
-                    "page=%d card=%d OCR exception: %s", page_no, idx, exc
-                )
-                raw_text = ""
+
+                if retry_conf > avg_conf:
+                    raw_text = retry_text
+                    avg_conf = retry_conf
 
             card = _parse_card_text(raw_text, card_index=idx)
             # Attach the source region for audit purposes
-            cards.append(card.model_copy(update={"region": region}))
+            cards.append(
+                card.model_copy(
+                    update={
+                        "region": region,
+                        "ocr_confidence": avg_conf,
+                    }
+                )
+            )
 
         return cards
+
+    @staticmethod
+    def _ocr_text_with_confidence(image: np.ndarray) -> tuple[str, float]:
+        """
+        Run OCR and estimate average word-level confidence in [0, 100].
+
+        Returns empty text + 0.0 confidence on OCR exceptions.
+        """
+        try:
+            data = pytesseract.image_to_data(image, output_type=pytesseract.Output.DICT, config="--psm 6")
+            text = pytesseract.image_to_string(image, config="--psm 6")
+        except Exception as exc:
+            log.warning("OCR exception while reading ROI: %s", exc)
+            return "", 0.0
+
+        conf_values: list[float] = []
+        for raw in data.get("conf", []):
+            try:
+                conf = float(raw)
+            except (TypeError, ValueError):
+                continue
+            if conf >= OCR_MIN_VALID_CONFIDENCE:
+                conf_values.append(conf)
+
+        avg_conf = float(np.mean(conf_values)) if conf_values else 0.0
+        return text, avg_conf
