@@ -267,9 +267,13 @@ class PageProcessor:
         last_error = "no strategies configured"
         # Track the best partial result across all strategies (gate-2 failures
         # only; gate-1 failures never reach OCR so produce no cards).
+        # CRITICAL FIX: Initialize _best_ratio to -1.0 so the first strategy that
+        # passes gate-1 is guaranteed to be saved, even if its EPIC ratio is 0.00.
+        # This fixes the "Zero-Ratio Data Wipe" bug where partial data was silently
+        # dropped when Tesseract hallucinated entirely on all strategies.
         _best_cards: List[VoterCard] = []
         _best_strategy: Optional[str] = None
-        _best_ratio: float = 0.0
+        _best_ratio: float = -1.0
 
         for strategy in self._strategies:
             try:
@@ -299,7 +303,14 @@ class PageProcessor:
                         ratio,
                         QUALITY_RATIO_THRESHOLD,
                     )
-                    if ratio > _best_ratio:  # keep the least-bad attempt
+                    # CRITICAL FIX: Keep the least-bad attempt.
+                    # Tie-breaker: if multiple strategies entirely fail the Regex
+                    # check (ratio == 0.00), prefer the one that extracted more
+                    # physical bounding boxes (cards). This maximizes partial data
+                    # preservation for human review.
+                    if ratio > _best_ratio or (
+                        ratio == _best_ratio and len(cards) > len(_best_cards)
+                    ):
                         _best_cards = cards
                         _best_strategy = strategy.name
                         _best_ratio = ratio

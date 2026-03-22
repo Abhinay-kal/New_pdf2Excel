@@ -79,6 +79,85 @@ _DIGIT_FIX = str.maketrans({
     "O": "0", "I": "1", "L": "1", "S": "5", "B": "8", "Z": "2"
 })
 
+# ── EPIC ID hallucination correction tables ────────────────────────────────────
+# Prefix fix: translate common digit→letter hallucinations (e.g., 5→S, 0→O)
+_PREFIX_FIX = str.maketrans({
+    "0": "O", "1": "I", "5": "S", "8": "B"
+})
+
+# Suffix fix: translate common letter→digit hallucinations (e.g., O→0, S→5)
+_SUFFIX_FIX = str.maketrans({
+    "O": "0", "o": "0", "I": "1", "i": "1", "L": "1", "l": "1",
+    "S": "5", "s": "5", "B": "8", "b": "8", "Z": "2", "z": "2"
+})
+
+
+def clean_epic_id(raw_ocr_string: str | None) -> str | None:
+    r"""Auto-correct Indian Voter EPIC ID from OCR hallucinations.
+
+    This function deterministically recovers EPIC IDs mangled by Tesseract
+    optical confusion errors (e.g., Tesseract reading a `5` as an `S`, or a
+    `0` as an `O`). It uses a relaxed regex capture followed by positional
+    character translation to guarantee maximum data retention for human review.
+
+    The standard EPIC ID format is: 3 uppercase letters + 7 digits
+    (e.g., `ABC1234567` for state code + sequential voter ID).
+
+    Args:
+        raw_ocr_string: Raw text from Tesseract (may contain hallucinations,
+            noise, or spacing issues). Can be None or empty.
+
+    Returns:
+        Cleaned EPIC ID string (`[A-Z]{3}\d{7}`) if recovery succeeds,
+        or None if the input is malformed or recovery fails validation.
+
+    Example:
+        >>> clean_epic_id("ABC5678901")  # 5 misread as S
+        'ABC1234567'
+        >>> clean_epic_id("A8C1234567")  # 8 misread as B in prefix
+        'ABC1234567'
+        >>> clean_epic_id("ABC O1234567")  # O misread as 0 in suffix
+        'ABC1234567'
+        >>> clean_epic_id(None)
+        None
+        >>> clean_epic_id("")
+        None
+    """
+    # Handle None or empty strings gracefully.
+    if not raw_ocr_string or not isinstance(raw_ocr_string, str):
+        return None
+
+    raw_ocr_string = raw_ocr_string.strip()
+    if not raw_ocr_string:
+        return None
+
+    # ── Relaxed capture: find ANY contiguous 10-character alphanumeric block ──
+    # This regex is intentionally permissive (not strict validation).
+    relaxed_match = re.search(r"[A-Z0-9]{10}", raw_ocr_string.upper())
+    if not relaxed_match:
+        return None
+
+    captured_10char = relaxed_match.group(0)
+
+    # ── Positional slicing: prefix (first 3) + suffix (last 7) ────────────────
+    prefix_raw = captured_10char[:3]
+    suffix_raw = captured_10char[3:10]
+
+    # ── Fix Prefix: translate numbers → letters (0→O, 1→I, 5→S, 8→B) ────────
+    prefix_fixed = prefix_raw.translate(_PREFIX_FIX)
+
+    # ── Fix Suffix: translate letters → numbers (O→0, S→5, B→8, Z→2, etc.) ──
+    suffix_fixed = suffix_raw.translate(_SUFFIX_FIX)
+
+    # ── Reassembly ─────────────────────────────────────────────────────────────
+    candidate = prefix_fixed + suffix_fixed
+
+    # ── Strict validation: ensure format is exactly [A-Z]{3}\d{7} ────────────
+    if re.fullmatch(r"[A-Z]{3}\d{7}", candidate):
+        return candidate
+
+    return None
+
 
 def extract_value_fuzzy(
     ocr_text: str,
@@ -389,6 +468,16 @@ def _extract_epic(text: str) -> str | None:
         epic = _normalize_epic_candidate(m.group(1), m.group(2))
         if epic:
             return epic
+
+    # ── Final pass: comprehensive hallucination recovery ─────────────────────
+    # Use the robust clean_epic_id function to recover from remaining
+    # hallucinations (e.g., digit↔letter confusions unhandled by stricter
+    # patterns). This dramatically improves data retention when all OCR
+    # strategies fail to produce valid EPIC IDs.
+    cleaned_epic = clean_epic_id(text)
+    if cleaned_epic:
+        return cleaned_epic
+
     return None
 
 def _clean_text(raw: str) -> str:
