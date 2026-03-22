@@ -1,0 +1,159 @@
+Electra-Core — Human Review Queue
+==================================================
+
+Page 1
+  Last error : Page 1: forensic validation failed — expected 30 cards, got 2.
+    - cv_grid_chop: strategy_error(no valid contours found after morphological grid detection)
+    - grid_projection: gate_2_quality(ratio=0.00)
+    - blob_clustering: gate_1_count(found=2)
+
+Page 2
+  Last error : Page 2: forensic validation failed — expected 30 cards, got 7.
+    - cv_grid_chop: gate_1_count(found=10)
+    - grid_projection: gate_2_quality(ratio=0.00)
+    - blob_clustering: gate_1_count(found=7)
+
+Page 3
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.00)
+    - grid_projection: gate_2_quality(ratio=0.03)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 4
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.00)
+    - grid_projection: gate_2_quality(ratio=0.00)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 5
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.03)
+    - grid_projection: gate_2_quality(ratio=0.10)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 6
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.03)
+    - grid_projection: gate_2_quality(ratio=0.10)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 7
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.03)
+    - grid_projection: gate_2_quality(ratio=0.17)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 8
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.10)
+    - grid_projection: gate_2_quality(ratio=0.07)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 9
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.10)
+    - grid_projection: gate_2_quality(ratio=0.07)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 10
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.23)
+    - grid_projection: gate_2_quality(ratio=0.07)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 11
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.13)
+    - grid_projection: gate_2_quality(ratio=0.03)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 12
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.07)
+    - grid_projection: gate_2_quality(ratio=0.10)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 13
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.10)
+    - grid_projection: gate_2_quality(ratio=0.07)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 14
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.00)
+    - grid_projection: gate_2_quality(ratio=0.03)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 15
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.10)
+    - grid_projection: gate_2_quality(ratio=0.07)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 16
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.03)
+    - grid_projection: gate_2_quality(ratio=0.07)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 17
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.00)
+    - grid_projection: gate_2_quality(ratio=0.03)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 18
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.10)
+    - grid_projection: gate_2_quality(ratio=0.07)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 19
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.10)
+    - grid_projection: gate_2_quality(ratio=0.10)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 20
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.00)
+    - grid_projection: gate_2_quality(ratio=0.10)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 21
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.03)
+    - grid_projection: gate_2_quality(ratio=0.00)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 22
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.00)
+    - grid_projection: gate_2_quality(ratio=0.13)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 23
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_2_quality(ratio=0.03)
+    - grid_projection: gate_2_quality(ratio=0.03)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 24
+  Last error : Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+    - cv_grid_chop: gate_1_count(found=11)
+    - grid_projection: gate_2_quality(ratio=0.10)
+    - blob_clustering: strategy_error(dilation blob detection found no candidate card regions)
+
+Page 25
+  Last error : Page 25: forensic validation failed — expected 30 cards, got 1.
+    - cv_grid_chop: gate_1_count(found=1)
+    - grid_projection: gate_2_quality(ratio=0.00)
+    - blob_clustering: gate_1_count(found=1)
+
+Page 26
+  Last error : Page 26: forensic validation failed — expected 30 cards, got 1.
+    - cv_grid_chop: strategy_error(no valid contours found after morphological grid detection)
+    - grid_projection: gate_2_quality(ratio=0.00)
+    - blob_clustering: gate_1_count(found=1)
+

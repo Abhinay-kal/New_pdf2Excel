@@ -1,0 +1,1031 @@
+2026-03-09T10:22:25 level=ERROR    name=__main__ pid=72114 PDF not found: /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/path/to/voter_roll.pdf
+2026-03-09T10:23:42 level=ERROR    name=__main__ pid=72440 PDF not found: /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/path/to/voter_roll.pdf
+2026-03-09T10:29:59 level=INFO     name=__main__ pid=73625 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=output/excel
+2026-03-09T10:30:06 level=INFO     name=__main__ pid=73625 Rendered 26 page(s) at 300 DPI
+2026-03-09T10:30:13 level=INFO     name=pipeline.orchestrator pid=73625 page=1 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:30:20 level=INFO     name=pipeline.orchestrator pid=73625 page=2 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:30:29 level=INFO     name=pipeline.orchestrator pid=73625 page=3 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:30:38 level=INFO     name=pipeline.orchestrator pid=73625 page=4 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:30:46 level=INFO     name=pipeline.orchestrator pid=73625 page=5 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:30:55 level=INFO     name=pipeline.orchestrator pid=73625 page=6 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:31:03 level=INFO     name=pipeline.orchestrator pid=73625 page=7 strategy=grid_projection cards=30 flagged=29
+2026-03-09T10:31:12 level=INFO     name=pipeline.orchestrator pid=73625 page=8 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:31:20 level=INFO     name=pipeline.orchestrator pid=73625 page=9 strategy=grid_projection cards=30 flagged=29
+2026-03-09T10:31:29 level=INFO     name=pipeline.orchestrator pid=73625 page=10 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:31:37 level=INFO     name=pipeline.orchestrator pid=73625 page=11 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:31:46 level=INFO     name=pipeline.orchestrator pid=73625 page=12 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:31:54 level=INFO     name=pipeline.orchestrator pid=73625 page=13 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:32:03 level=INFO     name=pipeline.orchestrator pid=73625 page=14 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:32:11 level=INFO     name=pipeline.orchestrator pid=73625 page=15 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:32:20 level=INFO     name=pipeline.orchestrator pid=73625 page=16 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:32:28 level=INFO     name=pipeline.orchestrator pid=73625 page=17 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:32:37 level=INFO     name=pipeline.orchestrator pid=73625 page=18 strategy=grid_projection cards=30 flagged=29
+2026-03-09T10:32:46 level=INFO     name=pipeline.orchestrator pid=73625 page=19 strategy=grid_projection cards=30 flagged=29
+2026-03-09T10:32:54 level=INFO     name=pipeline.orchestrator pid=73625 page=20 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:33:03 level=INFO     name=pipeline.orchestrator pid=73625 page=21 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:33:12 level=INFO     name=pipeline.orchestrator pid=73625 page=22 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:33:21 level=INFO     name=pipeline.orchestrator pid=73625 page=23 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:33:27 level=INFO     name=pipeline.orchestrator pid=73625 page=24 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:33:33 level=INFO     name=pipeline.orchestrator pid=73625 page=25 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:33:39 level=INFO     name=pipeline.orchestrator pid=73625 page=26 strategy=grid_projection cards=30 flagged=30
+2026-03-09T10:33:39 level=INFO     name=pipeline.orchestrator pid=73625 batch complete: success=26 failed=0 total=26
+2026-03-09T10:33:39 level=INFO     name=__main__ pid=73625 Results: success=26  review_queue=0  total_pages=26
+2026-03-09T10:33:39 level=INFO     name=__main__ pid=73625 Saved 780 voter records → output/excel/voter_roll_extracted.xlsx
+2026-03-09T10:55:25 level=INFO     name=__main__ pid=79547 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=output/excel
+2026-03-09T10:55:31 level=INFO     name=__main__ pid=79547 Rendered 26 page(s) at 300 DPI
+2026-03-09T10:55:32 level=WARNING  name=pipeline.orchestrator pid=79547 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T10:55:39 level=WARNING  name=pipeline.orchestrator pid=79547 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T10:55:39 level=WARNING  name=pipeline.orchestrator pid=79547 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-09T10:55:39 level=ERROR    name=pipeline.orchestrator pid=79547 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:55:40 level=WARNING  name=pipeline.orchestrator pid=79547 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-09T10:55:47 level=WARNING  name=pipeline.orchestrator pid=79547 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T10:55:47 level=WARNING  name=pipeline.orchestrator pid=79547 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-09T10:55:47 level=ERROR    name=pipeline.orchestrator pid=79547 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:55:56 level=WARNING  name=pipeline.orchestrator pid=79547 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T10:56:05 level=WARNING  name=pipeline.orchestrator pid=79547 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T10:56:05 level=WARNING  name=pipeline.orchestrator pid=79547 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:56:05 level=ERROR    name=pipeline.orchestrator pid=79547 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:56:14 level=WARNING  name=pipeline.orchestrator pid=79547 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T10:56:23 level=WARNING  name=pipeline.orchestrator pid=79547 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T10:56:23 level=WARNING  name=pipeline.orchestrator pid=79547 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:56:23 level=ERROR    name=pipeline.orchestrator pid=79547 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:56:32 level=WARNING  name=pipeline.orchestrator pid=79547 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T10:56:40 level=WARNING  name=pipeline.orchestrator pid=79547 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T10:56:40 level=WARNING  name=pipeline.orchestrator pid=79547 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:56:40 level=ERROR    name=pipeline.orchestrator pid=79547 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:56:49 level=WARNING  name=pipeline.orchestrator pid=79547 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T10:56:58 level=WARNING  name=pipeline.orchestrator pid=79547 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T10:56:58 level=WARNING  name=pipeline.orchestrator pid=79547 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:56:58 level=ERROR    name=pipeline.orchestrator pid=79547 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:57:07 level=WARNING  name=pipeline.orchestrator pid=79547 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T10:57:15 level=WARNING  name=pipeline.orchestrator pid=79547 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-09T10:57:15 level=WARNING  name=pipeline.orchestrator pid=79547 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:57:15 level=ERROR    name=pipeline.orchestrator pid=79547 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:57:24 level=WARNING  name=pipeline.orchestrator pid=79547 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T10:57:32 level=WARNING  name=pipeline.orchestrator pid=79547 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T10:57:33 level=WARNING  name=pipeline.orchestrator pid=79547 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:57:33 level=ERROR    name=pipeline.orchestrator pid=79547 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:57:41 level=WARNING  name=pipeline.orchestrator pid=79547 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T10:57:50 level=WARNING  name=pipeline.orchestrator pid=79547 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T10:57:50 level=WARNING  name=pipeline.orchestrator pid=79547 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:57:50 level=ERROR    name=pipeline.orchestrator pid=79547 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:57:59 level=WARNING  name=pipeline.orchestrator pid=79547 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-09T10:58:08 level=WARNING  name=pipeline.orchestrator pid=79547 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T10:58:08 level=WARNING  name=pipeline.orchestrator pid=79547 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:58:08 level=ERROR    name=pipeline.orchestrator pid=79547 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:58:17 level=WARNING  name=pipeline.orchestrator pid=79547 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T10:58:25 level=WARNING  name=pipeline.orchestrator pid=79547 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T10:58:25 level=WARNING  name=pipeline.orchestrator pid=79547 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:58:25 level=ERROR    name=pipeline.orchestrator pid=79547 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:58:34 level=WARNING  name=pipeline.orchestrator pid=79547 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T10:58:43 level=WARNING  name=pipeline.orchestrator pid=79547 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T10:58:43 level=WARNING  name=pipeline.orchestrator pid=79547 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:58:43 level=ERROR    name=pipeline.orchestrator pid=79547 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:58:52 level=WARNING  name=pipeline.orchestrator pid=79547 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T10:59:01 level=WARNING  name=pipeline.orchestrator pid=79547 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T10:59:01 level=WARNING  name=pipeline.orchestrator pid=79547 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:59:01 level=ERROR    name=pipeline.orchestrator pid=79547 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:59:10 level=WARNING  name=pipeline.orchestrator pid=79547 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T10:59:18 level=WARNING  name=pipeline.orchestrator pid=79547 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T10:59:18 level=WARNING  name=pipeline.orchestrator pid=79547 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:59:18 level=ERROR    name=pipeline.orchestrator pid=79547 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:59:27 level=WARNING  name=pipeline.orchestrator pid=79547 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T10:59:36 level=WARNING  name=pipeline.orchestrator pid=79547 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T10:59:36 level=WARNING  name=pipeline.orchestrator pid=79547 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:59:36 level=ERROR    name=pipeline.orchestrator pid=79547 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T10:59:44 level=WARNING  name=pipeline.orchestrator pid=79547 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T10:59:53 level=WARNING  name=pipeline.orchestrator pid=79547 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T10:59:53 level=WARNING  name=pipeline.orchestrator pid=79547 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T10:59:53 level=ERROR    name=pipeline.orchestrator pid=79547 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:00:02 level=WARNING  name=pipeline.orchestrator pid=79547 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:00:10 level=WARNING  name=pipeline.orchestrator pid=79547 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:00:10 level=WARNING  name=pipeline.orchestrator pid=79547 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:00:10 level=ERROR    name=pipeline.orchestrator pid=79547 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:00:20 level=WARNING  name=pipeline.orchestrator pid=79547 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:00:28 level=WARNING  name=pipeline.orchestrator pid=79547 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:00:29 level=WARNING  name=pipeline.orchestrator pid=79547 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:00:29 level=ERROR    name=pipeline.orchestrator pid=79547 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:00:38 level=WARNING  name=pipeline.orchestrator pid=79547 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:00:46 level=WARNING  name=pipeline.orchestrator pid=79547 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:00:46 level=WARNING  name=pipeline.orchestrator pid=79547 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:00:46 level=ERROR    name=pipeline.orchestrator pid=79547 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:00:55 level=WARNING  name=pipeline.orchestrator pid=79547 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:01:04 level=WARNING  name=pipeline.orchestrator pid=79547 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:01:04 level=WARNING  name=pipeline.orchestrator pid=79547 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:01:04 level=ERROR    name=pipeline.orchestrator pid=79547 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:01:14 level=WARNING  name=pipeline.orchestrator pid=79547 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:01:22 level=WARNING  name=pipeline.orchestrator pid=79547 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:01:22 level=WARNING  name=pipeline.orchestrator pid=79547 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:01:22 level=ERROR    name=pipeline.orchestrator pid=79547 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:01:32 level=WARNING  name=pipeline.orchestrator pid=79547 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:01:40 level=WARNING  name=pipeline.orchestrator pid=79547 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T11:01:40 level=WARNING  name=pipeline.orchestrator pid=79547 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:01:40 level=ERROR    name=pipeline.orchestrator pid=79547 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:01:50 level=WARNING  name=pipeline.orchestrator pid=79547 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:01:58 level=WARNING  name=pipeline.orchestrator pid=79547 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:01:59 level=WARNING  name=pipeline.orchestrator pid=79547 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:01:59 level=ERROR    name=pipeline.orchestrator pid=79547 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:02:00 level=WARNING  name=pipeline.orchestrator pid=79547 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-09T11:02:06 level=WARNING  name=pipeline.orchestrator pid=79547 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:02:06 level=WARNING  name=pipeline.orchestrator pid=79547 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:02:06 level=ERROR    name=pipeline.orchestrator pid=79547 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:02:07 level=WARNING  name=pipeline.orchestrator pid=79547 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-09T11:02:13 level=WARNING  name=pipeline.orchestrator pid=79547 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:02:13 level=WARNING  name=pipeline.orchestrator pid=79547 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T11:02:13 level=ERROR    name=pipeline.orchestrator pid=79547 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:02:13 level=WARNING  name=pipeline.orchestrator pid=79547 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T11:02:19 level=WARNING  name=pipeline.orchestrator pid=79547 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:02:19 level=WARNING  name=pipeline.orchestrator pid=79547 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T11:02:19 level=ERROR    name=pipeline.orchestrator pid=79547 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:02:19 level=INFO     name=pipeline.orchestrator pid=79547 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-09T11:02:19 level=INFO     name=__main__ pid=79547 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-09T11:02:19 level=WARNING  name=__main__ pid=79547 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-09T11:02:19 level=INFO     name=__main__ pid=79547 Human-review report saved → output/excel/human_review_queue.txt
+2026-03-09T11:48:45 level=INFO     name=__main__ pid=97733 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output
+2026-03-09T11:48:54 level=INFO     name=__main__ pid=97733 Rendered 26 page(s) at 300 DPI
+2026-03-09T11:48:55 level=WARNING  name=pipeline.orchestrator pid=97733 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T11:49:02 level=WARNING  name=pipeline.orchestrator pid=97733 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:49:02 level=WARNING  name=pipeline.orchestrator pid=97733 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-09T11:49:02 level=ERROR    name=pipeline.orchestrator pid=97733 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:49:04 level=WARNING  name=pipeline.orchestrator pid=97733 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-09T11:49:11 level=WARNING  name=pipeline.orchestrator pid=97733 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:49:11 level=WARNING  name=pipeline.orchestrator pid=97733 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-09T11:49:11 level=ERROR    name=pipeline.orchestrator pid=97733 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:49:21 level=WARNING  name=pipeline.orchestrator pid=97733 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:49:30 level=WARNING  name=pipeline.orchestrator pid=97733 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:49:30 level=WARNING  name=pipeline.orchestrator pid=97733 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:49:30 level=ERROR    name=pipeline.orchestrator pid=97733 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:49:40 level=WARNING  name=pipeline.orchestrator pid=97733 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:49:49 level=WARNING  name=pipeline.orchestrator pid=97733 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:49:49 level=WARNING  name=pipeline.orchestrator pid=97733 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:49:49 level=ERROR    name=pipeline.orchestrator pid=97733 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:49:58 level=WARNING  name=pipeline.orchestrator pid=97733 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:50:07 level=WARNING  name=pipeline.orchestrator pid=97733 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:50:08 level=WARNING  name=pipeline.orchestrator pid=97733 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:50:08 level=ERROR    name=pipeline.orchestrator pid=97733 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:50:17 level=WARNING  name=pipeline.orchestrator pid=97733 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:50:26 level=WARNING  name=pipeline.orchestrator pid=97733 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:50:26 level=WARNING  name=pipeline.orchestrator pid=97733 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:50:26 level=ERROR    name=pipeline.orchestrator pid=97733 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:50:36 level=WARNING  name=pipeline.orchestrator pid=97733 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:50:45 level=WARNING  name=pipeline.orchestrator pid=97733 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-09T11:50:45 level=WARNING  name=pipeline.orchestrator pid=97733 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:50:45 level=ERROR    name=pipeline.orchestrator pid=97733 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:50:54 level=WARNING  name=pipeline.orchestrator pid=97733 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:51:03 level=WARNING  name=pipeline.orchestrator pid=97733 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:51:03 level=WARNING  name=pipeline.orchestrator pid=97733 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:51:03 level=ERROR    name=pipeline.orchestrator pid=97733 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:51:12 level=WARNING  name=pipeline.orchestrator pid=97733 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:51:21 level=WARNING  name=pipeline.orchestrator pid=97733 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:51:21 level=WARNING  name=pipeline.orchestrator pid=97733 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:51:21 level=ERROR    name=pipeline.orchestrator pid=97733 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:51:30 level=WARNING  name=pipeline.orchestrator pid=97733 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-09T11:51:39 level=WARNING  name=pipeline.orchestrator pid=97733 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:51:39 level=WARNING  name=pipeline.orchestrator pid=97733 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:51:39 level=ERROR    name=pipeline.orchestrator pid=97733 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:51:48 level=WARNING  name=pipeline.orchestrator pid=97733 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T11:51:57 level=WARNING  name=pipeline.orchestrator pid=97733 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:51:57 level=WARNING  name=pipeline.orchestrator pid=97733 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:51:57 level=ERROR    name=pipeline.orchestrator pid=97733 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:52:06 level=WARNING  name=pipeline.orchestrator pid=97733 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:52:15 level=WARNING  name=pipeline.orchestrator pid=97733 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:52:15 level=WARNING  name=pipeline.orchestrator pid=97733 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:52:15 level=ERROR    name=pipeline.orchestrator pid=97733 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:52:24 level=WARNING  name=pipeline.orchestrator pid=97733 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:52:32 level=WARNING  name=pipeline.orchestrator pid=97733 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:52:32 level=WARNING  name=pipeline.orchestrator pid=97733 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:52:32 level=ERROR    name=pipeline.orchestrator pid=97733 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:52:41 level=WARNING  name=pipeline.orchestrator pid=97733 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:52:50 level=WARNING  name=pipeline.orchestrator pid=97733 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:52:50 level=WARNING  name=pipeline.orchestrator pid=97733 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:52:50 level=ERROR    name=pipeline.orchestrator pid=97733 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:52:59 level=WARNING  name=pipeline.orchestrator pid=97733 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:53:07 level=WARNING  name=pipeline.orchestrator pid=97733 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:53:07 level=WARNING  name=pipeline.orchestrator pid=97733 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:53:07 level=ERROR    name=pipeline.orchestrator pid=97733 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:53:16 level=WARNING  name=pipeline.orchestrator pid=97733 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:53:25 level=WARNING  name=pipeline.orchestrator pid=97733 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:53:25 level=WARNING  name=pipeline.orchestrator pid=97733 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:53:25 level=ERROR    name=pipeline.orchestrator pid=97733 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:53:34 level=WARNING  name=pipeline.orchestrator pid=97733 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:53:42 level=WARNING  name=pipeline.orchestrator pid=97733 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:53:42 level=WARNING  name=pipeline.orchestrator pid=97733 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:53:42 level=ERROR    name=pipeline.orchestrator pid=97733 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:53:51 level=WARNING  name=pipeline.orchestrator pid=97733 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:54:00 level=WARNING  name=pipeline.orchestrator pid=97733 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T11:54:00 level=WARNING  name=pipeline.orchestrator pid=97733 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:54:00 level=ERROR    name=pipeline.orchestrator pid=97733 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:54:09 level=WARNING  name=pipeline.orchestrator pid=97733 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:54:17 level=WARNING  name=pipeline.orchestrator pid=97733 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:54:18 level=WARNING  name=pipeline.orchestrator pid=97733 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:54:18 level=ERROR    name=pipeline.orchestrator pid=97733 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:54:27 level=WARNING  name=pipeline.orchestrator pid=97733 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:54:36 level=WARNING  name=pipeline.orchestrator pid=97733 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:54:36 level=WARNING  name=pipeline.orchestrator pid=97733 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:54:36 level=ERROR    name=pipeline.orchestrator pid=97733 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:54:45 level=WARNING  name=pipeline.orchestrator pid=97733 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:54:54 level=WARNING  name=pipeline.orchestrator pid=97733 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:54:54 level=WARNING  name=pipeline.orchestrator pid=97733 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:54:54 level=ERROR    name=pipeline.orchestrator pid=97733 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:55:03 level=WARNING  name=pipeline.orchestrator pid=97733 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:55:12 level=WARNING  name=pipeline.orchestrator pid=97733 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T11:55:12 level=WARNING  name=pipeline.orchestrator pid=97733 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:55:12 level=ERROR    name=pipeline.orchestrator pid=97733 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:55:21 level=WARNING  name=pipeline.orchestrator pid=97733 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:55:30 level=WARNING  name=pipeline.orchestrator pid=97733 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T11:55:30 level=WARNING  name=pipeline.orchestrator pid=97733 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:55:30 level=ERROR    name=pipeline.orchestrator pid=97733 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:55:31 level=WARNING  name=pipeline.orchestrator pid=97733 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-09T11:55:37 level=WARNING  name=pipeline.orchestrator pid=97733 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T11:55:37 level=WARNING  name=pipeline.orchestrator pid=97733 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T11:55:37 level=ERROR    name=pipeline.orchestrator pid=97733 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:55:38 level=WARNING  name=pipeline.orchestrator pid=97733 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-09T11:55:43 level=WARNING  name=pipeline.orchestrator pid=97733 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:55:44 level=WARNING  name=pipeline.orchestrator pid=97733 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T11:55:44 level=ERROR    name=pipeline.orchestrator pid=97733 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:55:44 level=WARNING  name=pipeline.orchestrator pid=97733 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T11:55:50 level=WARNING  name=pipeline.orchestrator pid=97733 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T11:55:50 level=WARNING  name=pipeline.orchestrator pid=97733 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T11:55:50 level=ERROR    name=pipeline.orchestrator pid=97733 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T11:55:50 level=INFO     name=pipeline.orchestrator pid=97733 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-09T11:55:50 level=INFO     name=__main__ pid=97733 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-09T11:55:50 level=WARNING  name=__main__ pid=97733 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-09T11:55:50 level=INFO     name=__main__ pid=97733 Human-review report saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.txt
+2026-03-09T11:55:51 level=INFO     name=__main__ pid=97733 Review assets saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.json  (26 items, crops in /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/crops)
+2026-03-09T12:01:43 level=INFO     name=__main__ pid=2553 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output
+2026-03-09T12:01:47 level=INFO     name=__main__ pid=2553 Rendered 26 page(s) at 300 DPI
+2026-03-09T12:01:48 level=WARNING  name=pipeline.orchestrator pid=2553 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T12:01:55 level=WARNING  name=pipeline.orchestrator pid=2553 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:01:55 level=WARNING  name=pipeline.orchestrator pid=2553 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-09T12:01:55 level=ERROR    name=pipeline.orchestrator pid=2553 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:01:57 level=WARNING  name=pipeline.orchestrator pid=2553 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-09T12:02:04 level=WARNING  name=pipeline.orchestrator pid=2553 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:02:04 level=WARNING  name=pipeline.orchestrator pid=2553 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-09T12:02:04 level=ERROR    name=pipeline.orchestrator pid=2553 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:02:14 level=WARNING  name=pipeline.orchestrator pid=2553 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:02:23 level=WARNING  name=pipeline.orchestrator pid=2553 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:02:23 level=WARNING  name=pipeline.orchestrator pid=2553 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:02:23 level=ERROR    name=pipeline.orchestrator pid=2553 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:02:33 level=WARNING  name=pipeline.orchestrator pid=2553 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:02:42 level=WARNING  name=pipeline.orchestrator pid=2553 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:02:42 level=WARNING  name=pipeline.orchestrator pid=2553 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:02:42 level=ERROR    name=pipeline.orchestrator pid=2553 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:02:52 level=WARNING  name=pipeline.orchestrator pid=2553 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:03:01 level=WARNING  name=pipeline.orchestrator pid=2553 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:03:01 level=WARNING  name=pipeline.orchestrator pid=2553 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:03:01 level=ERROR    name=pipeline.orchestrator pid=2553 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:03:11 level=WARNING  name=pipeline.orchestrator pid=2553 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:03:20 level=WARNING  name=pipeline.orchestrator pid=2553 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:03:20 level=WARNING  name=pipeline.orchestrator pid=2553 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:03:20 level=ERROR    name=pipeline.orchestrator pid=2553 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:03:29 level=WARNING  name=pipeline.orchestrator pid=2553 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:03:38 level=WARNING  name=pipeline.orchestrator pid=2553 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-09T12:03:38 level=WARNING  name=pipeline.orchestrator pid=2553 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:03:38 level=ERROR    name=pipeline.orchestrator pid=2553 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:03:47 level=WARNING  name=pipeline.orchestrator pid=2553 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:03:56 level=WARNING  name=pipeline.orchestrator pid=2553 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:03:56 level=WARNING  name=pipeline.orchestrator pid=2553 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:03:56 level=ERROR    name=pipeline.orchestrator pid=2553 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:04:05 level=WARNING  name=pipeline.orchestrator pid=2553 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:04:13 level=WARNING  name=pipeline.orchestrator pid=2553 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:04:13 level=WARNING  name=pipeline.orchestrator pid=2553 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:04:13 level=ERROR    name=pipeline.orchestrator pid=2553 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:04:22 level=WARNING  name=pipeline.orchestrator pid=2553 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-09T12:04:31 level=WARNING  name=pipeline.orchestrator pid=2553 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:04:31 level=WARNING  name=pipeline.orchestrator pid=2553 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:04:31 level=ERROR    name=pipeline.orchestrator pid=2553 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:04:40 level=WARNING  name=pipeline.orchestrator pid=2553 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T12:04:49 level=WARNING  name=pipeline.orchestrator pid=2553 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:04:49 level=WARNING  name=pipeline.orchestrator pid=2553 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:04:49 level=ERROR    name=pipeline.orchestrator pid=2553 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:04:58 level=WARNING  name=pipeline.orchestrator pid=2553 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:05:06 level=WARNING  name=pipeline.orchestrator pid=2553 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:05:06 level=WARNING  name=pipeline.orchestrator pid=2553 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:05:06 level=ERROR    name=pipeline.orchestrator pid=2553 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:05:16 level=WARNING  name=pipeline.orchestrator pid=2553 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:05:24 level=WARNING  name=pipeline.orchestrator pid=2553 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:05:24 level=WARNING  name=pipeline.orchestrator pid=2553 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:05:24 level=ERROR    name=pipeline.orchestrator pid=2553 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:05:33 level=WARNING  name=pipeline.orchestrator pid=2553 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:05:42 level=WARNING  name=pipeline.orchestrator pid=2553 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:05:42 level=WARNING  name=pipeline.orchestrator pid=2553 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:05:42 level=ERROR    name=pipeline.orchestrator pid=2553 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:05:51 level=WARNING  name=pipeline.orchestrator pid=2553 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:05:59 level=WARNING  name=pipeline.orchestrator pid=2553 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:05:59 level=WARNING  name=pipeline.orchestrator pid=2553 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:05:59 level=ERROR    name=pipeline.orchestrator pid=2553 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:06:08 level=WARNING  name=pipeline.orchestrator pid=2553 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:06:17 level=WARNING  name=pipeline.orchestrator pid=2553 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:06:17 level=WARNING  name=pipeline.orchestrator pid=2553 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:06:17 level=ERROR    name=pipeline.orchestrator pid=2553 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:06:26 level=WARNING  name=pipeline.orchestrator pid=2553 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:06:34 level=WARNING  name=pipeline.orchestrator pid=2553 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:06:34 level=WARNING  name=pipeline.orchestrator pid=2553 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:06:34 level=ERROR    name=pipeline.orchestrator pid=2553 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:06:43 level=WARNING  name=pipeline.orchestrator pid=2553 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:06:52 level=WARNING  name=pipeline.orchestrator pid=2553 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:06:52 level=WARNING  name=pipeline.orchestrator pid=2553 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:06:52 level=ERROR    name=pipeline.orchestrator pid=2553 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:07:01 level=WARNING  name=pipeline.orchestrator pid=2553 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:07:10 level=WARNING  name=pipeline.orchestrator pid=2553 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:07:10 level=WARNING  name=pipeline.orchestrator pid=2553 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:07:10 level=ERROR    name=pipeline.orchestrator pid=2553 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:07:19 level=WARNING  name=pipeline.orchestrator pid=2553 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:07:28 level=WARNING  name=pipeline.orchestrator pid=2553 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:07:28 level=WARNING  name=pipeline.orchestrator pid=2553 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:07:28 level=ERROR    name=pipeline.orchestrator pid=2553 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:07:37 level=WARNING  name=pipeline.orchestrator pid=2553 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:07:46 level=WARNING  name=pipeline.orchestrator pid=2553 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:07:46 level=WARNING  name=pipeline.orchestrator pid=2553 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:07:46 level=ERROR    name=pipeline.orchestrator pid=2553 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:07:55 level=WARNING  name=pipeline.orchestrator pid=2553 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:08:04 level=WARNING  name=pipeline.orchestrator pid=2553 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T12:08:04 level=WARNING  name=pipeline.orchestrator pid=2553 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:08:04 level=ERROR    name=pipeline.orchestrator pid=2553 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:08:13 level=WARNING  name=pipeline.orchestrator pid=2553 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:08:22 level=WARNING  name=pipeline.orchestrator pid=2553 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:08:22 level=WARNING  name=pipeline.orchestrator pid=2553 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:08:22 level=ERROR    name=pipeline.orchestrator pid=2553 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:08:23 level=WARNING  name=pipeline.orchestrator pid=2553 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-09T12:08:29 level=WARNING  name=pipeline.orchestrator pid=2553 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:08:29 level=WARNING  name=pipeline.orchestrator pid=2553 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:08:29 level=ERROR    name=pipeline.orchestrator pid=2553 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:08:30 level=WARNING  name=pipeline.orchestrator pid=2553 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-09T12:08:36 level=WARNING  name=pipeline.orchestrator pid=2553 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:08:36 level=WARNING  name=pipeline.orchestrator pid=2553 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T12:08:36 level=ERROR    name=pipeline.orchestrator pid=2553 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:08:36 level=WARNING  name=pipeline.orchestrator pid=2553 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T12:08:42 level=WARNING  name=pipeline.orchestrator pid=2553 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:08:42 level=WARNING  name=pipeline.orchestrator pid=2553 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T12:08:42 level=ERROR    name=pipeline.orchestrator pid=2553 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:08:42 level=INFO     name=pipeline.orchestrator pid=2553 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-09T12:08:42 level=INFO     name=__main__ pid=2553 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-09T12:08:42 level=WARNING  name=__main__ pid=2553 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-09T12:08:42 level=INFO     name=__main__ pid=2553 Human-review report saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.txt
+2026-03-09T12:08:43 level=INFO     name=__main__ pid=2553 Review assets saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.json  (26 items, crops in /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/crops)
+2026-03-09T12:14:19 level=INFO     name=__main__ pid=7391 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output
+2026-03-09T12:14:24 level=INFO     name=__main__ pid=7391 Rendered 26 page(s) at 300 DPI
+2026-03-09T12:14:25 level=WARNING  name=pipeline.orchestrator pid=7391 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T12:14:32 level=WARNING  name=pipeline.orchestrator pid=7391 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:14:32 level=WARNING  name=pipeline.orchestrator pid=7391 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-09T12:14:32 level=ERROR    name=pipeline.orchestrator pid=7391 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:14:33 level=WARNING  name=pipeline.orchestrator pid=7391 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-09T12:14:40 level=WARNING  name=pipeline.orchestrator pid=7391 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:14:40 level=WARNING  name=pipeline.orchestrator pid=7391 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-09T12:14:40 level=ERROR    name=pipeline.orchestrator pid=7391 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:14:49 level=WARNING  name=pipeline.orchestrator pid=7391 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:14:58 level=WARNING  name=pipeline.orchestrator pid=7391 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:14:58 level=WARNING  name=pipeline.orchestrator pid=7391 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:14:58 level=ERROR    name=pipeline.orchestrator pid=7391 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:15:07 level=WARNING  name=pipeline.orchestrator pid=7391 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:15:15 level=WARNING  name=pipeline.orchestrator pid=7391 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:15:15 level=WARNING  name=pipeline.orchestrator pid=7391 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:15:15 level=ERROR    name=pipeline.orchestrator pid=7391 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:15:24 level=WARNING  name=pipeline.orchestrator pid=7391 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:15:33 level=WARNING  name=pipeline.orchestrator pid=7391 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:15:33 level=WARNING  name=pipeline.orchestrator pid=7391 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:15:33 level=ERROR    name=pipeline.orchestrator pid=7391 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:15:42 level=WARNING  name=pipeline.orchestrator pid=7391 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:15:50 level=WARNING  name=pipeline.orchestrator pid=7391 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:15:50 level=WARNING  name=pipeline.orchestrator pid=7391 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:15:50 level=ERROR    name=pipeline.orchestrator pid=7391 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:15:59 level=WARNING  name=pipeline.orchestrator pid=7391 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:16:08 level=WARNING  name=pipeline.orchestrator pid=7391 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-09T12:16:08 level=WARNING  name=pipeline.orchestrator pid=7391 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:16:08 level=ERROR    name=pipeline.orchestrator pid=7391 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:16:17 level=WARNING  name=pipeline.orchestrator pid=7391 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:16:25 level=WARNING  name=pipeline.orchestrator pid=7391 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:16:25 level=WARNING  name=pipeline.orchestrator pid=7391 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:16:25 level=ERROR    name=pipeline.orchestrator pid=7391 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:16:34 level=WARNING  name=pipeline.orchestrator pid=7391 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:16:42 level=WARNING  name=pipeline.orchestrator pid=7391 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:16:42 level=WARNING  name=pipeline.orchestrator pid=7391 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:16:42 level=ERROR    name=pipeline.orchestrator pid=7391 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:16:52 level=WARNING  name=pipeline.orchestrator pid=7391 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-09T12:17:00 level=WARNING  name=pipeline.orchestrator pid=7391 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:17:00 level=WARNING  name=pipeline.orchestrator pid=7391 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:17:00 level=ERROR    name=pipeline.orchestrator pid=7391 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:17:10 level=WARNING  name=pipeline.orchestrator pid=7391 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T12:17:18 level=WARNING  name=pipeline.orchestrator pid=7391 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:17:19 level=WARNING  name=pipeline.orchestrator pid=7391 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:17:19 level=ERROR    name=pipeline.orchestrator pid=7391 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:17:27 level=WARNING  name=pipeline.orchestrator pid=7391 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:17:36 level=WARNING  name=pipeline.orchestrator pid=7391 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:17:36 level=WARNING  name=pipeline.orchestrator pid=7391 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:17:36 level=ERROR    name=pipeline.orchestrator pid=7391 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:17:45 level=WARNING  name=pipeline.orchestrator pid=7391 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:17:53 level=WARNING  name=pipeline.orchestrator pid=7391 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:17:54 level=WARNING  name=pipeline.orchestrator pid=7391 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:17:54 level=ERROR    name=pipeline.orchestrator pid=7391 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:18:03 level=WARNING  name=pipeline.orchestrator pid=7391 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:18:12 level=WARNING  name=pipeline.orchestrator pid=7391 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:18:12 level=WARNING  name=pipeline.orchestrator pid=7391 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:18:12 level=ERROR    name=pipeline.orchestrator pid=7391 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:18:21 level=WARNING  name=pipeline.orchestrator pid=7391 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:18:29 level=WARNING  name=pipeline.orchestrator pid=7391 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:18:29 level=WARNING  name=pipeline.orchestrator pid=7391 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:18:29 level=ERROR    name=pipeline.orchestrator pid=7391 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:18:38 level=WARNING  name=pipeline.orchestrator pid=7391 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:18:47 level=WARNING  name=pipeline.orchestrator pid=7391 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:18:47 level=WARNING  name=pipeline.orchestrator pid=7391 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:18:47 level=ERROR    name=pipeline.orchestrator pid=7391 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:18:56 level=WARNING  name=pipeline.orchestrator pid=7391 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:19:04 level=WARNING  name=pipeline.orchestrator pid=7391 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:19:04 level=WARNING  name=pipeline.orchestrator pid=7391 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:19:04 level=ERROR    name=pipeline.orchestrator pid=7391 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:19:13 level=WARNING  name=pipeline.orchestrator pid=7391 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:19:22 level=WARNING  name=pipeline.orchestrator pid=7391 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T12:19:22 level=WARNING  name=pipeline.orchestrator pid=7391 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:19:22 level=ERROR    name=pipeline.orchestrator pid=7391 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:19:31 level=WARNING  name=pipeline.orchestrator pid=7391 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:19:39 level=WARNING  name=pipeline.orchestrator pid=7391 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:19:39 level=WARNING  name=pipeline.orchestrator pid=7391 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:19:39 level=ERROR    name=pipeline.orchestrator pid=7391 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:19:49 level=WARNING  name=pipeline.orchestrator pid=7391 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:19:58 level=WARNING  name=pipeline.orchestrator pid=7391 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:19:58 level=WARNING  name=pipeline.orchestrator pid=7391 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:19:58 level=ERROR    name=pipeline.orchestrator pid=7391 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:20:07 level=WARNING  name=pipeline.orchestrator pid=7391 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:20:16 level=WARNING  name=pipeline.orchestrator pid=7391 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:20:16 level=WARNING  name=pipeline.orchestrator pid=7391 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:20:16 level=ERROR    name=pipeline.orchestrator pid=7391 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:20:25 level=WARNING  name=pipeline.orchestrator pid=7391 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:20:33 level=WARNING  name=pipeline.orchestrator pid=7391 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T12:20:33 level=WARNING  name=pipeline.orchestrator pid=7391 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:20:33 level=ERROR    name=pipeline.orchestrator pid=7391 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:20:43 level=WARNING  name=pipeline.orchestrator pid=7391 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:20:51 level=WARNING  name=pipeline.orchestrator pid=7391 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T12:20:51 level=WARNING  name=pipeline.orchestrator pid=7391 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:20:51 level=ERROR    name=pipeline.orchestrator pid=7391 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:20:53 level=WARNING  name=pipeline.orchestrator pid=7391 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-09T12:20:59 level=WARNING  name=pipeline.orchestrator pid=7391 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T12:20:59 level=WARNING  name=pipeline.orchestrator pid=7391 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T12:20:59 level=ERROR    name=pipeline.orchestrator pid=7391 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:21:00 level=WARNING  name=pipeline.orchestrator pid=7391 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-09T12:21:05 level=WARNING  name=pipeline.orchestrator pid=7391 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:21:05 level=WARNING  name=pipeline.orchestrator pid=7391 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T12:21:05 level=ERROR    name=pipeline.orchestrator pid=7391 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:21:06 level=WARNING  name=pipeline.orchestrator pid=7391 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T12:21:12 level=WARNING  name=pipeline.orchestrator pid=7391 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T12:21:12 level=WARNING  name=pipeline.orchestrator pid=7391 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T12:21:12 level=ERROR    name=pipeline.orchestrator pid=7391 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T12:21:12 level=INFO     name=pipeline.orchestrator pid=7391 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-09T12:21:12 level=INFO     name=__main__ pid=7391 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-09T12:21:12 level=WARNING  name=__main__ pid=7391 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-09T12:21:12 level=INFO     name=__main__ pid=7391 Human-review report saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.txt
+2026-03-09T12:21:13 level=INFO     name=__main__ pid=7391 Review assets saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.json  (26 items, crops in /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/crops)
+2026-03-09T14:03:58 level=INFO     name=__main__ pid=17176 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output
+2026-03-09T14:04:01 level=INFO     name=__main__ pid=17176 Rendered 26 page(s) at 300 DPI
+2026-03-09T14:04:02 level=WARNING  name=pipeline.orchestrator pid=17176 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T14:04:05 level=WARNING  name=pipeline.orchestrator pid=17176 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:04:05 level=WARNING  name=pipeline.orchestrator pid=17176 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-09T14:04:05 level=ERROR    name=pipeline.orchestrator pid=17176 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:04:06 level=WARNING  name=pipeline.orchestrator pid=17176 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-09T14:04:09 level=WARNING  name=pipeline.orchestrator pid=17176 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:04:09 level=WARNING  name=pipeline.orchestrator pid=17176 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-09T14:04:09 level=ERROR    name=pipeline.orchestrator pid=17176 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:04:14 level=WARNING  name=pipeline.orchestrator pid=17176 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:04:18 level=WARNING  name=pipeline.orchestrator pid=17176 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:04:19 level=WARNING  name=pipeline.orchestrator pid=17176 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:04:19 level=ERROR    name=pipeline.orchestrator pid=17176 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:04:23 level=WARNING  name=pipeline.orchestrator pid=17176 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:04:28 level=WARNING  name=pipeline.orchestrator pid=17176 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:04:28 level=WARNING  name=pipeline.orchestrator pid=17176 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:04:28 level=ERROR    name=pipeline.orchestrator pid=17176 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:04:33 level=WARNING  name=pipeline.orchestrator pid=17176 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:04:39 level=WARNING  name=pipeline.orchestrator pid=17176 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:04:39 level=WARNING  name=pipeline.orchestrator pid=17176 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:04:39 level=ERROR    name=pipeline.orchestrator pid=17176 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:04:43 level=WARNING  name=pipeline.orchestrator pid=17176 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:04:48 level=WARNING  name=pipeline.orchestrator pid=17176 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:04:48 level=WARNING  name=pipeline.orchestrator pid=17176 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:04:48 level=ERROR    name=pipeline.orchestrator pid=17176 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:04:53 level=WARNING  name=pipeline.orchestrator pid=17176 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:04:57 level=WARNING  name=pipeline.orchestrator pid=17176 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-09T14:04:57 level=WARNING  name=pipeline.orchestrator pid=17176 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:04:57 level=ERROR    name=pipeline.orchestrator pid=17176 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:05:02 level=WARNING  name=pipeline.orchestrator pid=17176 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:05:07 level=WARNING  name=pipeline.orchestrator pid=17176 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T14:05:07 level=WARNING  name=pipeline.orchestrator pid=17176 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:05:07 level=ERROR    name=pipeline.orchestrator pid=17176 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:05:11 level=WARNING  name=pipeline.orchestrator pid=17176 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:05:16 level=WARNING  name=pipeline.orchestrator pid=17176 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T14:05:16 level=WARNING  name=pipeline.orchestrator pid=17176 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:05:16 level=ERROR    name=pipeline.orchestrator pid=17176 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:05:20 level=WARNING  name=pipeline.orchestrator pid=17176 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-09T14:05:25 level=WARNING  name=pipeline.orchestrator pid=17176 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T14:05:25 level=WARNING  name=pipeline.orchestrator pid=17176 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:05:25 level=ERROR    name=pipeline.orchestrator pid=17176 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:05:30 level=WARNING  name=pipeline.orchestrator pid=17176 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T14:05:34 level=WARNING  name=pipeline.orchestrator pid=17176 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:05:34 level=WARNING  name=pipeline.orchestrator pid=17176 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:05:34 level=ERROR    name=pipeline.orchestrator pid=17176 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:05:39 level=WARNING  name=pipeline.orchestrator pid=17176 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T14:05:44 level=WARNING  name=pipeline.orchestrator pid=17176 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:05:44 level=WARNING  name=pipeline.orchestrator pid=17176 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:05:44 level=ERROR    name=pipeline.orchestrator pid=17176 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:05:49 level=WARNING  name=pipeline.orchestrator pid=17176 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:05:53 level=WARNING  name=pipeline.orchestrator pid=17176 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T14:05:53 level=WARNING  name=pipeline.orchestrator pid=17176 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:05:53 level=ERROR    name=pipeline.orchestrator pid=17176 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:05:58 level=WARNING  name=pipeline.orchestrator pid=17176 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:06:03 level=WARNING  name=pipeline.orchestrator pid=17176 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:06:03 level=WARNING  name=pipeline.orchestrator pid=17176 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:06:03 level=ERROR    name=pipeline.orchestrator pid=17176 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:06:07 level=WARNING  name=pipeline.orchestrator pid=17176 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:06:12 level=WARNING  name=pipeline.orchestrator pid=17176 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T14:06:12 level=WARNING  name=pipeline.orchestrator pid=17176 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:06:12 level=ERROR    name=pipeline.orchestrator pid=17176 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:06:17 level=WARNING  name=pipeline.orchestrator pid=17176 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:06:21 level=WARNING  name=pipeline.orchestrator pid=17176 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T14:06:21 level=WARNING  name=pipeline.orchestrator pid=17176 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:06:21 level=ERROR    name=pipeline.orchestrator pid=17176 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:06:26 level=WARNING  name=pipeline.orchestrator pid=17176 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:06:30 level=WARNING  name=pipeline.orchestrator pid=17176 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:06:30 level=WARNING  name=pipeline.orchestrator pid=17176 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:06:30 level=ERROR    name=pipeline.orchestrator pid=17176 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:06:35 level=WARNING  name=pipeline.orchestrator pid=17176 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:06:40 level=WARNING  name=pipeline.orchestrator pid=17176 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-09T14:06:40 level=WARNING  name=pipeline.orchestrator pid=17176 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:06:40 level=ERROR    name=pipeline.orchestrator pid=17176 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:06:45 level=WARNING  name=pipeline.orchestrator pid=17176 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:06:49 level=WARNING  name=pipeline.orchestrator pid=17176 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:06:49 level=WARNING  name=pipeline.orchestrator pid=17176 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:06:49 level=ERROR    name=pipeline.orchestrator pid=17176 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:06:54 level=WARNING  name=pipeline.orchestrator pid=17176 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:06:59 level=WARNING  name=pipeline.orchestrator pid=17176 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:06:59 level=WARNING  name=pipeline.orchestrator pid=17176 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:06:59 level=ERROR    name=pipeline.orchestrator pid=17176 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:07:04 level=WARNING  name=pipeline.orchestrator pid=17176 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:07:09 level=WARNING  name=pipeline.orchestrator pid=17176 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:07:09 level=WARNING  name=pipeline.orchestrator pid=17176 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:07:09 level=ERROR    name=pipeline.orchestrator pid=17176 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:07:14 level=WARNING  name=pipeline.orchestrator pid=17176 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:07:18 level=WARNING  name=pipeline.orchestrator pid=17176 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-09T14:07:18 level=WARNING  name=pipeline.orchestrator pid=17176 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:07:18 level=ERROR    name=pipeline.orchestrator pid=17176 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:07:23 level=WARNING  name=pipeline.orchestrator pid=17176 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:07:27 level=WARNING  name=pipeline.orchestrator pid=17176 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-09T14:07:27 level=WARNING  name=pipeline.orchestrator pid=17176 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:07:27 level=ERROR    name=pipeline.orchestrator pid=17176 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:07:28 level=WARNING  name=pipeline.orchestrator pid=17176 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-09T14:07:31 level=WARNING  name=pipeline.orchestrator pid=17176 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-09T14:07:31 level=WARNING  name=pipeline.orchestrator pid=17176 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-09T14:07:31 level=ERROR    name=pipeline.orchestrator pid=17176 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:07:32 level=WARNING  name=pipeline.orchestrator pid=17176 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-09T14:07:35 level=WARNING  name=pipeline.orchestrator pid=17176 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:07:35 level=WARNING  name=pipeline.orchestrator pid=17176 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T14:07:35 level=ERROR    name=pipeline.orchestrator pid=17176 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:07:35 level=WARNING  name=pipeline.orchestrator pid=17176 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-09T14:07:38 level=WARNING  name=pipeline.orchestrator pid=17176 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-09T14:07:38 level=WARNING  name=pipeline.orchestrator pid=17176 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-09T14:07:38 level=ERROR    name=pipeline.orchestrator pid=17176 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-09T14:07:38 level=INFO     name=pipeline.orchestrator pid=17176 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-09T14:07:38 level=INFO     name=__main__ pid=17176 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-09T14:07:38 level=WARNING  name=__main__ pid=17176 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-09T14:07:38 level=INFO     name=__main__ pid=17176 Human-review report saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.txt
+2026-03-09T14:07:39 level=INFO     name=__main__ pid=17176 Review assets saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.json  (26 items, crops in /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/crops)
+2026-03-11T09:18:45 level=INFO     name=__main__ pid=51449 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output
+2026-03-11T09:18:49 level=INFO     name=__main__ pid=51449 Rendered 26 page(s) at 300 DPI
+2026-03-11T09:18:50 level=WARNING  name=pipeline.orchestrator pid=51449 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-11T09:18:57 level=WARNING  name=pipeline.orchestrator pid=51449 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:18:57 level=WARNING  name=pipeline.orchestrator pid=51449 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-11T09:18:57 level=ERROR    name=pipeline.orchestrator pid=51449 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:18:58 level=WARNING  name=pipeline.orchestrator pid=51449 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-11T09:19:05 level=WARNING  name=pipeline.orchestrator pid=51449 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:19:05 level=WARNING  name=pipeline.orchestrator pid=51449 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-11T09:19:05 level=ERROR    name=pipeline.orchestrator pid=51449 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:19:15 level=WARNING  name=pipeline.orchestrator pid=51449 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:19:24 level=WARNING  name=pipeline.orchestrator pid=51449 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:19:24 level=WARNING  name=pipeline.orchestrator pid=51449 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:19:24 level=ERROR    name=pipeline.orchestrator pid=51449 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:19:36 level=WARNING  name=pipeline.orchestrator pid=51449 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:19:50 level=WARNING  name=pipeline.orchestrator pid=51449 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:19:50 level=WARNING  name=pipeline.orchestrator pid=51449 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:19:50 level=ERROR    name=pipeline.orchestrator pid=51449 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:20:00 level=WARNING  name=pipeline.orchestrator pid=51449 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:20:09 level=WARNING  name=pipeline.orchestrator pid=51449 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:20:09 level=WARNING  name=pipeline.orchestrator pid=51449 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:20:09 level=ERROR    name=pipeline.orchestrator pid=51449 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:20:20 level=WARNING  name=pipeline.orchestrator pid=51449 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:20:28 level=WARNING  name=pipeline.orchestrator pid=51449 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:20:29 level=WARNING  name=pipeline.orchestrator pid=51449 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:20:29 level=ERROR    name=pipeline.orchestrator pid=51449 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:20:38 level=WARNING  name=pipeline.orchestrator pid=51449 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:20:47 level=WARNING  name=pipeline.orchestrator pid=51449 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-11T09:20:47 level=WARNING  name=pipeline.orchestrator pid=51449 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:20:47 level=ERROR    name=pipeline.orchestrator pid=51449 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:20:56 level=WARNING  name=pipeline.orchestrator pid=51449 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:21:04 level=WARNING  name=pipeline.orchestrator pid=51449 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T09:21:04 level=WARNING  name=pipeline.orchestrator pid=51449 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:21:04 level=ERROR    name=pipeline.orchestrator pid=51449 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:21:13 level=WARNING  name=pipeline.orchestrator pid=51449 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:21:22 level=WARNING  name=pipeline.orchestrator pid=51449 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T09:21:22 level=WARNING  name=pipeline.orchestrator pid=51449 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:21:22 level=ERROR    name=pipeline.orchestrator pid=51449 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:21:31 level=WARNING  name=pipeline.orchestrator pid=51449 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-11T09:21:40 level=WARNING  name=pipeline.orchestrator pid=51449 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T09:21:40 level=WARNING  name=pipeline.orchestrator pid=51449 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:21:40 level=ERROR    name=pipeline.orchestrator pid=51449 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:21:50 level=WARNING  name=pipeline.orchestrator pid=51449 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-11T09:22:00 level=WARNING  name=pipeline.orchestrator pid=51449 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:22:00 level=WARNING  name=pipeline.orchestrator pid=51449 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:22:00 level=ERROR    name=pipeline.orchestrator pid=51449 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:22:10 level=WARNING  name=pipeline.orchestrator pid=51449 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T09:22:19 level=WARNING  name=pipeline.orchestrator pid=51449 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:22:19 level=WARNING  name=pipeline.orchestrator pid=51449 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:22:19 level=ERROR    name=pipeline.orchestrator pid=51449 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:22:28 level=WARNING  name=pipeline.orchestrator pid=51449 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:22:36 level=WARNING  name=pipeline.orchestrator pid=51449 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T09:22:36 level=WARNING  name=pipeline.orchestrator pid=51449 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:22:36 level=ERROR    name=pipeline.orchestrator pid=51449 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:22:46 level=WARNING  name=pipeline.orchestrator pid=51449 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:22:55 level=WARNING  name=pipeline.orchestrator pid=51449 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:22:55 level=WARNING  name=pipeline.orchestrator pid=51449 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:22:55 level=ERROR    name=pipeline.orchestrator pid=51449 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:23:05 level=WARNING  name=pipeline.orchestrator pid=51449 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:23:14 level=WARNING  name=pipeline.orchestrator pid=51449 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T09:23:14 level=WARNING  name=pipeline.orchestrator pid=51449 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:23:14 level=ERROR    name=pipeline.orchestrator pid=51449 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:23:23 level=WARNING  name=pipeline.orchestrator pid=51449 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:23:31 level=WARNING  name=pipeline.orchestrator pid=51449 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T09:23:31 level=WARNING  name=pipeline.orchestrator pid=51449 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:23:31 level=ERROR    name=pipeline.orchestrator pid=51449 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:23:40 level=WARNING  name=pipeline.orchestrator pid=51449 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:23:48 level=WARNING  name=pipeline.orchestrator pid=51449 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:23:48 level=WARNING  name=pipeline.orchestrator pid=51449 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:23:48 level=ERROR    name=pipeline.orchestrator pid=51449 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:23:57 level=WARNING  name=pipeline.orchestrator pid=51449 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:24:06 level=WARNING  name=pipeline.orchestrator pid=51449 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T09:24:06 level=WARNING  name=pipeline.orchestrator pid=51449 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:24:06 level=ERROR    name=pipeline.orchestrator pid=51449 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:24:15 level=WARNING  name=pipeline.orchestrator pid=51449 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:24:24 level=WARNING  name=pipeline.orchestrator pid=51449 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:24:24 level=WARNING  name=pipeline.orchestrator pid=51449 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:24:24 level=ERROR    name=pipeline.orchestrator pid=51449 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:24:33 level=WARNING  name=pipeline.orchestrator pid=51449 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:24:42 level=WARNING  name=pipeline.orchestrator pid=51449 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:24:42 level=WARNING  name=pipeline.orchestrator pid=51449 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:24:42 level=ERROR    name=pipeline.orchestrator pid=51449 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:24:51 level=WARNING  name=pipeline.orchestrator pid=51449 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:25:00 level=WARNING  name=pipeline.orchestrator pid=51449 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:25:00 level=WARNING  name=pipeline.orchestrator pid=51449 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:25:00 level=ERROR    name=pipeline.orchestrator pid=51449 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:25:09 level=WARNING  name=pipeline.orchestrator pid=51449 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:25:18 level=WARNING  name=pipeline.orchestrator pid=51449 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-11T09:25:18 level=WARNING  name=pipeline.orchestrator pid=51449 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:25:18 level=ERROR    name=pipeline.orchestrator pid=51449 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:25:27 level=WARNING  name=pipeline.orchestrator pid=51449 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:25:35 level=WARNING  name=pipeline.orchestrator pid=51449 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T09:25:35 level=WARNING  name=pipeline.orchestrator pid=51449 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:25:35 level=ERROR    name=pipeline.orchestrator pid=51449 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:25:37 level=WARNING  name=pipeline.orchestrator pid=51449 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-11T09:25:43 level=WARNING  name=pipeline.orchestrator pid=51449 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T09:25:43 level=WARNING  name=pipeline.orchestrator pid=51449 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T09:25:43 level=ERROR    name=pipeline.orchestrator pid=51449 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:25:44 level=WARNING  name=pipeline.orchestrator pid=51449 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-11T09:25:49 level=WARNING  name=pipeline.orchestrator pid=51449 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:25:49 level=WARNING  name=pipeline.orchestrator pid=51449 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-11T09:25:49 level=ERROR    name=pipeline.orchestrator pid=51449 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:25:50 level=WARNING  name=pipeline.orchestrator pid=51449 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-11T09:25:56 level=WARNING  name=pipeline.orchestrator pid=51449 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T09:25:56 level=WARNING  name=pipeline.orchestrator pid=51449 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-11T09:25:56 level=ERROR    name=pipeline.orchestrator pid=51449 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T09:25:56 level=INFO     name=pipeline.orchestrator pid=51449 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-11T09:25:56 level=INFO     name=__main__ pid=51449 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-11T09:25:56 level=WARNING  name=__main__ pid=51449 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-11T09:25:56 level=INFO     name=__main__ pid=51449 Human-review report saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.txt
+2026-03-11T09:25:57 level=INFO     name=__main__ pid=51449 Review assets saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.json  (26 items, crops in /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/crops)
+2026-03-11T10:07:20 level=INFO     name=__main__ pid=74051 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output
+2026-03-11T10:07:25 level=INFO     name=__main__ pid=74051 Rendered 26 page(s) at 300 DPI
+2026-03-11T10:07:26 level=WARNING  name=pipeline.orchestrator pid=74051 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-11T10:07:33 level=WARNING  name=pipeline.orchestrator pid=74051 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:07:33 level=WARNING  name=pipeline.orchestrator pid=74051 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-11T10:07:33 level=ERROR    name=pipeline.orchestrator pid=74051 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:07:35 level=WARNING  name=pipeline.orchestrator pid=74051 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-11T10:07:41 level=WARNING  name=pipeline.orchestrator pid=74051 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:07:41 level=WARNING  name=pipeline.orchestrator pid=74051 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-11T10:07:41 level=ERROR    name=pipeline.orchestrator pid=74051 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:07:51 level=WARNING  name=pipeline.orchestrator pid=74051 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:08:00 level=WARNING  name=pipeline.orchestrator pid=74051 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:08:00 level=WARNING  name=pipeline.orchestrator pid=74051 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:08:00 level=ERROR    name=pipeline.orchestrator pid=74051 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:08:10 level=WARNING  name=pipeline.orchestrator pid=74051 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:08:18 level=WARNING  name=pipeline.orchestrator pid=74051 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:08:18 level=WARNING  name=pipeline.orchestrator pid=74051 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:08:18 level=ERROR    name=pipeline.orchestrator pid=74051 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:08:27 level=WARNING  name=pipeline.orchestrator pid=74051 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:08:36 level=WARNING  name=pipeline.orchestrator pid=74051 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:08:36 level=WARNING  name=pipeline.orchestrator pid=74051 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:08:36 level=ERROR    name=pipeline.orchestrator pid=74051 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:08:45 level=WARNING  name=pipeline.orchestrator pid=74051 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:08:56 level=WARNING  name=pipeline.orchestrator pid=74051 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:08:56 level=WARNING  name=pipeline.orchestrator pid=74051 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:08:56 level=ERROR    name=pipeline.orchestrator pid=74051 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:09:08 level=WARNING  name=pipeline.orchestrator pid=74051 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:09:17 level=WARNING  name=pipeline.orchestrator pid=74051 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-11T10:09:17 level=WARNING  name=pipeline.orchestrator pid=74051 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:09:17 level=ERROR    name=pipeline.orchestrator pid=74051 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:09:28 level=WARNING  name=pipeline.orchestrator pid=74051 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:09:37 level=WARNING  name=pipeline.orchestrator pid=74051 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T10:09:37 level=WARNING  name=pipeline.orchestrator pid=74051 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:09:37 level=ERROR    name=pipeline.orchestrator pid=74051 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:09:46 level=WARNING  name=pipeline.orchestrator pid=74051 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:09:54 level=WARNING  name=pipeline.orchestrator pid=74051 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T10:09:55 level=WARNING  name=pipeline.orchestrator pid=74051 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:09:55 level=ERROR    name=pipeline.orchestrator pid=74051 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:10:04 level=WARNING  name=pipeline.orchestrator pid=74051 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-11T10:10:12 level=WARNING  name=pipeline.orchestrator pid=74051 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T10:10:12 level=WARNING  name=pipeline.orchestrator pid=74051 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:10:12 level=ERROR    name=pipeline.orchestrator pid=74051 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:10:21 level=WARNING  name=pipeline.orchestrator pid=74051 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-11T10:10:30 level=WARNING  name=pipeline.orchestrator pid=74051 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:10:30 level=WARNING  name=pipeline.orchestrator pid=74051 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:10:30 level=ERROR    name=pipeline.orchestrator pid=74051 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:10:39 level=WARNING  name=pipeline.orchestrator pid=74051 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T10:10:48 level=WARNING  name=pipeline.orchestrator pid=74051 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:10:48 level=WARNING  name=pipeline.orchestrator pid=74051 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:10:48 level=ERROR    name=pipeline.orchestrator pid=74051 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:10:57 level=WARNING  name=pipeline.orchestrator pid=74051 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:11:07 level=WARNING  name=pipeline.orchestrator pid=74051 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T10:11:07 level=WARNING  name=pipeline.orchestrator pid=74051 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:11:07 level=ERROR    name=pipeline.orchestrator pid=74051 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:11:17 level=WARNING  name=pipeline.orchestrator pid=74051 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:11:26 level=WARNING  name=pipeline.orchestrator pid=74051 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:11:26 level=WARNING  name=pipeline.orchestrator pid=74051 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:11:26 level=ERROR    name=pipeline.orchestrator pid=74051 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:11:35 level=WARNING  name=pipeline.orchestrator pid=74051 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:11:44 level=WARNING  name=pipeline.orchestrator pid=74051 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T10:11:44 level=WARNING  name=pipeline.orchestrator pid=74051 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:11:44 level=ERROR    name=pipeline.orchestrator pid=74051 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:11:54 level=WARNING  name=pipeline.orchestrator pid=74051 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:12:03 level=WARNING  name=pipeline.orchestrator pid=74051 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T10:12:03 level=WARNING  name=pipeline.orchestrator pid=74051 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:12:03 level=ERROR    name=pipeline.orchestrator pid=74051 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:12:12 level=WARNING  name=pipeline.orchestrator pid=74051 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:12:21 level=WARNING  name=pipeline.orchestrator pid=74051 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:12:21 level=WARNING  name=pipeline.orchestrator pid=74051 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:12:21 level=ERROR    name=pipeline.orchestrator pid=74051 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:12:31 level=WARNING  name=pipeline.orchestrator pid=74051 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:12:48 level=WARNING  name=pipeline.orchestrator pid=74051 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T10:12:48 level=WARNING  name=pipeline.orchestrator pid=74051 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:12:48 level=ERROR    name=pipeline.orchestrator pid=74051 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:12:58 level=WARNING  name=pipeline.orchestrator pid=74051 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:13:07 level=WARNING  name=pipeline.orchestrator pid=74051 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:13:07 level=WARNING  name=pipeline.orchestrator pid=74051 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:13:07 level=ERROR    name=pipeline.orchestrator pid=74051 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:13:16 level=WARNING  name=pipeline.orchestrator pid=74051 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:13:25 level=WARNING  name=pipeline.orchestrator pid=74051 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:13:25 level=WARNING  name=pipeline.orchestrator pid=74051 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:13:25 level=ERROR    name=pipeline.orchestrator pid=74051 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:13:34 level=WARNING  name=pipeline.orchestrator pid=74051 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:13:43 level=WARNING  name=pipeline.orchestrator pid=74051 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:13:43 level=WARNING  name=pipeline.orchestrator pid=74051 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:13:43 level=ERROR    name=pipeline.orchestrator pid=74051 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:13:57 level=WARNING  name=pipeline.orchestrator pid=74051 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:14:09 level=WARNING  name=pipeline.orchestrator pid=74051 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-11T10:14:09 level=WARNING  name=pipeline.orchestrator pid=74051 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:14:09 level=ERROR    name=pipeline.orchestrator pid=74051 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:14:23 level=WARNING  name=pipeline.orchestrator pid=74051 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:14:35 level=WARNING  name=pipeline.orchestrator pid=74051 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T10:14:35 level=WARNING  name=pipeline.orchestrator pid=74051 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:14:35 level=ERROR    name=pipeline.orchestrator pid=74051 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:14:37 level=WARNING  name=pipeline.orchestrator pid=74051 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-11T10:14:45 level=WARNING  name=pipeline.orchestrator pid=74051 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T10:14:45 level=WARNING  name=pipeline.orchestrator pid=74051 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T10:14:45 level=ERROR    name=pipeline.orchestrator pid=74051 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:14:46 level=WARNING  name=pipeline.orchestrator pid=74051 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-11T10:14:54 level=WARNING  name=pipeline.orchestrator pid=74051 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:14:54 level=WARNING  name=pipeline.orchestrator pid=74051 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-11T10:14:54 level=ERROR    name=pipeline.orchestrator pid=74051 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:14:55 level=WARNING  name=pipeline.orchestrator pid=74051 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-11T10:15:02 level=WARNING  name=pipeline.orchestrator pid=74051 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T10:15:02 level=WARNING  name=pipeline.orchestrator pid=74051 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-11T10:15:02 level=ERROR    name=pipeline.orchestrator pid=74051 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T10:15:02 level=INFO     name=pipeline.orchestrator pid=74051 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-11T10:15:02 level=INFO     name=__main__ pid=74051 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-11T10:15:02 level=WARNING  name=__main__ pid=74051 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-11T10:15:02 level=INFO     name=__main__ pid=74051 Human-review report saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.txt
+2026-03-11T10:15:03 level=INFO     name=__main__ pid=74051 Review assets saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.json  (26 items, crops in /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/crops)
+2026-03-11T11:19:45 level=INFO     name=__main__ pid=3450 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output
+2026-03-11T11:19:51 level=INFO     name=__main__ pid=3450 Rendered 26 page(s) at 300 DPI
+2026-03-11T11:19:54 level=WARNING  name=pipeline.orchestrator pid=3450 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-11T11:20:02 level=WARNING  name=pipeline.orchestrator pid=3450 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:20:02 level=WARNING  name=pipeline.orchestrator pid=3450 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-11T11:20:02 level=ERROR    name=pipeline.orchestrator pid=3450 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:20:04 level=WARNING  name=pipeline.orchestrator pid=3450 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-11T11:20:10 level=WARNING  name=pipeline.orchestrator pid=3450 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:20:11 level=WARNING  name=pipeline.orchestrator pid=3450 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-11T11:20:11 level=ERROR    name=pipeline.orchestrator pid=3450 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:20:20 level=WARNING  name=pipeline.orchestrator pid=3450 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:20:30 level=WARNING  name=pipeline.orchestrator pid=3450 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:20:30 level=WARNING  name=pipeline.orchestrator pid=3450 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:20:30 level=ERROR    name=pipeline.orchestrator pid=3450 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:20:42 level=WARNING  name=pipeline.orchestrator pid=3450 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:20:51 level=WARNING  name=pipeline.orchestrator pid=3450 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:20:51 level=WARNING  name=pipeline.orchestrator pid=3450 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:20:51 level=ERROR    name=pipeline.orchestrator pid=3450 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:21:00 level=WARNING  name=pipeline.orchestrator pid=3450 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:21:10 level=WARNING  name=pipeline.orchestrator pid=3450 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:21:10 level=WARNING  name=pipeline.orchestrator pid=3450 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:21:10 level=ERROR    name=pipeline.orchestrator pid=3450 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:21:23 level=WARNING  name=pipeline.orchestrator pid=3450 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:21:34 level=WARNING  name=pipeline.orchestrator pid=3450 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:21:34 level=WARNING  name=pipeline.orchestrator pid=3450 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:21:34 level=ERROR    name=pipeline.orchestrator pid=3450 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:21:44 level=WARNING  name=pipeline.orchestrator pid=3450 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:22:01 level=WARNING  name=pipeline.orchestrator pid=3450 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-11T11:22:01 level=WARNING  name=pipeline.orchestrator pid=3450 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:22:01 level=ERROR    name=pipeline.orchestrator pid=3450 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:22:11 level=WARNING  name=pipeline.orchestrator pid=3450 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:22:19 level=WARNING  name=pipeline.orchestrator pid=3450 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T11:22:19 level=WARNING  name=pipeline.orchestrator pid=3450 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:22:19 level=ERROR    name=pipeline.orchestrator pid=3450 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:22:29 level=WARNING  name=pipeline.orchestrator pid=3450 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:22:39 level=WARNING  name=pipeline.orchestrator pid=3450 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T11:22:39 level=WARNING  name=pipeline.orchestrator pid=3450 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:22:39 level=ERROR    name=pipeline.orchestrator pid=3450 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:22:48 level=WARNING  name=pipeline.orchestrator pid=3450 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-11T11:22:57 level=WARNING  name=pipeline.orchestrator pid=3450 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T11:22:57 level=WARNING  name=pipeline.orchestrator pid=3450 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:22:57 level=ERROR    name=pipeline.orchestrator pid=3450 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:23:07 level=WARNING  name=pipeline.orchestrator pid=3450 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-11T11:23:16 level=WARNING  name=pipeline.orchestrator pid=3450 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:23:16 level=WARNING  name=pipeline.orchestrator pid=3450 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:23:16 level=ERROR    name=pipeline.orchestrator pid=3450 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:23:25 level=WARNING  name=pipeline.orchestrator pid=3450 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T11:23:34 level=WARNING  name=pipeline.orchestrator pid=3450 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:23:34 level=WARNING  name=pipeline.orchestrator pid=3450 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:23:34 level=ERROR    name=pipeline.orchestrator pid=3450 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:23:43 level=WARNING  name=pipeline.orchestrator pid=3450 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:23:52 level=WARNING  name=pipeline.orchestrator pid=3450 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T11:23:52 level=WARNING  name=pipeline.orchestrator pid=3450 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:23:52 level=ERROR    name=pipeline.orchestrator pid=3450 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:24:01 level=WARNING  name=pipeline.orchestrator pid=3450 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:24:10 level=WARNING  name=pipeline.orchestrator pid=3450 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:24:10 level=WARNING  name=pipeline.orchestrator pid=3450 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:24:10 level=ERROR    name=pipeline.orchestrator pid=3450 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:24:20 level=WARNING  name=pipeline.orchestrator pid=3450 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:24:31 level=WARNING  name=pipeline.orchestrator pid=3450 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T11:24:31 level=WARNING  name=pipeline.orchestrator pid=3450 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:24:31 level=ERROR    name=pipeline.orchestrator pid=3450 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:24:40 level=WARNING  name=pipeline.orchestrator pid=3450 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:24:49 level=WARNING  name=pipeline.orchestrator pid=3450 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T11:24:49 level=WARNING  name=pipeline.orchestrator pid=3450 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:24:49 level=ERROR    name=pipeline.orchestrator pid=3450 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:25:04 level=WARNING  name=pipeline.orchestrator pid=3450 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:25:17 level=WARNING  name=pipeline.orchestrator pid=3450 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:25:17 level=WARNING  name=pipeline.orchestrator pid=3450 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:25:17 level=ERROR    name=pipeline.orchestrator pid=3450 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:25:30 level=WARNING  name=pipeline.orchestrator pid=3450 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:25:39 level=WARNING  name=pipeline.orchestrator pid=3450 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T11:25:39 level=WARNING  name=pipeline.orchestrator pid=3450 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:25:39 level=ERROR    name=pipeline.orchestrator pid=3450 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:25:52 level=WARNING  name=pipeline.orchestrator pid=3450 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:26:05 level=WARNING  name=pipeline.orchestrator pid=3450 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:26:05 level=WARNING  name=pipeline.orchestrator pid=3450 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:26:05 level=ERROR    name=pipeline.orchestrator pid=3450 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:26:15 level=WARNING  name=pipeline.orchestrator pid=3450 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:26:25 level=WARNING  name=pipeline.orchestrator pid=3450 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:26:25 level=WARNING  name=pipeline.orchestrator pid=3450 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:26:25 level=ERROR    name=pipeline.orchestrator pid=3450 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:26:35 level=WARNING  name=pipeline.orchestrator pid=3450 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:26:44 level=WARNING  name=pipeline.orchestrator pid=3450 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:26:44 level=WARNING  name=pipeline.orchestrator pid=3450 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:26:44 level=ERROR    name=pipeline.orchestrator pid=3450 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:26:55 level=WARNING  name=pipeline.orchestrator pid=3450 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:27:05 level=WARNING  name=pipeline.orchestrator pid=3450 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-11T11:27:05 level=WARNING  name=pipeline.orchestrator pid=3450 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:27:05 level=ERROR    name=pipeline.orchestrator pid=3450 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:27:16 level=WARNING  name=pipeline.orchestrator pid=3450 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:27:29 level=WARNING  name=pipeline.orchestrator pid=3450 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T11:27:29 level=WARNING  name=pipeline.orchestrator pid=3450 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:27:29 level=ERROR    name=pipeline.orchestrator pid=3450 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:27:31 level=WARNING  name=pipeline.orchestrator pid=3450 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-11T11:27:38 level=WARNING  name=pipeline.orchestrator pid=3450 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T11:27:38 level=WARNING  name=pipeline.orchestrator pid=3450 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T11:27:38 level=ERROR    name=pipeline.orchestrator pid=3450 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:27:39 level=WARNING  name=pipeline.orchestrator pid=3450 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-11T11:27:46 level=WARNING  name=pipeline.orchestrator pid=3450 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:27:46 level=WARNING  name=pipeline.orchestrator pid=3450 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-11T11:27:46 level=ERROR    name=pipeline.orchestrator pid=3450 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:27:48 level=WARNING  name=pipeline.orchestrator pid=3450 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-11T11:27:55 level=WARNING  name=pipeline.orchestrator pid=3450 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T11:27:55 level=WARNING  name=pipeline.orchestrator pid=3450 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-11T11:27:55 level=ERROR    name=pipeline.orchestrator pid=3450 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T11:27:55 level=INFO     name=pipeline.orchestrator pid=3450 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-11T11:27:55 level=INFO     name=__main__ pid=3450 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-11T11:27:55 level=WARNING  name=__main__ pid=3450 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-11T11:27:55 level=INFO     name=__main__ pid=3450 Human-review report saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.txt
+2026-03-11T11:27:57 level=INFO     name=__main__ pid=3450 Review assets saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.json  (26 items, crops in /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/crops)
+2026-03-11T13:06:38 level=INFO     name=__main__ pid=40344 Electra-Core starting | pdf=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/voter_roll.pdf dpi=300 output=/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output
+2026-03-11T13:06:44 level=INFO     name=__main__ pid=40344 Rendered 26 page(s) at 300 DPI
+2026-03-11T13:06:46 level=WARNING  name=pipeline.orchestrator pid=40344 page=1 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-11T13:06:53 level=WARNING  name=pipeline.orchestrator pid=40344 page=1 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:06:53 level=WARNING  name=pipeline.orchestrator pid=40344 page=1 strategy=blob_clustering gate_1_FAILED found=2 expected=30
+2026-03-11T13:06:53 level=ERROR    name=pipeline.orchestrator pid=40344 page=1 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:06:54 level=WARNING  name=pipeline.orchestrator pid=40344 page=2 strategy=cv_grid_chop gate_1_FAILED found=10 expected=30
+2026-03-11T13:07:01 level=WARNING  name=pipeline.orchestrator pid=40344 page=2 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:07:01 level=WARNING  name=pipeline.orchestrator pid=40344 page=2 strategy=blob_clustering gate_1_FAILED found=7 expected=30
+2026-03-11T13:07:01 level=ERROR    name=pipeline.orchestrator pid=40344 page=2 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:07:14 level=WARNING  name=pipeline.orchestrator pid=40344 page=3 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:07:24 level=WARNING  name=pipeline.orchestrator pid=40344 page=3 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:07:24 level=WARNING  name=pipeline.orchestrator pid=40344 page=3 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:07:24 level=ERROR    name=pipeline.orchestrator pid=40344 page=3 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:07:34 level=WARNING  name=pipeline.orchestrator pid=40344 page=4 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:07:43 level=WARNING  name=pipeline.orchestrator pid=40344 page=4 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:07:43 level=WARNING  name=pipeline.orchestrator pid=40344 page=4 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:07:43 level=ERROR    name=pipeline.orchestrator pid=40344 page=4 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:07:54 level=WARNING  name=pipeline.orchestrator pid=40344 page=5 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:08:03 level=WARNING  name=pipeline.orchestrator pid=40344 page=5 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:08:03 level=WARNING  name=pipeline.orchestrator pid=40344 page=5 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:08:03 level=ERROR    name=pipeline.orchestrator pid=40344 page=5 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:08:13 level=WARNING  name=pipeline.orchestrator pid=40344 page=6 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:08:23 level=WARNING  name=pipeline.orchestrator pid=40344 page=6 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:08:23 level=WARNING  name=pipeline.orchestrator pid=40344 page=6 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:08:23 level=ERROR    name=pipeline.orchestrator pid=40344 page=6 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:08:34 level=WARNING  name=pipeline.orchestrator pid=40344 page=7 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:08:43 level=WARNING  name=pipeline.orchestrator pid=40344 page=7 strategy=grid_projection REJECTED — quality_ratio=0.17 threshold=0.80
+2026-03-11T13:08:43 level=WARNING  name=pipeline.orchestrator pid=40344 page=7 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:08:43 level=ERROR    name=pipeline.orchestrator pid=40344 page=7 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:08:53 level=WARNING  name=pipeline.orchestrator pid=40344 page=8 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:09:02 level=WARNING  name=pipeline.orchestrator pid=40344 page=8 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T13:09:02 level=WARNING  name=pipeline.orchestrator pid=40344 page=8 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:09:02 level=ERROR    name=pipeline.orchestrator pid=40344 page=8 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:09:11 level=WARNING  name=pipeline.orchestrator pid=40344 page=9 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:09:19 level=WARNING  name=pipeline.orchestrator pid=40344 page=9 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T13:09:19 level=WARNING  name=pipeline.orchestrator pid=40344 page=9 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:09:19 level=ERROR    name=pipeline.orchestrator pid=40344 page=9 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:09:29 level=WARNING  name=pipeline.orchestrator pid=40344 page=10 strategy=cv_grid_chop REJECTED — quality_ratio=0.23 threshold=0.80
+2026-03-11T13:09:38 level=WARNING  name=pipeline.orchestrator pid=40344 page=10 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T13:09:38 level=WARNING  name=pipeline.orchestrator pid=40344 page=10 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:09:38 level=ERROR    name=pipeline.orchestrator pid=40344 page=10 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:09:47 level=WARNING  name=pipeline.orchestrator pid=40344 page=11 strategy=cv_grid_chop REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-11T13:09:56 level=WARNING  name=pipeline.orchestrator pid=40344 page=11 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:09:56 level=WARNING  name=pipeline.orchestrator pid=40344 page=11 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:09:56 level=ERROR    name=pipeline.orchestrator pid=40344 page=11 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:10:05 level=WARNING  name=pipeline.orchestrator pid=40344 page=12 strategy=cv_grid_chop REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T13:10:14 level=WARNING  name=pipeline.orchestrator pid=40344 page=12 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:10:14 level=WARNING  name=pipeline.orchestrator pid=40344 page=12 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:10:14 level=ERROR    name=pipeline.orchestrator pid=40344 page=12 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:10:23 level=WARNING  name=pipeline.orchestrator pid=40344 page=13 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:10:32 level=WARNING  name=pipeline.orchestrator pid=40344 page=13 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T13:10:32 level=WARNING  name=pipeline.orchestrator pid=40344 page=13 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:10:32 level=ERROR    name=pipeline.orchestrator pid=40344 page=13 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:10:42 level=WARNING  name=pipeline.orchestrator pid=40344 page=14 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:10:52 level=WARNING  name=pipeline.orchestrator pid=40344 page=14 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:10:52 level=WARNING  name=pipeline.orchestrator pid=40344 page=14 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:10:52 level=ERROR    name=pipeline.orchestrator pid=40344 page=14 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:11:01 level=WARNING  name=pipeline.orchestrator pid=40344 page=15 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:11:09 level=WARNING  name=pipeline.orchestrator pid=40344 page=15 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T13:11:09 level=WARNING  name=pipeline.orchestrator pid=40344 page=15 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:11:09 level=ERROR    name=pipeline.orchestrator pid=40344 page=15 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:11:20 level=WARNING  name=pipeline.orchestrator pid=40344 page=16 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:11:29 level=WARNING  name=pipeline.orchestrator pid=40344 page=16 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T13:11:29 level=WARNING  name=pipeline.orchestrator pid=40344 page=16 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:11:29 level=ERROR    name=pipeline.orchestrator pid=40344 page=16 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:11:39 level=WARNING  name=pipeline.orchestrator pid=40344 page=17 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:11:48 level=WARNING  name=pipeline.orchestrator pid=40344 page=17 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:11:48 level=WARNING  name=pipeline.orchestrator pid=40344 page=17 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:11:48 level=ERROR    name=pipeline.orchestrator pid=40344 page=17 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:11:59 level=WARNING  name=pipeline.orchestrator pid=40344 page=18 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:12:08 level=WARNING  name=pipeline.orchestrator pid=40344 page=18 strategy=grid_projection REJECTED — quality_ratio=0.07 threshold=0.80
+2026-03-11T13:12:08 level=WARNING  name=pipeline.orchestrator pid=40344 page=18 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:12:08 level=ERROR    name=pipeline.orchestrator pid=40344 page=18 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:12:19 level=WARNING  name=pipeline.orchestrator pid=40344 page=19 strategy=cv_grid_chop REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:12:29 level=WARNING  name=pipeline.orchestrator pid=40344 page=19 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:12:29 level=WARNING  name=pipeline.orchestrator pid=40344 page=19 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:12:29 level=ERROR    name=pipeline.orchestrator pid=40344 page=19 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:12:39 level=WARNING  name=pipeline.orchestrator pid=40344 page=20 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:12:51 level=WARNING  name=pipeline.orchestrator pid=40344 page=20 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:12:51 level=WARNING  name=pipeline.orchestrator pid=40344 page=20 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:12:51 level=ERROR    name=pipeline.orchestrator pid=40344 page=20 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:13:01 level=WARNING  name=pipeline.orchestrator pid=40344 page=21 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:13:11 level=WARNING  name=pipeline.orchestrator pid=40344 page=21 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:13:11 level=WARNING  name=pipeline.orchestrator pid=40344 page=21 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:13:11 level=ERROR    name=pipeline.orchestrator pid=40344 page=21 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:13:21 level=WARNING  name=pipeline.orchestrator pid=40344 page=22 strategy=cv_grid_chop REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:13:31 level=WARNING  name=pipeline.orchestrator pid=40344 page=22 strategy=grid_projection REJECTED — quality_ratio=0.13 threshold=0.80
+2026-03-11T13:13:31 level=WARNING  name=pipeline.orchestrator pid=40344 page=22 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:13:31 level=ERROR    name=pipeline.orchestrator pid=40344 page=22 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:13:41 level=WARNING  name=pipeline.orchestrator pid=40344 page=23 strategy=cv_grid_chop REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:13:50 level=WARNING  name=pipeline.orchestrator pid=40344 page=23 strategy=grid_projection REJECTED — quality_ratio=0.03 threshold=0.80
+2026-03-11T13:13:50 level=WARNING  name=pipeline.orchestrator pid=40344 page=23 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:13:50 level=ERROR    name=pipeline.orchestrator pid=40344 page=23 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:13:52 level=WARNING  name=pipeline.orchestrator pid=40344 page=24 strategy=cv_grid_chop gate_1_FAILED found=11 expected=30
+2026-03-11T13:13:58 level=WARNING  name=pipeline.orchestrator pid=40344 page=24 strategy=grid_projection REJECTED — quality_ratio=0.10 threshold=0.80
+2026-03-11T13:13:58 level=WARNING  name=pipeline.orchestrator pid=40344 page=24 strategy=blob_clustering strategy_error reason='dilation blob detection found no candidate card regions'
+2026-03-11T13:13:58 level=ERROR    name=pipeline.orchestrator pid=40344 page=24 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:13:59 level=WARNING  name=pipeline.orchestrator pid=40344 page=25 strategy=cv_grid_chop gate_1_FAILED found=1 expected=30
+2026-03-11T13:14:06 level=WARNING  name=pipeline.orchestrator pid=40344 page=25 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:14:06 level=WARNING  name=pipeline.orchestrator pid=40344 page=25 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-11T13:14:06 level=ERROR    name=pipeline.orchestrator pid=40344 page=25 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:14:07 level=WARNING  name=pipeline.orchestrator pid=40344 page=26 strategy=cv_grid_chop strategy_error reason='no valid contours found after morphological grid detection'
+2026-03-11T13:14:13 level=WARNING  name=pipeline.orchestrator pid=40344 page=26 strategy=grid_projection REJECTED — quality_ratio=0.00 threshold=0.80
+2026-03-11T13:14:13 level=WARNING  name=pipeline.orchestrator pid=40344 page=26 strategy=blob_clustering gate_1_FAILED found=1 expected=30
+2026-03-11T13:14:13 level=ERROR    name=pipeline.orchestrator pid=40344 page=26 VOTER_LIST: all 3 strategies failed quality gates — queued for human review
+2026-03-11T13:14:13 level=INFO     name=pipeline.orchestrator pid=40344 batch complete: voter_list=0 skipped=0 review_queue=26 total=26
+2026-03-11T13:14:13 level=INFO     name=__main__ pid=40344 Results: voter_list=0  skipped=0  review_queue=26  total_pages=26
+2026-03-11T13:14:13 level=WARNING  name=__main__ pid=40344 Pages requiring human review: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26]
+2026-03-11T13:14:13 level=INFO     name=__main__ pid=40344 Human-review report saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.txt
+2026-03-11T13:14:15 level=INFO     name=__main__ pid=40344 Review assets saved → /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/human_review_queue.json  (26 items, crops in /Users/abhinaykalkhanday/Desktop/New_pdf2Excel/output/crops)

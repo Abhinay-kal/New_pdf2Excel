@@ -1,0 +1,20 @@
+# Electra-Core runtime dependencies
+# Install with: pip install -r requirements.txt
+
+# Domain / data modelling
+pydantic>=2.0
+
+# Computer vision & image processing
+opencv-python-headless>=4.8
+pillow>=10.0
+
+# OCR
+pytesseract>=0.3.13
+
+# PDF rendering
+pdf2image>=1.17
+
+# Data export
+pandas>=2.0
+openpyxl>=3.1
+streamlit>=1.30.0
