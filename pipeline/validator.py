@@ -14,11 +14,17 @@ This is the strategic check described in the Electra-Core architecture:
 """
 from __future__ import annotations
 
+import os
 from typing import List
 
 from config.settings import EXPECTED_CARDS_PER_PAGE
 from domain.exceptions import ForensicValidationError
 from domain.models import CardRegion
+
+
+# Quality-gate thresholds used by validate_quality.
+MAX_MISSING_EPIC_RATIO: float = float(os.getenv("MAX_MISSING_EPIC_RATIO", "0.70"))
+MIN_OK_ROWS: int = int(os.getenv("MIN_OK_ROWS", "5"))
 
 
 class LayoutValidator:

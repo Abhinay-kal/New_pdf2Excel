@@ -37,6 +37,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, List, Optional, Union
 
+import cv2
 import numpy as np
 import pytesseract
 from pdf2image import convert_from_path
@@ -48,7 +49,10 @@ from domain.exceptions import ForensicValidationError, StrategyError
 from domain.interfaces import LayoutStrategy
 from domain.models import CardRegion, PageType, VoterCard
 from infrastructure.ocr.engine import OcrEngine
-from infrastructure.ocr.preprocessor import deskew_image_with_angle, preprocess_card_roi
+from infrastructure.ocr.preprocessor import (
+    deskew_image_with_angle,
+    preprocess_for_ocr,
+)
 from infrastructure.strategies import (
     BlobClusteringStrategy,
     CvGridChopStrategy,
@@ -171,25 +175,37 @@ class PageProcessor:
 
     def _classify_page(self, page_image: PILImage) -> PageType:
         """
-        Classify a page by performing a fast OCR scan on its top 25 %.
+        Fail-open page classification using lightweight OCR frequency heuristics.
 
-        Scanning only the header strip saves ~75 % of Tesseract compute vs
-        full-page OCR.  Keywords are case-sensitive and match verbatim
-        strings as they appear in the official Indian voter roll PDFs.
-
-        Returns:
-            PageType.METADATA  -- "Details of Revision" found.
-            PageType.SUMMARY   -- "SUMMARY OF ELECTORS" found.
-            PageType.VOTER_LIST -- default (no recognised marker found).
+        Rules:
+          1) BLANK when page variance is near-zero or OCR yields no text.
+          2) VOTER_LIST when repeated voter anchors are detected.
+          3) METADATA only when anchor frequency is low and explicit summary
+             markers are present.
+          4) Default to VOTER_LIST (fail-open).
         """
-        width, height = page_image.size
-        top_strip: PILImage = page_image.crop((0, 0, width, height // 4))
+        page_arr = np.array(page_image)
+        if page_arr.size == 0:
+            return PageType.BLANK
 
-        strip_arr = np.array(top_strip)
-        preprocessed = preprocess_card_roi(strip_arr)
+        gray = page_arr
+        if gray.ndim == 3:
+            gray = cv2.cvtColor(gray, cv2.COLOR_BGR2GRAY)
+
+        # Circuit breaker: practically flat pages are blank/scanner artifacts.
+        if float(np.std(gray)) < 2.0:
+            return PageType.BLANK
+
+        h, w = gray.shape[:2]
+        if h <= 0 or w <= 0:
+            return PageType.BLANK
+
+        # Downscale for faster OCR during classification.
+        sampled = cv2.resize(gray, (max(1, w // 2), max(1, h // 2)), interpolation=cv2.INTER_AREA)
+        preprocessed = preprocess_for_ocr(sampled)
 
         try:
-            text: str = pytesseract.image_to_string(preprocessed, config="--psm 6")
+            text: str = pytesseract.image_to_string(preprocessed, config="--psm 11")
         except Exception as exc:
             log.warning(
                 "page classification OCR failed — defaulting to VOTER_LIST: %s", exc
@@ -197,10 +213,17 @@ class PageProcessor:
             return PageType.VOTER_LIST
 
         text = _norm_ocr(text)
-        if any(_fuzzy_contains(text, m) for m in _META_MARKERS):
+        if not text:
+            return PageType.BLANK
+
+        voter_anchor_count = sum(text.count(token) for token in _VOTER_ANCHORS)
+        if voter_anchor_count >= 5:
+            return PageType.VOTER_LIST
+
+        has_metadata_marker = any(_fuzzy_contains(text, m) for m in _META_MARKERS)
+        if voter_anchor_count < 5 and has_metadata_marker:
             return PageType.METADATA
-        if any(_fuzzy_contains(text, m) for m in _SUMMARY_MARKERS):
-            return PageType.SUMMARY
+
         return PageType.VOTER_LIST
 
     # ------------------------------------------------------------------ #
@@ -478,12 +501,21 @@ def _fuzzy_contains(text: str, phrase: str, cutoff: float = 0.82) -> bool:
 
 
 _META_MARKERS = [
+    "summary of electors",
+    "no of electors",
+    "additions",
+    "deletions",
     "details of revision",
-    "assembly constituency",
-    "part no",
 ]
 _SUMMARY_MARKERS = [
     "summary of electors",
     "net electors",
     "male female third gender",
+]
+
+_VOTER_ANCHORS = [
+    "name",
+    "age",
+    "gender",
+    "photo",
 ]

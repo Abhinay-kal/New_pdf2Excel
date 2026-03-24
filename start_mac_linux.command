@@ -27,14 +27,17 @@ else
   python3 -m venv "$VENV_DIR"
 fi
 
-# shellcheck disable=SC1091
-source "$VENV_DIR/bin/activate"
+PYTHON_EXE="$VENV_DIR/bin/python"
+if [[ ! -x "$PYTHON_EXE" ]]; then
+  echo "[ERROR] Python executable not found in virtual environment: $PYTHON_EXE"
+  exit 1
+fi
 
 echo "[Electra-Core] Upgrading pip..."
-python -m pip install --upgrade pip
+"$PYTHON_EXE" -m pip install --upgrade pip
 
 echo "[Electra-Core] Installing dependencies..."
-python -m pip install -r requirements.txt
+"$PYTHON_EXE" -m pip install -r requirements.txt
 
 # Pick PDF automatically from argument, file-picker, or first local .pdf.
 if [[ $# -ge 1 ]]; then
@@ -69,7 +72,7 @@ if [[ ! -f "$PDF_PATH" ]]; then
 fi
 
 echo "[Electra-Core] Running extraction for: $PDF_PATH"
-python main.py "$PDF_PATH"
+"$PYTHON_EXE" main.py "$PDF_PATH"
 
 echo
 echo "[Electra-Core] Completed. Press Enter to close."

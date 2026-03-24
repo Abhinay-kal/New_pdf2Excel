@@ -13,6 +13,69 @@ import cv2
 import numpy as np
 
 
+def _to_grayscale_uint8(image: np.ndarray) -> np.ndarray:
+    """Convert supported image input to a single-channel uint8 grayscale array."""
+    if image is None:
+        raise ValueError("preprocess_for_ocr: 'image' must not be None")
+    if not isinstance(image, np.ndarray):
+        raise ValueError("preprocess_for_ocr: 'image' must be a numpy.ndarray")
+    if image.size == 0:
+        raise ValueError("preprocess_for_ocr: 'image' must not be empty")
+
+    if image.ndim == 2:
+        gray = image
+    elif image.ndim == 3:
+        channels = image.shape[2]
+        if channels == 3:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        elif channels == 4:
+            gray = cv2.cvtColor(image, cv2.COLOR_BGRA2GRAY)
+        else:
+            raise ValueError("preprocess_for_ocr: 3D images must have 3 or 4 channels")
+    else:
+        raise ValueError("preprocess_for_ocr: image must be 2D or 3D")
+
+    if gray.dtype != np.uint8:
+        if np.issubdtype(gray.dtype, np.integer):
+            gray = np.clip(gray, 0, 255).astype(np.uint8, copy=False)
+        else:
+            gray = cv2.normalize(gray, None, 0, 255, cv2.NORM_MINMAX)
+            gray = gray.astype(np.uint8, copy=False)
+
+    return gray
+
+
+def preprocess_for_ocr(image: np.ndarray) -> np.ndarray:
+    """Apply OCR-safe adaptive preprocessing to preserve foreground text."""
+    try:
+        # 1) Convert to single-channel grayscale.
+        gray = _to_grayscale_uint8(image)
+
+        # 2) Scale up text so glyphs are easier for Tesseract to resolve.
+        gray = cv2.resize(gray, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
+
+        # 3) Local contrast equalization to suppress gray/yellow page background.
+        clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+        gray = clahe.apply(gray)
+
+        # 4) Mild denoise to smooth paper grain.
+        gray = cv2.GaussianBlur(gray, (3, 3), 0)
+
+        # 5) Adaptive thresholding (no global Otsu) to avoid blackout artifacts.
+        binary = cv2.adaptiveThreshold(
+            gray,
+            255,
+            cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
+            cv2.THRESH_BINARY,
+            31,
+            9,
+        )
+        return binary
+
+    except cv2.error as exc:
+        raise RuntimeError(f"preprocess_for_ocr: OpenCV failure: {exc}") from exc
+
+
 def enhance_contrast_clahe(
     image: np.ndarray,
     clip_limit: float = 2.0,
@@ -39,13 +102,6 @@ def enhance_contrast_clahe(
         ValueError: If the input is invalid or parameters are out of range.
         RuntimeError: If OpenCV processing fails.
     """
-    if image is None:
-        raise ValueError("enhance_contrast_clahe: 'image' must not be None")
-    if not isinstance(image, np.ndarray):
-        raise ValueError("enhance_contrast_clahe: 'image' must be a numpy.ndarray")
-    if image.size == 0:
-        raise ValueError("enhance_contrast_clahe: 'image' must not be empty")
-
     if clip_limit <= 0:
         raise ValueError("enhance_contrast_clahe: 'clip_limit' must be > 0")
     if (
@@ -59,38 +115,14 @@ def enhance_contrast_clahe(
         )
 
     try:
-        # Convert to single-channel grayscale with minimal copying.
-        if image.ndim == 2:
-            gray = image
-        elif image.ndim == 3:
-            channels = image.shape[2]
-            if channels == 3:
-                gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-            elif channels == 4:
-                gray = cv2.cvtColor(image, cv2.COLOR_BGRA2GRAY)
-            else:
-                raise ValueError(
-                    "enhance_contrast_clahe: 3D images must have 3 or 4 channels"
-                )
-        else:
-            raise ValueError("enhance_contrast_clahe: image must be 2D or 3D")
-
-        # CLAHE expects 8-bit/16-bit single-channel input; cast safely when needed.
-        if gray.dtype != np.uint8:
-            if np.issubdtype(gray.dtype, np.integer):
-                gray = np.clip(gray, 0, 255).astype(np.uint8, copy=False)
-            else:
-                # For float inputs, map dynamic range to [0, 255] once.
-                gray = cv2.normalize(gray, None, 0, 255, cv2.NORM_MINMAX)
-                gray = gray.astype(np.uint8, copy=False)
+        gray = _to_grayscale_uint8(image)
+        gray = cv2.resize(gray, None, fx=1.5, fy=1.5, interpolation=cv2.INTER_CUBIC)
 
         clahe = cv2.createCLAHE(
             clipLimit=float(clip_limit),
             tileGridSize=(int(tile_grid[0]), int(tile_grid[1])),
         )
         gray = clahe.apply(gray)
-
-        # High-throughput denoise: Gaussian 3x3 is much cheaper than bilateral.
         gray = cv2.GaussianBlur(gray, (3, 3), 0)
 
         if apply_binarization:
@@ -99,8 +131,8 @@ def enhance_contrast_clahe(
                 255,
                 cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
                 cv2.THRESH_BINARY,
-                15,
-                3,
+                31,
+                9,
             )
 
         return gray
@@ -341,29 +373,4 @@ def preprocess_card_roi(roi: np.ndarray) -> np.ndarray:
     Returns:
         Binary (grayscale, 0/255) image suitable for ``pytesseract``.
     """
-    # 1. Ensure grayscale
-    if roi.ndim == 3:
-        gray = cv2.cvtColor(roi, cv2.COLOR_BGR2GRAY)
-    else:
-        gray = roi.copy()
-
-    # 2. Mild denoising — removes salt-and-pepper from scanner noise
-    #    fastNlMeansDenoising is slow on large images but fine for a card crop.
-    gray = cv2.fastNlMeansDenoising(gray, h=10)
-
-    # 3. Adaptive binarisation — handles uneven illumination and faint ink
-    #    better than global Otsu on scanned pages.
-    binary = cv2.adaptiveThreshold(
-        gray,
-        255,
-        cv2.ADAPTIVE_THRESH_GAUSSIAN_C,
-        cv2.THRESH_BINARY,
-        blockSize=15,
-        C=8,
-    )
-
-    # 4. Morphological close — reconnects broken character strokes
-    kernel = cv2.getStructuringElement(cv2.MORPH_RECT, (1, 1))
-    binary = cv2.morphologyEx(binary, cv2.MORPH_CLOSE, kernel)
-
-    return binary
+    return preprocess_for_ocr(roi)

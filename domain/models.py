@@ -19,6 +19,7 @@ class PageType(str, Enum):
     METADATA = "METADATA"
     VOTER_LIST = "VOTER_LIST"
     SUMMARY = "SUMMARY"
+    BLANK = "BLANK"
 
 
 class CardRegion(BaseModel):

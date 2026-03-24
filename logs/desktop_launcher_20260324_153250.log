@@ -1,0 +1,7 @@
+[2026-03-24 15:32:50] Electra-Core desktop launcher started
+[2026-03-24 15:32:50] Project root: /Users/abhinaykalkhanday/Desktop/New_pdf2Excel
+[2026-03-24 15:32:50] Using virtual environment: /Users/abhinaykalkhanday/Library/Application Support/ElectraCoreLauncher/.venv
+[2026-03-24 15:32:50] Upgrading pip
+Requirement already satisfied: pip in ./Users/abhinaykalkhanday/Library/Application Support/ElectraCoreLauncher/.venv/lib/python3.9/site-packages (26.0.1)
+[2026-03-24 15:32:51] Installing dependencies
+ERROR: Could not open requirements file: [Errno 1] Operation not permitted: '/Users/abhinaykalkhanday/Desktop/New_pdf2Excel/requirements.txt'
