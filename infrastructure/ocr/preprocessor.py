@@ -76,6 +76,41 @@ def preprocess_for_ocr(image: np.ndarray) -> np.ndarray:
         raise RuntimeError(f"preprocess_for_ocr: OpenCV failure: {exc}") from exc
 
 
+def enforce_card_segmentation(
+    crops: list[np.ndarray], expected_ratio: float = 3.0
+) -> list[np.ndarray]:
+    """Split vertically under-segmented column crops into card-sized slices."""
+    refined_crops: list[np.ndarray] = []
+
+    for crop in crops:
+        if crop is None or not isinstance(crop, np.ndarray) or crop.size == 0:
+            continue
+
+        height, width = crop.shape[:2]
+        if height <= 0 or width <= 0:
+            continue
+
+        # Proper single-card crop: keep as-is.
+        if width > height:
+            refined_crops.append(crop)
+            continue
+
+        # Fallback: this is likely a full/partial vertical column of stacked cards.
+        ratio = expected_ratio if expected_ratio > 0 else 3.0
+        standard_card_height = max(1.0, float(width) / float(ratio))
+        num_cards = max(1, int(round(float(height) / standard_card_height)))
+        slice_height = max(1, int(height / num_cards))
+
+        for idx in range(num_cards):
+            y0 = int(idx * slice_height)
+            y1 = int(height if idx == num_cards - 1 else (idx + 1) * slice_height)
+            piece = crop[y0:y1, :]
+            if piece.size > 0:
+                refined_crops.append(piece)
+
+    return refined_crops
+
+
 def enhance_contrast_clahe(
     image: np.ndarray,
     clip_limit: float = 2.0,

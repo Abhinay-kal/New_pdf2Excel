@@ -34,6 +34,7 @@ from config.settings import (
 from domain.models import CardRegion, VoterCard
 from infrastructure.ocr.preprocessor import (
     deskew_image,
+    enforce_card_segmentation,
     enhance_contrast_clahe,
     is_valid_voter_card_crop,
     preprocess_card_roi,
@@ -682,69 +683,81 @@ class OcrEngine:
                 )
                 continue
 
-            # Fail-open crop gate: tag weak crops, but still attempt OCR to avoid
-            # silent attrition when the validity heuristic is overly strict.
-            crop_rejected = not is_valid_voter_card_crop(roi)
-            if crop_rejected:
+            segmented_rois = enforce_card_segmentation([roi], expected_ratio=3.0)
+            if len(segmented_rois) > 1:
                 log.debug(
-                    "page=%d card=%d crop flagged by circuit breaker (fail-open OCR)",
+                    "page=%d card=%d under-segmentation fallback produced %d slices",
                     page_no,
                     idx,
+                    len(segmented_rois),
                 )
 
-            preprocessed = self._prepare_roi_for_ocr(roi)
+            for segmented_roi in segmented_rois:
+                card_idx = len(cards) + 1
 
-            raw_text, avg_conf = self._ocr_text_with_confidence(preprocessed)
+                # Fail-open crop gate: tag weak crops, but still attempt OCR to avoid
+                # silent attrition when the validity heuristic is overly strict.
+                crop_rejected = not is_valid_voter_card_crop(segmented_roi)
+                if crop_rejected:
+                    log.debug(
+                        "page=%d card=%d crop flagged by circuit breaker (fail-open OCR)",
+                        page_no,
+                        card_idx,
+                    )
 
-            # Retry once on a deskewed ROI when confidence is low.
-            if avg_conf < OCR_RETRY_CONFIDENCE_THRESHOLD:
-                deskewed_roi = deskew_image(roi)
-                preprocessed_retry = self._prepare_roi_for_ocr(deskewed_roi)
-                retry_text, retry_conf = self._ocr_text_with_confidence(preprocessed_retry)
-                old_conf = avg_conf
-                delta = retry_conf - old_conf
-                accepted = retry_conf > old_conf
+                preprocessed = self._prepare_roi_for_ocr(segmented_roi)
 
-                log.debug(
-                    (
-                        "page=%d card=%d ocr_retry_attempt "
-                        "threshold=%.1f pre=%.1f post=%.1f delta=%.1f accepted=%s"
-                    ),
-                    page_no,
-                    idx,
-                    OCR_RETRY_CONFIDENCE_THRESHOLD,
-                    old_conf,
-                    retry_conf,
-                    delta,
-                    accepted,
+                raw_text, avg_conf = self._ocr_text_with_confidence(preprocessed)
+
+                # Retry once on a deskewed ROI when confidence is low.
+                if avg_conf < OCR_RETRY_CONFIDENCE_THRESHOLD:
+                    deskewed_roi = deskew_image(segmented_roi)
+                    preprocessed_retry = self._prepare_roi_for_ocr(deskewed_roi)
+                    retry_text, retry_conf = self._ocr_text_with_confidence(preprocessed_retry)
+                    old_conf = avg_conf
+                    delta = retry_conf - old_conf
+                    accepted = retry_conf > old_conf
+
+                    log.debug(
+                        (
+                            "page=%d card=%d ocr_retry_attempt "
+                            "threshold=%.1f pre=%.1f post=%.1f delta=%.1f accepted=%s"
+                        ),
+                        page_no,
+                        card_idx,
+                        OCR_RETRY_CONFIDENCE_THRESHOLD,
+                        old_conf,
+                        retry_conf,
+                        delta,
+                        accepted,
+                    )
+
+                    if retry_conf > avg_conf:
+                        raw_text = retry_text
+                        avg_conf = retry_conf
+
+                card = _parse_card_text(raw_text, card_index=card_idx)
+                extra_status: list[str] = []
+                if crop_rejected:
+                    extra_status.append("invalid_crop_circuit_breaker")
+                if not "".join(str(raw_text or "").split()):
+                    extra_status.append("empty_ocr_text")
+
+                merged_status = [*card.parse_status]
+                for status in extra_status:
+                    if status not in merged_status:
+                        merged_status.append(status)
+
+                # Attach the source region for audit purposes
+                cards.append(
+                    card.model_copy(
+                        update={
+                            "region": region,
+                            "ocr_confidence": avg_conf,
+                            "parse_status": merged_status,
+                        }
+                    )
                 )
-
-                if retry_conf > avg_conf:
-                    raw_text = retry_text
-                    avg_conf = retry_conf
-
-            card = _parse_card_text(raw_text, card_index=idx)
-            extra_status: list[str] = []
-            if crop_rejected:
-                extra_status.append("invalid_crop_circuit_breaker")
-            if not "".join(str(raw_text or "").split()):
-                extra_status.append("empty_ocr_text")
-
-            merged_status = [*card.parse_status]
-            for status in extra_status:
-                if status not in merged_status:
-                    merged_status.append(status)
-
-            # Attach the source region for audit purposes
-            cards.append(
-                card.model_copy(
-                    update={
-                        "region": region,
-                        "ocr_confidence": avg_conf,
-                        "parse_status": merged_status,
-                    }
-                )
-            )
 
         return cards
 
