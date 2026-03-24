@@ -1,27 +1,27 @@
 Page,PageStatus,PageType,StrategyUsed,CardCount,MissingEPICCount,MissingEPICRatio,OKRowCount,SkipReason
 1,unknown,,,,,,,
-2,skipped,METADATA,,,,,,classified_as_METADATA
-3,skipped,METADATA,,,,,,classified_as_METADATA
-4,skipped,METADATA,,,,,,classified_as_METADATA
-5,skipped,METADATA,,,,,,classified_as_METADATA
-6,skipped,METADATA,,,,,,classified_as_METADATA
-7,skipped,METADATA,,,,,,classified_as_METADATA
-8,skipped,METADATA,,,,,,classified_as_METADATA
-9,skipped,METADATA,,,,,,classified_as_METADATA
-10,skipped,METADATA,,,,,,classified_as_METADATA
-11,skipped,METADATA,,,,,,classified_as_METADATA
-12,skipped,METADATA,,,,,,classified_as_METADATA
-13,skipped,METADATA,,,,,,classified_as_METADATA
-14,skipped,METADATA,,,,,,classified_as_METADATA
-15,skipped,METADATA,,,,,,classified_as_METADATA
-16,skipped,METADATA,,,,,,classified_as_METADATA
-17,skipped,METADATA,,,,,,classified_as_METADATA
-18,skipped,METADATA,,,,,,classified_as_METADATA
-19,skipped,METADATA,,,,,,classified_as_METADATA
-20,skipped,METADATA,,,,,,classified_as_METADATA
-21,skipped,METADATA,,,,,,classified_as_METADATA
-22,skipped,METADATA,,,,,,classified_as_METADATA
-23,skipped,METADATA,,,,,,classified_as_METADATA
-24,skipped,METADATA,,,,,,classified_as_METADATA
-25,skipped,METADATA,,,,,,classified_as_METADATA
+2,review_queue,VOTER_LIST,,,,,,"Page 2: forensic validation failed — expected 30 cards, got 7."
+3,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+4,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+5,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+6,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+7,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+8,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+9,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+10,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+11,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+12,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+13,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+14,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+15,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+16,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+17,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+18,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+19,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+20,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+21,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+22,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+23,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+24,review_queue,VOTER_LIST,,,,,,Strategy 'blob_clustering' failed: dilation blob detection found no candidate card regions
+25,review_queue,VOTER_LIST,,,,,,"Page 25: forensic validation failed — expected 30 cards, got 1."
 26,unknown,,,,,,,
