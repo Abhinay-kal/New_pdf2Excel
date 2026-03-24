@@ -156,23 +156,19 @@ def _is_blank_card_payload(card: dict[str, Any]) -> bool:
     )
 
 
-def export_to_excel(json_data: list[dict]) -> pd.DataFrame:
-    """Flatten voter JSON payload into a strict 1-to-1 Excel DataFrame.
+def export_to_excel(
+    json_payload: list[dict], output_file: str = "Extracted_data.xlsx"
+) -> pd.DataFrame:
+    """Flatten voter JSON payload into the exact client-mandated export schema."""
 
-    Args:
-        json_data: List of page dictionaries containing card lists under keys
-            such as ``cards``, ``records``, ``finalized_cards``, or
-            ``extracted_data.cards``.
+    def _clean_text(value: Any) -> str:
+        if value is None or pd.isna(value):
+            return ""
+        return str(value).strip()
 
-    Returns:
-        A deduplicated DataFrame with schema:
-        ``Page, Voter ID, Name, Relation, House No, Age, Gender``.
-    """
-    flat_rows: list[dict[str, Any]] = []
+    flat_records: list[dict[str, str]] = []
 
-    for page in json_data:
-        page_num = page.get("page_no", page.get("id", ""))
-
+    for page in json_payload:
         cards: list[dict[str, Any]] = []
 
         page_cards = page.get("cards")
@@ -198,46 +194,58 @@ def export_to_excel(json_data: list[dict]) -> pd.DataFrame:
             cards.append(finalized_data)
 
         for card in cards:
-            epic_id = "".join(str(card.get("epic_id", "") or "").split())
-            name = "".join(str(card.get("name", "") or "").split())
-            if _is_blank_card_payload(card):
-                continue  # Drop ghost cards (blank grid slots)
+            eid = _clean_text(card.get("epic_id", ""))
+            name = _clean_text(card.get("name", ""))
 
-            relation = (
-                str(card.get("relation_name", "") or "").strip()
-                or str(card.get("relation_type", "") or "").strip()
-            )
+            # Ghost-card filter: skip only when both primary identity fields are empty.
+            if not eid and not name:
+                continue
 
-            flat_rows.append(
+            flat_records.append(
                 {
-                    "Page": page_num,
-                    "Voter ID": epic_id,
-                    "Name": name,
-                    "Relation": relation,
-                    "House No": str(card.get("house_no", "") or "").strip(),
-                    "Age": card.get("age", ""),
-                    "Gender": str(card.get("gender", "") or "").strip(),
+                    "name": name,
+                    "EId": eid,
+                    "husband/father/mother name": _clean_text(
+                        card.get("relation", card.get("relation_name", ""))
+                    ),
+                    "house number": _clean_text(card.get("house_no", "")),
+                    "age": _clean_text(card.get("age", "")),
+                    "gender": _clean_text(card.get("gender", "")),
                 }
             )
 
     df = pd.DataFrame(
-        flat_rows,
-        columns=["Page", "Voter ID", "Name", "Relation", "House No", "Age", "Gender"],
+        flat_records,
+        columns=[
+            "name",
+            "EId",
+            "husband/father/mother name",
+            "house number",
+            "age",
+            "gender",
+        ],
     )
 
-    # Safety net: remove rows where both identity fields are blank.
-    df.dropna(subset=["Voter ID", "Name"], how="all", inplace=True)
+    # Strict deduplication before generating final sequential voters index.
+    df.drop_duplicates(subset=["EId", "name"], keep="first", inplace=True)
 
-    # Safe deduplication: never collapse rows missing Voter ID.
-    id_mask = df["Voter ID"].astype(str).str.strip() != ""
-    df_with_id = df[id_mask]
-    df_missing_id = df[~id_mask]
-    df_with_id = df_with_id.drop_duplicates(subset=["Voter ID", "Name"], keep="first")
-    df = pd.concat([df_with_id, df_missing_id], ignore_index=True)
-
-    # Excel-friendly cleanup.
+    # Ensure there are no NaNs in the export.
     df.fillna("", inplace=True)
 
+    df.insert(0, "voters", range(1, len(df) + 1))
+    df = df[
+        [
+            "voters",
+            "name",
+            "EId",
+            "husband/father/mother name",
+            "house number",
+            "age",
+            "gender",
+        ]
+    ]
+
+    df.to_excel(output_file, index=False)
     return df
 
 
