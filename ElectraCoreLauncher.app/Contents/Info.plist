@@ -10,8 +10,12 @@
     <string>com.electracore.launcher</string>
     <key>CFBundleInfoDictionaryVersion</key>
     <string>6.0</string>
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
     <key>CFBundleName</key>
     <string>ElectraCoreLauncher</string>
+    <key>CFBundleDisplayName</key>
+    <string>Electra-Core Launcher</string>
     <key>CFBundlePackageType</key>
     <string>APPL</string>
     <key>CFBundleShortVersionString</key>

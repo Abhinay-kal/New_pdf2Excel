@@ -21,7 +21,12 @@ notify_info() {
 
 show_error_dialog() {
   local message="$1"
-  /usr/bin/osascript -e "display dialog \"${message}\" buttons {\"OK\"} default button \"OK\" with icon stop" >/dev/null 2>&1 || true
+  /usr/bin/osascript -e "display dialog \"${message}\" with title \"Electra-Core Launcher\" buttons {\"OK\"} default button \"OK\" with icon stop" >/dev/null 2>&1 || true
+}
+
+show_success_dialog() {
+  local message="$1"
+  /usr/bin/osascript -e "display dialog \"${message}\" with title \"Electra-Core Launcher\" buttons {\"OK\"} default button \"OK\" with icon note" >/dev/null 2>&1 || true
 }
 
 if ! command -v python3 >/dev/null 2>&1; then
@@ -78,6 +83,7 @@ cd "$ROOT_DIR"
 if python main.py "$PDF_PATH"; then
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] SUCCESS"
   notify_info "Electra-Core" "Extraction complete. Log: $(basename "$LOG_FILE")"
+  show_success_dialog "Extraction completed successfully.\\n\\nLog file: $LOG_FILE"
 else
   exit_code=$?
   echo "[$(date '+%Y-%m-%d %H:%M:%S')] ERROR: pipeline exited with code $exit_code"

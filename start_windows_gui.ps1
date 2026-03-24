@@ -70,12 +70,22 @@ try {
     Write-Host "[Electra-Core] Running extraction for: $pdfPath"
     & $pythonExe (Join-Path $ProjectRoot "main.py") $pdfPath
 
-    [System.Windows.Forms.MessageBox]::Show("Extraction completed successfully.`n`nLog: $logFile", "Electra-Core", "OK", "Information") | Out-Null
+    [System.Windows.Forms.MessageBox]::Show(
+        "Extraction completed successfully.`n`nLog file:`n$logFile",
+        "Electra-Core Launcher",
+        [System.Windows.Forms.MessageBoxButtons]::OK,
+        [System.Windows.Forms.MessageBoxIcon]::Information
+    ) | Out-Null
 }
 catch {
     Write-Error $_
     Add-Type -AssemblyName System.Windows.Forms
-    [System.Windows.Forms.MessageBox]::Show("Extraction failed.`n`n$($_.Exception.Message)`n`nLog: $logFile", "Electra-Core", "OK", "Error") | Out-Null
+    [System.Windows.Forms.MessageBox]::Show(
+        "Extraction failed.`n`n$($_.Exception.Message)`n`nLog file:`n$logFile",
+        "Electra-Core Launcher",
+        [System.Windows.Forms.MessageBoxButtons]::OK,
+        [System.Windows.Forms.MessageBoxIcon]::Error
+    ) | Out-Null
     exit 1
 }
 finally {
