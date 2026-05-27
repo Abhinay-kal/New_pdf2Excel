@@ -262,7 +262,10 @@ class PageProcessor:
     # ------------------------------------------------------------------ #
 
     def process_page(
-        self, page_image: PILImage, page_no: int
+        self,
+        page_image: PILImage,
+        page_no: int,
+        is_last_page: bool = False,
     ) -> Optional[PageResult]:
         """
         Classify then attempt quality-gated extraction on a single page.
@@ -315,7 +318,7 @@ class PageProcessor:
                 regions: List[CardRegion] = strategy.detect_cards(page_image)
 
                 # ── Gate 1: Forensic count ─────────────────────────────────────
-                self._validator.validate(regions, page_no)
+                self._validator.validate(regions, page_no, is_last_page)
 
                 # ── Gate 2: Quality ratio — run OCR then measure ───────────────
                 raw_results: List[RawOcrResult] = self._ocr.extract_raw_text(page_image, regions, page_no)
@@ -487,8 +490,9 @@ class PageProcessor:
 
         for offset, image in enumerate(images):
             page_no = start_page + offset
+            is_last = offset == total - 1
             log.debug("page=%d/%d processing…", page_no, total)
-            result = self.process_page(image, page_no)
+            result = self.process_page(image, page_no, is_last_page=is_last)
             if result is not None:
                 results.append(result)
 

@@ -36,18 +36,24 @@ class LayoutValidator:
     ``_check_*`` methods called from ``validate``.
     """
 
-    def validate(self, regions: List[CardRegion], page_no: int) -> None:
+    def validate(
+        self,
+        regions: List[CardRegion],
+        page_no: int,
+        is_last_page: bool = False,
+    ) -> None:
         """
         Assert that forensic constraints are satisfied.
 
         Args:
             regions:  CardRegions returned by a LayoutStrategy.
             page_no:  1-based page number (used in the exception message).
+            is_last_page: Whether this is the final page in the batch.
 
         Raises:
             ForensicValidationError: if any rule is violated.
         """
-        self._check_count(regions, page_no)
+        self._check_count(regions, page_no, is_last_page)
 
     def validate_quality(self, cards, page_no: int) -> None:
         total = len(cards) or 1
@@ -73,11 +79,23 @@ class LayoutValidator:
     # ------------------------------------------------------------------ #
 
     @staticmethod
-    def _check_count(regions: List[CardRegion], page_no: int) -> None:
-        """Rule 1: exact card count."""
-        if len(regions) != EXPECTED_CARDS_PER_PAGE:
+    def _check_count(
+        regions: List[CardRegion],
+        page_no: int,
+        is_last_page: bool,
+    ) -> None:
+        """Rule 1: exact card count, with a relaxed final-page bound."""
+        count = len(regions)
+        if is_last_page:
+            if not (0 < count <= EXPECTED_CARDS_PER_PAGE):
+                raise ForensicValidationError(
+                    page_no=page_no,
+                    found=count,
+                    expected=EXPECTED_CARDS_PER_PAGE,
+                )
+        elif count != EXPECTED_CARDS_PER_PAGE:
             raise ForensicValidationError(
                 page_no=page_no,
-                found=len(regions),
+                found=count,
                 expected=EXPECTED_CARDS_PER_PAGE,
             )
