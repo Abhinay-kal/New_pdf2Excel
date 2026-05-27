@@ -1,2 +1,6 @@
 {
+    "sonarlint.connectedMode.project": {
+        "connectionId": "abhinay-kal",
+        "projectKey": "Abhinay-kal_New_pdf2Excel"
+    }
 }

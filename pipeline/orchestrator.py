@@ -47,8 +47,10 @@ from PIL.Image import Image as PILImage
 from config.settings import DEFAULT_DPI, POPPLER_PATH, TESSERACT_EXE
 from domain.exceptions import ForensicValidationError, StrategyError
 from domain.interfaces import LayoutStrategy
-from domain.models import CardRegion, PageType, VoterCard
+from domain.models import CardRegion, PageType, RawOcrResult, VoterCard
+from domain.parsers import VoterCardParser
 from infrastructure.ocr.engine import OcrEngine
+from domain.rules import validate_demographics
 from infrastructure.ocr.preprocessor import (
     deskew_image_with_angle,
     preprocess_for_ocr,
@@ -156,15 +158,17 @@ class PageProcessor:
         ocr_engine: Optional[OcrEngine] = None,
         validator: Optional[LayoutValidator] = None,
     ) -> None:
+        if strategies is not None and not strategies:
+            raise ValueError("PageProcessor requires at least one strategy.")
+
         self._strategies: List[LayoutStrategy] = strategies or [
             CvGridChopStrategy(),
             BlobClusteringStrategy(),
             DoubleAnchorStrategy(),
             GridProjectionStrategy(),
         ]
-        if not self._strategies:
-            raise ValueError("PageProcessor requires at least one strategy.")
         self._ocr: OcrEngine = ocr_engine or OcrEngine()
+        self._parser = VoterCardParser()
         self._validator = validator or LayoutValidator()
         self.human_review_queue: List[HumanReviewItem] = []
         self.skipped_pages: List[SkippedPageResult] = []
@@ -272,7 +276,7 @@ class PageProcessor:
         # ── Step 0: Deskew full page once (shared by all downstream stages) ──
         page_arr = np.array(page_image)
         deskewed_arr, skew_angle = deskew_image_with_angle(page_arr)
-        if skew_angle != 0.0:
+        if abs(skew_angle) > 1e-6:
             log.info("page=%d deskew_applied angle_deg=%.2f", page_no, skew_angle)
         else:
             log.debug("page=%d deskew_skipped angle_deg=0.00", page_no)
@@ -314,9 +318,26 @@ class PageProcessor:
                 self._validator.validate(regions, page_no)
 
                 # ── Gate 2: Quality ratio — run OCR then measure ───────────────
-                cards = self._ocr.extract_cards(page_image, regions, page_no)
+                raw_results: List[RawOcrResult] = self._ocr.extract_raw_text(page_image, regions, page_no)
+                parser = self._parser
+                cards: List[VoterCard] = [parser.parse(result) for result in raw_results]
+
+                # Preserve raw OCR provenance on parsed cards.
+                for card, raw_result in zip(cards, raw_results):
+                    if raw_result.crop_rejected:
+                        card.parse_status.append("invalid_crop_circuit_breaker")
+                    if not "".join(str(raw_result.raw_text or "").split()):
+                        card.parse_status.append("empty_ocr_text")
+
+                    validation_result = validate_demographics(card.model_dump())
+                    if validation_result.get("status") == "FLAGGED_FOR_HUMAN":
+                        reason = validation_result.get("flag_reason") or "demographics_rule_failed"
+                        card.parse_status.append(f"demographics_flagged:{reason}")
+
+                validated_cards = cards
+
                 cards = [
-                    c for c in cards
+                    c for c in validated_cards
                     if not _is_ghost_card(c.epic_id, c.name)
                 ]
                 self._validator.validate_quality(cards, page_no)

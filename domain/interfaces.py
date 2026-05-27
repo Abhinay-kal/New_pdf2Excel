@@ -7,7 +7,7 @@ Heavy libraries (cv2, numpy) are kept out via TYPE_CHECKING.
 """
 from __future__ import annotations
 
-from typing import TYPE_CHECKING, List, Protocol, runtime_checkable
+from typing import TYPE_CHECKING, Any, Dict, List, Optional, Protocol, runtime_checkable
 
 if TYPE_CHECKING:
     from PIL.Image import Image as PILImage
@@ -43,4 +43,15 @@ class LayoutStrategy(Protocol):
             StrategyError: If the strategy cannot produce any result
                            (e.g. blank page, OpenCV exception).
         """
+        ...
+
+
+class ReviewRepository(Protocol):
+    def get_next_pending(self) -> Optional[Dict[str, Any]]:
+        ...
+
+    def get_pending_count(self) -> int:
+        ...
+
+    def save_finalized(self, item_id: str, record: Dict[str, Any]) -> None:
         ...

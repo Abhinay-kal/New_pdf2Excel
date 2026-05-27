@@ -7,19 +7,18 @@ Responsibilities:
   3. Run Tesseract and emit a raw text string.
   4. Parse the text with regex into a structured VoterCard.
 
-Field-level parsing is ported from PDF_To_Excel/grid_chop.py and
-hardened with explicit gender normalisation and parse-status flags.
+This layer is intentionally dumb: it only crops, preprocesses, and runs
+Tesseract. Parsing and business rules live in ``domain.parsers`` and
+``domain.rules``.
 """
 from __future__ import annotations
 
 import logging
-import re
 from typing import List
 
 import numpy as np
 import pytesseract
 from PIL.Image import Image as PILImage
-from rapidfuzz import fuzz
 
 from config.settings import (
     OCR_CLAHE_BINARIZE,
@@ -31,7 +30,7 @@ from config.settings import (
     OCR_RETRY_CONFIDENCE_THRESHOLD,
     TESSERACT_EXE,
 )
-from domain.models import CardRegion, VoterCard
+from domain.models import CardRegion, RawOcrResult
 from infrastructure.ocr.preprocessor import (
     deskew_image,
     enforce_card_segmentation,
@@ -43,626 +42,27 @@ from infrastructure.ocr.preprocessor import (
 log = logging.getLogger(__name__)
 
 pytesseract.pytesseract.tesseract_cmd = TESSERACT_EXE
-
-# ── Field regex patterns ────────────────────────────────────────────────────────
-_EPIC_RE = re.compile(r"([A-Z]{3}\d{7})", re.ASCII)
-_HOUSE_RE = re.compile(
-    r"House\s*Number\s*[:\-\.]\s*([0-9A-Za-z\-/]+)", re.IGNORECASE
-)
-_AGE_RE = re.compile(r"Age\s*[:\-\.]\s*(\d+)", re.IGNORECASE)
-_GENDER_RE = re.compile(r"Gender\s*[:\-\.]\s*([A-Za-z]+)", re.IGNORECASE)
-_SERIAL_RE = re.compile(r"^\s*(\d{1,3})\s*$")
-_AGE_VALUE_RE = re.compile(r"[:\-\.]\s*(\d{1,3})\b", re.IGNORECASE)
-_GENDER_VALUE_RE = re.compile(r"[:\-\.]\s*([A-Za-z]+)\b", re.IGNORECASE)
-_NAME_VALUE_RE = re.compile(r"[:\-\.]\s*([A-Za-z][A-Za-z .']{1,80})", re.IGNORECASE)
-
-# Words that indicate we are inside a header row, not a voter card
-_HEADER_KEYWORDS = frozenset(
-    {
-        "assembly constituency",
-        "part no",
-        "namerole",
-        "relative name",
-        "house number",
-        "photo",
-        "available",
-        "deleted",
-        "section",
-    }
-)
-
-_EPIC_TOLERANT_RE = re.compile(
-    r"\b([A-Z]{3})\s*[-: ]?\s*([0-9OISBZL]{7})\b",
-    re.IGNORECASE
-)
-
-_DIGIT_FIX = str.maketrans({
-    "O": "0", "I": "1", "L": "1", "S": "5", "B": "8", "Z": "2"
-})
-
-# ── EPIC ID hallucination correction tables ────────────────────────────────────
-# Prefix fix: translate common digit→letter hallucinations (e.g., 5→S, 0→O)
-_PREFIX_FIX = str.maketrans({
-    "0": "O", "1": "I", "5": "S", "8": "B"
-})
-
-# Suffix fix: translate common letter→digit hallucinations (e.g., O→0, S→5)
-_SUFFIX_FIX = str.maketrans({
-    "O": "0", "o": "0", "I": "1", "i": "1", "L": "1", "l": "1",
-    "S": "5", "s": "5", "B": "8", "b": "8", "Z": "2", "z": "2"
-})
-
-
-def clean_epic_id(raw_ocr_string: str | None) -> str | None:
-    r"""Auto-correct Indian Voter EPIC ID from OCR hallucinations.
-
-    This function deterministically recovers EPIC IDs mangled by Tesseract
-    optical confusion errors (e.g., Tesseract reading a `5` as an `S`, or a
-    `0` as an `O`). It uses a relaxed regex capture followed by positional
-    character translation to guarantee maximum data retention for human review.
-
-    The standard EPIC ID format is: 3 uppercase letters + 7 digits
-    (e.g., `ABC1234567` for state code + sequential voter ID).
-
-    Args:
-        raw_ocr_string: Raw text from Tesseract (may contain hallucinations,
-            noise, or spacing issues). Can be None or empty.
-
-    Returns:
-        Cleaned EPIC ID string (`[A-Z]{3}\d{7}`) if recovery succeeds,
-        or None if the input is malformed or recovery fails validation.
-
-    Example:
-        >>> clean_epic_id("ABC5678901")  # 5 misread as S
-        'ABC1234567'
-        >>> clean_epic_id("A8C1234567")  # 8 misread as B in prefix
-        'ABC1234567'
-        >>> clean_epic_id("ABC O1234567")  # O misread as 0 in suffix
-        'ABC1234567'
-        >>> clean_epic_id(None)
-        None
-        >>> clean_epic_id("")
-        None
-    """
-    # Handle None or empty strings gracefully.
-    if not raw_ocr_string or not isinstance(raw_ocr_string, str):
-        return None
-
-    raw_ocr_string = raw_ocr_string.strip()
-    if not raw_ocr_string:
-        return None
-
-    # ── Relaxed capture: find ANY contiguous 10-character alphanumeric block ──
-    # This regex is intentionally permissive (not strict validation).
-    relaxed_match = re.search(r"[A-Z0-9]{10}", raw_ocr_string.upper())
-    if not relaxed_match:
-        return None
-
-    captured_10char = relaxed_match.group(0)
-
-    # ── Positional slicing: prefix (first 3) + suffix (last 7) ────────────────
-    prefix_raw = captured_10char[:3]
-    suffix_raw = captured_10char[3:10]
-
-    # ── Fix Prefix: translate numbers → letters (0→O, 1→I, 5→S, 8→B) ────────
-    prefix_fixed = prefix_raw.translate(_PREFIX_FIX)
-
-    # ── Fix Suffix: translate letters → numbers (O→0, S→5, B→8, Z→2, etc.) ──
-    suffix_fixed = suffix_raw.translate(_SUFFIX_FIX)
-
-    # ── Reassembly ─────────────────────────────────────────────────────────────
-    candidate = prefix_fixed + suffix_fixed
-
-    # ── Strict validation: ensure format is exactly [A-Z]{3}\d{7} ────────────
-    if re.fullmatch(r"[A-Z]{3}\d{7}", candidate):
-        return candidate
-
-    return None
-
-
-def extract_value_fuzzy(
-    ocr_text: str,
-    target_keyword: str,
-    value_pattern: str | re.Pattern,
-    threshold: float = 85.0,
-) -> str | None:
-    """Extract a value from OCR lines using fuzzy keyword anchoring.
-
-    This function mitigates OCR typos on static anchors such as "Name" and
-    "Age" by combining fuzzy keyword matching and regex extraction on a
-    per-line basis.
-
-    Args:
-        ocr_text: Raw OCR text from one card/region.
-        target_keyword: Anchor keyword to locate (for example, "Name").
-        value_pattern: Regex string or precompiled regex used to extract the
-            target value from a matched line.
-        threshold: Minimum fuzzy score required to treat a line as anchored.
-
-    Returns:
-        Extracted and cleaned value on first successful match, otherwise None.
-    """
-    if not isinstance(ocr_text, str) or not ocr_text.strip():
-        return None
-    if not isinstance(target_keyword, str) or not target_keyword.strip():
-        return None
-
-    pattern: re.Pattern
-    if isinstance(value_pattern, str):
-        pattern = re.compile(value_pattern, re.IGNORECASE)
-    elif isinstance(value_pattern, re.Pattern):
-        pattern = value_pattern
-    else:
-        raise ValueError(
-            "extract_value_fuzzy: 'value_pattern' must be str or re.Pattern"
-        )
-
-    # Keep only letters/digits/spaces for stable fuzzy scoring.
-    def _norm(s: str) -> str:
-        s = s.lower()
-        s = re.sub(r"[^a-z0-9\s]", " ", s)
-        s = re.sub(r"\s+", " ", s).strip()
-        return s
-
-    def _anchor_score(target: str, line: str) -> float:
-        """
-        Compute a conservative fuzzy anchor score with false-positive checks.
-
-        Mitigations:
-        1) Penalize huge length disparities (single-token target vs long line).
-        2) Penalize matches whose best signal is far from line start, to avoid
-           cases like target='name' matching "father's name".
-        """
-        target_n = _norm(target)
-        line_n = _norm(line)
-        if not target_n or not line_n:
-            return 0.0
-
-        base = float(fuzz.partial_ratio(target_n, line_n))
-
-        len_ratio = len(line_n) / max(1, len(target_n))
-        if len_ratio > 4.0:
-            base -= min(20.0, (len_ratio - 4.0) * 3.0)
-
-        # Prefix alignment: anchors usually appear near line start.
-        line_tokens = line_n.split()
-        target_tokens = target_n.split()
-        if not line_tokens or not target_tokens:
-            return 0.0
-
-        # Score first-token alignment (robust against 1-2 OCR character flips).
-        start_tok_score = float(fuzz.ratio(target_tokens[0], line_tokens[0]))
-        if start_tok_score < 70.0:
-            base -= (70.0 - start_tok_score) * 0.6
-
-        # If exact target phrase exists but starts late, penalize.
-        phrase_pos = line_n.find(target_n)
-        if phrase_pos > max(2, len(target_n) // 2):
-            base -= 12.0
-
-        return max(0.0, min(100.0, base))
-
-    for raw_line in ocr_text.splitlines():
-        line = raw_line.strip()
-        if not line:
-            continue
-
-        score = _anchor_score(target_keyword, line)
-        if score < threshold:
-            continue
-
-        match = pattern.search(line)
-        if match is None:
-            # Anchor found, but extraction missing on this line. Keep scanning.
-            continue
-
-        try:
-            if match.lastindex and match.lastindex >= 1:
-                value = match.group(1)
-            else:
-                value = match.group(0)
-        except (IndexError, AttributeError):
-            continue
-
-        if value is None:
-            continue
-
-        cleaned = value.strip()
-        cleaned = re.sub(r"^[\s|_:\-\.]+", "", cleaned)
-        cleaned = re.sub(r"[\s|_:\-\.]+$", "", cleaned)
-        if cleaned:
-            return cleaned
-
-    return None
-
-
-def extract_with_telemetry(
-    image: np.ndarray,
-    target_regex: re.Pattern,
-    min_confidence: float = 75.0,
-) -> dict | None:
-    """Extract a regex-matched value and route by token-level OCR confidence.
-
-    The function reads Tesseract word-level telemetry from ``image_to_data`` and
-    computes confidence only on tokens that contributed to the matched value.
-
-    Args:
-        image: OCR input image as a NumPy array.
-        target_regex: Compiled regex used to locate the target value in
-            reconstructed OCR text.
-        min_confidence: Minimum token-level confidence required for automatic
-            approval.
-
-    Returns:
-        A routing payload with extracted value, confidence, and status:
-        ``AUTO_APPROVED`` or ``FLAGGED_FOR_HUMAN``. Returns None when no regex
-        match is found or no valid OCR tokens are available.
-    """
-    if image is None or not isinstance(image, np.ndarray) or image.size == 0:
-        return None
-    if not isinstance(target_regex, re.Pattern):
-        raise ValueError("extract_with_telemetry: 'target_regex' must be re.Pattern")
-
-    try:
-        data = pytesseract.image_to_data(image, output_type=pytesseract.Output.DICT)
-    except Exception:
-        return None
-
-    if not data or not isinstance(data, dict) or not data.get("text"):
-        return None
-
-    texts = data.get("text", [])
-    confs = data.get("conf", [])
-    n = min(len(texts), len(confs))
-    if n == 0:
-        return None
-
-    valid_tokens: list[tuple[str, float]] = []
-    for i in range(n):
-        token = str(texts[i] if texts[i] is not None else "").strip()
-        if not token:
-            continue
-
-        raw_conf = confs[i]
-        try:
-            conf_val = float(raw_conf)
-        except (TypeError, ValueError):
-            continue
-
-        # Tesseract uses -1 for non-word/empty blocks; ignore those entries.
-        if conf_val == -1.0:
-            continue
-
-        valid_tokens.append((token, conf_val))
-
-    if not valid_tokens:
-        return None
-
-    # Build space-preserving text + token char spans to map regex match back to tokens.
-    full_text_parts: list[str] = []
-    token_spans: list[tuple[int, int, float]] = []
-    cursor = 0
-    for idx, (token, conf_val) in enumerate(valid_tokens):
-        if idx > 0:
-            full_text_parts.append(" ")
-            cursor += 1
-        start = cursor
-        full_text_parts.append(token)
-        cursor += len(token)
-        token_spans.append((start, cursor, conf_val))
-
-    full_text = "".join(full_text_parts)
-    match = target_regex.search(full_text)
-    if match is None:
-        return None
-
-    extracted = match.group(0).strip()
-    if not extracted:
-        return None
-
-    m_start, m_end = match.span()
-    matched_token_confs = [
-        conf
-        for t_start, t_end, conf in token_spans
-        if t_end > m_start and t_start < m_end
-    ]
-
-    # Fallback for patterns that may ignore spaces/hyphens and span boundaries.
-    if not matched_token_confs:
-        compact_tokens = [re.sub(r"\W+", "", tok) for tok, _ in valid_tokens]
-        compact_text = "".join(compact_tokens)
-        compact_match = target_regex.search(compact_text)
-        if compact_match is None:
-            return None
-
-        c_start, c_end = compact_match.span()
-        compact_cursor = 0
-        for idx, token in enumerate(compact_tokens):
-            tok_start = compact_cursor
-            tok_end = compact_cursor + len(token)
-            compact_cursor = tok_end
-            if tok_end > c_start and tok_start < c_end:
-                matched_token_confs.append(valid_tokens[idx][1])
-
-        extracted = compact_match.group(0).strip() or extracted
-
-    if not matched_token_confs:
-        return None
-
-    min_token_conf = float(min(matched_token_confs))
-    status = (
-        "AUTO_APPROVED"
-        if min_token_conf >= float(min_confidence)
-        else "FLAGGED_FOR_HUMAN"
-    )
-
-    return {
-        "value": extracted,
-        "confidence": min_token_conf,
-        "status": status,
-    }
-
-
-def validate_demographics(extracted_data: dict) -> dict:
-    """Validate cross-field demographic logic and append routing metadata.
-
-    The function is deterministic and side-effect free: it never mutates the
-    incoming dictionary and only appends validation fields in the returned
-    payload.
-
-    Args:
-        extracted_data: Parsed OCR payload. Expected keys may include
-            ``voter_id``, ``name``, ``age``, ``gender``, and ``relation_type``.
-            Keys may be absent or contain ``None``.
-
-    Returns:
-        A new dictionary containing all original keys plus:
-        - ``status``: ``AUTO_APPROVED`` or ``FLAGGED_FOR_HUMAN``
-        - ``flag_reason``: ``None`` when approved, otherwise a specific reason.
-    """
-    payload = dict(extracted_data or {})
-
-    def _flag(reason: str) -> dict:
-        out = dict(payload)
-        out["status"] = "FLAGGED_FOR_HUMAN"
-        out["flag_reason"] = reason
-        return out
-
-    raw_age = payload.get("age")
-    try:
-        parsed_age = int(raw_age)
-    except (TypeError, ValueError):
-        return _flag(f"age_parse_failed(value={raw_age!r})")
-
-    # Rule 1: statutory voter-age bounds.
-    if parsed_age < 18 or parsed_age > 120:
-        return _flag(f"age_out_of_bounds(age={parsed_age})")
-
-    relation_type = str(payload.get("relation_type") or "").strip().lower()
-    gender = str(payload.get("gender") or "").strip().lower()
-
-    # Rule 2: dataset-specific logical consistency guard.
-    if relation_type == "husband" and gender == "male":
-        return _flag(
-            "relation_gender_inconsistent(relation_type=Husband, gender=Male)"
-        )
-
-    approved = dict(payload)
-    approved["status"] = "AUTO_APPROVED"
-    approved["flag_reason"] = None
-    return approved
-
-def _normalize_epic_candidate(prefix: str, suffix: str) -> str | None:
-    p = re.sub(r"[^A-Za-z]", "", prefix).upper()
-    s = re.sub(r"[^0-9A-Za-z]", "", suffix).upper().translate(_DIGIT_FIX)
-    if len(p) == 3 and len(s) == 7 and s.isdigit():
-        return f"{p}{s}"
-    return None
-
-def _extract_epic(text: str) -> str | None:
-    cleaned = text.upper().replace(" ", "")
-    strict = re.search(r"\b[A-Z]{3}\d{7}\b", cleaned)
-    if strict:
-        return strict.group(0)
-
-    for m in _EPIC_TOLERANT_RE.finditer(text.upper()):
-        epic = _normalize_epic_candidate(m.group(1), m.group(2))
-        if epic:
-            return epic
-
-    # ── Final pass: comprehensive hallucination recovery ─────────────────────
-    # Use the robust clean_epic_id function to recover from remaining
-    # hallucinations (e.g., digit↔letter confusions unhandled by stricter
-    # patterns). This dramatically improves data retention when all OCR
-    # strategies fail to produce valid EPIC IDs.
-    cleaned_epic = clean_epic_id(text)
-    if cleaned_epic:
-        return cleaned_epic
-
-    return None
-
-def _clean_text(raw: str) -> str:
-    """Remove OCR noise characters and fix common misreads."""
-    text = raw.replace("*", "").replace("?", "").replace("'", "").replace('"', "")
-    text = text.replace("Narne", "Name").replace("Nare", "Name")
-    return text
-
-
-def _is_header(text: str) -> bool:
-    lower = text.lower()
-    return sum(1 for kw in _HEADER_KEYWORDS if kw in lower) >= 2
-
-
-def _normalise_gender(raw: str) -> str:
-    """Map OCR gender noise onto canonical 'Male' / 'Female'."""
-    lower = raw.lower()
-    if "fem" in lower:
-        return "Female"
-    if "mal" in lower:
-        return "Male"
-    return raw.capitalize()
-
-
-def _parse_card_text(text: str, card_index: int) -> VoterCard:
-    """
-    Extract structured fields from a single card's raw OCR text.
-
-    Uses a layered approach:
-      Layer 1 — regex for unambiguous fields (EPIC, HouseNo, Age, Gender).
-      Layer 2 — line scan for Name and Relation (positional heuristics).
-    """
-    if _is_header(text):
-        return VoterCard(
-            card_index=card_index,
-            raw_ocr_text=text,
-            parse_status=["skipped_header"],
-        )
-
-    text = _clean_text(text)
-
-    # ── Layer 1: regex extraction ───────────────────────────────────────────────
-    epic_m = _EPIC_RE.search(text)
-    epic = _extract_epic(text)
-    house_m = _HOUSE_RE.search(text)
-    age_m = _AGE_RE.search(text)
-    gender_m = _GENDER_RE.search(text)
-    serial_m = _SERIAL_RE.search(text.splitlines()[0]) if text.strip() else None
-
-    # ── Layer 2: line scan for Name / Relation ─────────────────────────────────
-    name: str | None = None
-    relation_type: str | None = None
-    relation_name: str | None = None
-
-    # Fuzzy anchor extraction for OCR-typo resilience.
-    fuzzy_name = extract_value_fuzzy(
-        text,
-        target_keyword="Name",
-        value_pattern=_NAME_VALUE_RE,
-        threshold=86.0,
-    )
-    fuzzy_age = extract_value_fuzzy(
-        text,
-        target_keyword="Age",
-        value_pattern=_AGE_VALUE_RE,
-        threshold=84.0,
-    )
-    fuzzy_gender = extract_value_fuzzy(
-        text,
-        target_keyword="Gender",
-        value_pattern=_GENDER_VALUE_RE,
-        threshold=84.0,
-    )
-
-    if fuzzy_name and not re.search(r"\d", fuzzy_name):
-        name = fuzzy_name
-
-    skip_prefixes = ("House Number", "Age:", "Gender:", "Photo", "Available")
-    relation_keywords = ("Father", "Husband", "Mother", "Other")
-
-    for line in (ln.strip() for ln in text.splitlines() if ln.strip()):
-        if any(line.startswith(p) for p in skip_prefixes):
-            continue
-
-        matched_relation = False
-        for rel in relation_keywords:
-            if rel in line:
-                parts = re.split(r"[:\-]", line, maxsplit=1)
-                if len(parts) > 1:
-                    relation_type = parts[0].strip()
-                    relation_name = parts[1].strip()
-                matched_relation = True
-                break
-
-        if matched_relation:
-            continue
-
-        if "Name" in line and ":" in line:
-            parts = re.split(r"[:\-]", line, maxsplit=1)
-            if len(parts) > 1:
-                name = parts[1].strip()
-        elif not name and len(line) > 3 and not re.search(r"\d", line):
-            if "Avail" not in line and "Delet" not in line:
-                name = line
-
-    # ── Normalise age ─────────────────────────────────────────────────────────
-    age_val: int | None = None
-    if age_m:
-        try:
-            age_val = int(age_m.group(1))
-        except ValueError:
-            pass
-    elif fuzzy_age:
-        try:
-            age_val = int(fuzzy_age)
-        except ValueError:
-            pass
-
-    # ── Normalise gender ──────────────────────────────────────────────────────
-    gender: str | None = None
-    if gender_m:
-        gender = _normalise_gender(gender_m.group(1))
-    elif fuzzy_gender:
-        gender = _normalise_gender(fuzzy_gender)
-
-    # ── Build parse_status flags ──────────────────────────────────────────────
-    parse_status: list[str] = []
-    if not name:
-        parse_status.append("missing_name")
-    if not epic_m:
-        parse_status.append("missing_epic")
-    if age_val is None:
-        parse_status.append("missing_age")
-    if not gender:
-        parse_status.append("missing_gender")
-
-    card_payload = {
-        "voter_id": epic_m.group(1) if epic_m else None,
-        "name": name,
-        "age": age_val,
-        "gender": gender,
-        "relation_type": relation_type,
-    }
-    demo_validation = validate_demographics(card_payload)
-    if demo_validation.get("status") == "FLAGGED_FOR_HUMAN":
-        reason = demo_validation.get("flag_reason") or "demographics_rule_failed"
-        parse_status.append(f"demographics_flagged:{reason}")
-
-    return VoterCard(
-        card_index=card_index,
-        serial_no=serial_m.group(1) if serial_m else None,
-        epic_id=epic_m.group(1) if epic_m else None,
-        name=name,
-        relation_type=relation_type,
-        relation_name=relation_name,
-        house_no=house_m.group(1) if house_m else None,
-        age=age_val,
-        gender=gender,
-        raw_ocr_text=text,
-        parse_status=parse_status,
-    )
-
-
 class OcrEngine:
     """
     Crops each CardRegion from the full-page image, pre-processes it,
     runs Tesseract (PSM 6 — assume uniform block of text), and returns
-    a list of parsed VoterCard objects.
+    a list of raw OCR results.
     """
 
-    def extract_cards(
+    def extract_raw_text(
         self,
         page_image: PILImage,
         regions: List[CardRegion],
         page_no: int,
-    ) -> List[VoterCard]:
+    ) -> List[RawOcrResult]:
         """
-        Run OCR on every region and return one VoterCard per region.
+        Run OCR on every region and return one RawOcrResult per region.
 
-        Never raises — individual card failures are captured in
-        ``VoterCard.parse_status`` so the batch continues.
+        Never raises — individual card failures are captured in the raw result
+        payload so the batch continues.
         """
         page_arr = np.array(page_image)
-        cards: List[VoterCard] = []
+        cards: List[RawOcrResult] = []
 
         for idx, region in enumerate(regions, start=1):
             # Clamp crop to image bounds with 2-px padding
@@ -674,13 +74,7 @@ class OcrEngine:
             roi = page_arr[y0:y1, x0:x1]
             if roi.size == 0:
                 log.warning("page=%d card=%d empty ROI — skipping", page_no, idx)
-                cards.append(
-                    VoterCard(
-                        card_index=idx,
-                        parse_status=["empty_roi"],
-                        region=region,
-                    )
-                )
+                cards.append(self._empty_raw_result(idx, region))
                 continue
 
             segmented_rois = enforce_card_segmentation([roi], expected_ratio=3.0)
@@ -694,72 +88,89 @@ class OcrEngine:
 
             for segmented_roi in segmented_rois:
                 card_idx = len(cards) + 1
-
-                # Fail-open crop gate: tag weak crops, but still attempt OCR to avoid
-                # silent attrition when the validity heuristic is overly strict.
-                crop_rejected = not is_valid_voter_card_crop(segmented_roi)
-                if crop_rejected:
-                    log.debug(
-                        "page=%d card=%d crop flagged by circuit breaker (fail-open OCR)",
-                        page_no,
-                        card_idx,
-                    )
-
-                preprocessed = self._prepare_roi_for_ocr(segmented_roi)
-
-                raw_text, avg_conf = self._ocr_text_with_confidence(preprocessed)
-
-                # Retry once on a deskewed ROI when confidence is low.
-                if avg_conf < OCR_RETRY_CONFIDENCE_THRESHOLD:
-                    deskewed_roi = deskew_image(segmented_roi)
-                    preprocessed_retry = self._prepare_roi_for_ocr(deskewed_roi)
-                    retry_text, retry_conf = self._ocr_text_with_confidence(preprocessed_retry)
-                    old_conf = avg_conf
-                    delta = retry_conf - old_conf
-                    accepted = retry_conf > old_conf
-
-                    log.debug(
-                        (
-                            "page=%d card=%d ocr_retry_attempt "
-                            "threshold=%.1f pre=%.1f post=%.1f delta=%.1f accepted=%s"
-                        ),
-                        page_no,
-                        card_idx,
-                        OCR_RETRY_CONFIDENCE_THRESHOLD,
-                        old_conf,
-                        retry_conf,
-                        delta,
-                        accepted,
-                    )
-
-                    if retry_conf > avg_conf:
-                        raw_text = retry_text
-                        avg_conf = retry_conf
-
-                card = _parse_card_text(raw_text, card_index=card_idx)
-                extra_status: list[str] = []
-                if crop_rejected:
-                    extra_status.append("invalid_crop_circuit_breaker")
-                if not "".join(str(raw_text or "").split()):
-                    extra_status.append("empty_ocr_text")
-
-                merged_status = [*card.parse_status]
-                for status in extra_status:
-                    if status not in merged_status:
-                        merged_status.append(status)
-
-                # Attach the source region for audit purposes
                 cards.append(
-                    card.model_copy(
-                        update={
-                            "region": region,
-                            "ocr_confidence": avg_conf,
-                            "parse_status": merged_status,
-                        }
+                    self._extract_raw_result_from_segmented_roi(
+                        segmented_roi=segmented_roi,
+                        region=region,
+                        page_no=page_no,
+                        card_idx=card_idx,
                     )
                 )
 
         return cards
+
+    def extract_cards(
+        self,
+        page_image: PILImage,
+        regions: List[CardRegion],
+        page_no: int,
+    ) -> List[RawOcrResult]:
+        return self.extract_raw_text(page_image, regions, page_no)
+
+    @staticmethod
+    def _empty_raw_result(card_idx: int, region: CardRegion) -> RawOcrResult:
+        return RawOcrResult(
+            card_index=card_idx,
+            raw_text="",
+            confidence=0.0,
+            region=region,
+            crop_rejected=True,
+        )
+
+    def _extract_raw_result_from_segmented_roi(
+        self,
+        segmented_roi: np.ndarray,
+        region: CardRegion,
+        page_no: int,
+        card_idx: int,
+    ) -> RawOcrResult:
+        # Fail-open crop gate: tag weak crops, but still attempt OCR to avoid
+        # silent attrition when the validity heuristic is overly strict.
+        crop_rejected = not is_valid_voter_card_crop(segmented_roi)
+        if crop_rejected:
+            log.debug(
+                "page=%d card=%d crop flagged by circuit breaker (fail-open OCR)",
+                page_no,
+                card_idx,
+            )
+
+        preprocessed = self._prepare_roi_for_ocr(segmented_roi)
+        raw_text, avg_conf = self._ocr_text_with_confidence(preprocessed)
+
+        # Retry once on a deskewed ROI when confidence is low.
+        if avg_conf < OCR_RETRY_CONFIDENCE_THRESHOLD:
+            deskewed_roi = deskew_image(segmented_roi)
+            preprocessed_retry = self._prepare_roi_for_ocr(deskewed_roi)
+            retry_text, retry_conf = self._ocr_text_with_confidence(preprocessed_retry)
+            old_conf = avg_conf
+            delta = retry_conf - old_conf
+            accepted = retry_conf > old_conf
+
+            log.debug(
+                (
+                    "page=%d card=%d ocr_retry_attempt "
+                    "threshold=%.1f pre=%.1f post=%.1f delta=%.1f accepted=%s"
+                ),
+                page_no,
+                card_idx,
+                OCR_RETRY_CONFIDENCE_THRESHOLD,
+                old_conf,
+                retry_conf,
+                delta,
+                accepted,
+            )
+
+            if retry_conf > avg_conf:
+                raw_text = retry_text
+                avg_conf = retry_conf
+
+        return RawOcrResult(
+            card_index=card_idx,
+            raw_text=raw_text,
+            confidence=avg_conf,
+            region=region,
+            crop_rejected=crop_rejected,
+        )
 
     @staticmethod
     def _prepare_roi_for_ocr(roi: np.ndarray) -> np.ndarray:

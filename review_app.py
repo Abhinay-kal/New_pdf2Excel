@@ -24,9 +24,6 @@ How to run
 """
 from __future__ import annotations
 
-import argparse
-import json
-import sys
 from io import BytesIO
 from pathlib import Path
 from typing import Any, Dict, List, Optional
@@ -34,6 +31,9 @@ from typing import Any, Dict, List, Optional
 import pandas as pd
 import streamlit as st
 from PIL import Image, UnidentifiedImageError
+
+from config.settings import OUTPUT_DIR
+from infrastructure.storage.sqlite_repo import SQLiteReviewRepo
 
 # ── Page config (must be the very first Streamlit call) ───────────────────────
 st.set_page_config(
@@ -43,31 +43,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed",
 )
 
-# ── CLI args ──────────────────────────────────────────────────────────────────
-
-def _parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(add_help=False)
-    parser.add_argument(
-        "--queue",
-        default="output/human_review_queue.json",
-        help="Path to human_review_queue.json produced by main.py",
-    )
-    parser.add_argument(
-        "--output",
-        default="output/finalized_data.json",
-        help="Path for the finalized records JSON (created / appended)",
-    )
-    try:
-        idx = sys.argv.index("--")
-        args, _ = parser.parse_known_args(sys.argv[idx + 1 :])
-    except ValueError:
-        args, _ = parser.parse_known_args([])
-    return args
-
-
-_ARGS = _parse_args()
-QUEUE_PATH = Path(_ARGS.queue)
-OUTPUT_PATH = Path(_ARGS.output)
+DB_PATH = OUTPUT_DIR / "electra_core.db"
 
 # ── Ordered field spec (key, display_label) ───────────────────────────────────
 _CARD_FIELDS: List[tuple[str, str]] = [
@@ -81,36 +57,18 @@ _CARD_FIELDS: List[tuple[str, str]] = [
     ("gender",        "Gender"),
 ]
 
+# ── Repository helper ─────────────────────────────────────────────────────────
+
+
+@st.cache_resource
+def get_repository() -> SQLiteReviewRepo:
+    return SQLiteReviewRepo(DB_PATH)
+
+
+repo = get_repository()
+
+
 # ── Data helpers ──────────────────────────────────────────────────────────────
-
-@st.cache_data
-def load_queue(path: str) -> List[Dict[str, Any]]:
-    """Load the review queue JSON once; cached so widget interactions don't re-read."""
-    p = Path(path)
-    if not p.exists():
-        return []
-    with p.open(encoding="utf-8") as fh:
-        data = json.load(fh)
-    return data if isinstance(data, list) else []
-
-
-def _load_finalized() -> List[Dict]:
-    if not OUTPUT_PATH.exists():
-        return []
-    try:
-        with OUTPUT_PATH.open(encoding="utf-8") as fh:
-            return json.load(fh)
-    except json.JSONDecodeError:
-        return []
-
-
-def _append_finalized(record: Dict[str, Any]) -> None:
-    OUTPUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    existing = _load_finalized()
-    existing.append(record)
-    with OUTPUT_PATH.open("w", encoding="utf-8") as fh:
-        json.dump(existing, fh, indent=2, ensure_ascii=False)
-
 
 def _image_or_none(path: str) -> Optional[Image.Image]:
     if not path:
@@ -126,7 +84,7 @@ def _image_or_none(path: str) -> Optional[Image.Image]:
 
 def _build_excel_bytes() -> bytes:
     """Generate deterministic Excel export from finalized voter data."""
-    records = _load_finalized()
+    records = st.session_state.get("finalized_records", [])
     df = export_to_excel(records)
 
     buf = BytesIO()
@@ -252,14 +210,15 @@ def export_to_excel(
 # ── Session-state helpers ─────────────────────────────────────────────────────
 
 def _init_state() -> None:
-    if "current_index" not in st.session_state:
-        st.session_state.current_index = 0
     if "finalized_count" not in st.session_state:
         st.session_state.finalized_count = 0
+    if "finalized_records" not in st.session_state:
+        st.session_state.finalized_records = []
+    if "initial_total" not in st.session_state:
+        st.session_state.initial_total = st.session_state.finalized_count + repo.get_pending_count()
 
 
 def _advance() -> None:
-    st.session_state.current_index += 1
     st.session_state.finalized_count += 1
 
 
@@ -362,27 +321,25 @@ def _render_card_panel(
 def main() -> None:
     _init_state()
 
-    queue: List[Dict[str, Any]] = load_queue(str(QUEUE_PATH))
-    total = len(queue)
-    idx: int = st.session_state.current_index
+    item = repo.get_next_pending()
+    total = int(st.session_state.initial_total)
 
     # ── App header ────────────────────────────────────────────────────────────
     st.title("🗳️ Electra-Core — Human Review Queue")
 
     # ── Empty queue guard ─────────────────────────────────────────────────────
-    if total == 0:
+    if total == 0 and item is None:
         st.warning(
-            f"No items found at `{QUEUE_PATH}`.\n\n"
-            "Run `python main.py <pdf_file>` first to populate the queue, "
-            "or check the `--queue` path."
+            "No review items are available in the SQLite queue.\n\n"
+            "Run the extraction pipeline first to populate the review database."
         )
         return
 
     # ── Batch complete screen ─────────────────────────────────────────────────
-    if idx >= total:
+    if item is None:
         st.balloons()
         st.success(
-            f"🎉 **Batch Complete!**  All {total} items reviewed "
+            f"🎉 **Batch Complete!**  All {st.session_state.finalized_count} items reviewed "
             f"({st.session_state.finalized_count} finalized)."
         )
         col_dl, col_restart, _ = st.columns([1, 1, 2])
@@ -403,15 +360,16 @@ def main() -> None:
                 st.error(f"Could not build Excel: {exc}")
         with col_restart:
             if st.button("🔄 Review Again from Start", use_container_width=True):
-                st.session_state.current_index = 0
                 st.session_state.finalized_count = 0
+                st.session_state.finalized_records = []
+                st.session_state.initial_total = repo.get_pending_count()
                 st.rerun()
         return
 
     # ── Progress ──────────────────────────────────────────────────────────────
-    item = queue[idx]
+    idx = st.session_state.finalized_count
     st.progress(
-        idx / total,
+        idx / total if total else 0.0,
         text=f"Reviewing **{idx + 1}** of **{total}** — Page {item.get('page_no', '?')}",
     )
 
@@ -430,10 +388,9 @@ def main() -> None:
         item.get("extracted_data", {}).get("cards") or []
     )
     if not cards:
-        # Gate-1 failure: no OCR was attempted — give the operator one blank card
         cards = [{"card_index": 1}]
 
-    n_cards    = len(cards)
+    n_cards = len(cards)
     n_with_epic = sum(1 for c in cards if c.get("epic_id"))
 
     # ── Split layout: image (left) | validation (right) ──────────────────────
@@ -454,8 +411,6 @@ def main() -> None:
             )
             st.code(item.get("crop_path") or "path not set", language=None)
 
-    # final_cards is populated below during widget rendering; it must be
-    # declared before `with form_col` so it survives outside that scope.
     final_cards: List[Dict[str, Any]] = []
 
     with form_col:
@@ -481,7 +436,6 @@ def main() -> None:
 
         st.markdown("---")
 
-        # ── Action buttons ────────────────────────────────────────────────────
         submit_col, skip_col, _ = st.columns([2, 1, 1])
         with submit_col:
             submit = st.button(
@@ -497,42 +451,35 @@ def main() -> None:
                 use_container_width=True,
             )
 
-    # ── Handle Submit ─────────────────────────────────────────────────────────
     if submit:
         persisted_cards = [
             c
             for c in final_cards
             if isinstance(c, dict) and not _is_blank_card_payload(c)
         ]
-        _append_finalized({
-            **item,
-            "review_action":   "validated",
-            "finalized_cards": persisted_cards,
-            "finalized_at":    pd.Timestamp.now().isoformat(),
-        })
+        item["review_action"] = "validated"
+        item["finalized_cards"] = persisted_cards
+        item["finalized_at"] = pd.Timestamp.now().isoformat()
+        repo.save_finalized(str(item["id"]), item)
+        st.session_state.finalized_records.append(item)
         _advance()
         st.rerun()
-
-    # ── Handle Skip ───────────────────────────────────────────────────────────
     elif skip:
-        _append_finalized({
-            **item,
-            "review_action":   "skipped",
-            "finalized_cards": [],
-            "finalized_at":    pd.Timestamp.now().isoformat(),
-        })
+        item["review_action"] = "skipped"
+        item["finalized_cards"] = []
+        item["finalized_at"] = pd.Timestamp.now().isoformat()
+        repo.save_finalized(str(item["id"]), item)
+        st.session_state.finalized_records.append(item)
         _advance()
         st.rerun()
 
-    # ── Sidebar: session stats ────────────────────────────────────────────────
     with st.sidebar:
         st.header("📊 Session Stats")
-        st.metric("Reviewed",         st.session_state.finalized_count)
-        st.metric("Remaining",        total - idx)
-        st.metric("Total in queue",   total)
+        st.metric("Reviewed", st.session_state.finalized_count)
+        st.metric("Remaining", repo.get_pending_count())
+        st.metric("Total in queue", total)
         st.divider()
-        st.caption(f"**Queue:** `{QUEUE_PATH}`")
-        st.caption(f"**Output:** `{OUTPUT_PATH}`")
+        st.caption(f"**Database:** `{DB_PATH}`")
 
 
 if __name__ == "__main__":

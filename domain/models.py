@@ -37,6 +37,14 @@ class CardRegion(BaseModel):
     model_config = {"frozen": True}
 
 
+class RawOcrResult(BaseModel):
+    card_index: int
+    raw_text: str
+    confidence: float
+    region: CardRegion
+    crop_rejected: bool
+
+
 class VoterCard(BaseModel):
     """
     Parsed voter record extracted from a single CardRegion.
