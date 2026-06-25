@@ -2,6 +2,52 @@
 
 Electra-Core is a robust data extraction tool designed to process noisy and complex voter roll PDFs. It extracts tabular voter data using a combination of Computer Vision techniques, OCR, and heuristic rules, and provides an intuitive Streamlit dashboard for Human-In-The-Loop (HITL) review and correction.
 
+## How It Works (System Overview)
+
+The following diagram illustrates the data flow and the end-to-end extraction pipeline, making it easier to understand how a voter roll PDF gets converted into a clean Excel dataset.
+
+```mermaid
+flowchart TD
+    A[Voter Roll PDF] -->|Uploaded| B(Page Processor)
+    
+    subgraph Pipeline [Extraction Pipeline]
+        B -->|Render & Crop| C{Adaptive Strategy Chain}
+        C -->|1. CV Grid Chop| D(OCR Engine)
+        C -->|2. Grid Projection| D
+        C -->|3. Blob Clustering| D
+    end
+
+    D --> E{Layout Validator}
+    
+    E -->|Valid Cards| F[Structured Data]
+    E -->|Errors / Noisy Crops| G[Human Review Queue]
+    
+    subgraph User Dashboard [Streamlit App]
+        G -->|Manual Review| H((HITL Review))
+        H -->|Corrections| F
+    end
+    
+    F --> I[(Final Excel / CSV)]
+
+    classDef blue fill:#3498db,stroke:#2980b9,stroke-width:2px,color:#fff;
+    classDef green fill:#2ecc71,stroke:#27ae60,stroke-width:2px,color:#fff;
+    classDef orange fill:#e67e22,stroke:#d35400,stroke-width:2px,color:#fff;
+    
+    class A,I blue;
+    class F green;
+    class G,H orange;
+```
+
+### The Pipeline at a Glance:
+1. **Input**: A PDF document is ingested and each page is rendered to a high-quality image.
+2. **Strategy Chain**: A series of Computer Vision strategies attempts to isolate individual voter cards (handling varying levels of scan degradation).
+3. **OCR Engine**: Pluggable OCR is used to parse text components (EPIC ID, Name, Age, etc.) from the isolated card crops.
+4. **Validation Gate**: The extracted records are checked against layout heuristics.
+   - **Valid records** are passed directly to the final dataset.
+   - **Flagged records** (e.g., missing ID, poor OCR confidence) are routed to the **Human Review Queue**.
+5. **Human-In-The-Loop (HITL)**: An operator uses the Streamlit dashboard to manually review and correct flagged crops.
+6. **Export**: The fully corrected dataset is compiled into a ready-to-use `.xlsx` and a QA report.
+
 ## Features
 - **PDF Page Processing:** Renders pages at configurable DPI and identifies complex grid structures.
 - **Adaptive Strategies:** Uses a priority chain of strategies (CV Grid Chop, Grid Projection, Blob Clustering) to handle various levels of scan degradation.
@@ -9,9 +55,9 @@ Electra-Core is a robust data extraction tool designed to process noisy and comp
 - **Human Review Dashboard:** Streamlit UI to validate, correct, and finalize extracted entries that didn't pass strict layout validations.
 - **Excel/CSV Exports:** Compiles cleanly structured final results into `.xlsx` and QA metrics into CSV.
 
-## Architecture
+## Codebase Architecture Graph
 
-Below is the dependency graph of the project codebase:
+Below is the dependency graph of the project codebase, visually mapping out how the internal modules and files relate to each other:
 
 ![Project Architecture](graphify-out/graph.svg)
 
